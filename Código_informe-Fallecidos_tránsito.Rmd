@@ -27,15 +27,21 @@ Mediante su catálogo de datos abiertos se extrae la base de datos a utilizar, d
 
 ## Descripción de las variables:
 
-- **a: Año**  
-- **:** 
-- **:** 
-- **:** 
-- ** :** 
-- **:** 
-- **:** 
-- **:** 
-
+- **a:** Año. 
+- **fecha:** Dia y Mes. 
+- **hora:** Hora.
+- **dep:** Departamento.
+- **jur:** Juridición.
+- **tipo.sin:** Tipo de Siniestro.
+- **vehi:** Vehiculo.
+- **rol:** Rol que cumplía.
+- **edad:** Edad al fallecer.
+- **Sexo:** Sexo de la persona.
+- **f.dias:** Dia de supervivencia.
+- **otro.vehi:** Otro vehiculo involucrado.
+- **dir:** Lugar del accidente.
+- **x:** Latitud.
+- **y:** Longitud.
 
 ## Modelos y herramientas:
 
