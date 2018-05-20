@@ -49,7 +49,7 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 
  - ¿Cuál es la densidad de fallecidos por departamento?
  
- - ¿Qué relación posee el vehículo del fallecio con su rol en el mismo?
+ - ¿Qué relación posee el vehículo del fallecido con su rol en el mismo?
  
  - ¿Cuál es la frecuencia relativa según el tipo de siniestro para cada año?
  
