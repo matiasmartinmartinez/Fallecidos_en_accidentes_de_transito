@@ -49,13 +49,13 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 
  - ¿Cuál es la densidad de fallecidos por departamento?
  
- - ¿Qué relación posee el vehículo del fallecido con su rol en el mismo?
+ - ¿Existe relación entre el vehículo del fallecido y su rol en el mismo?
  
  - ¿Cuál es la frecuencia relativa según el tipo de siniestro para cada año?
  
  - ¿Cuál es la media de días de supervivencia luego del accidente?
  
- - ¿Qué relación existe entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
+ - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
 
 
 Sugerencias: (Gráfico HETMAP colores fecha TWITTER)
