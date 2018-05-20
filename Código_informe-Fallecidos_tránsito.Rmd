@@ -18,7 +18,8 @@ Se analizara tanto los datos del fallecido como lo del suceso.
 
 
 ## Antecedentes
-
+En su programa de Sistema de Información Nacional de Tránsito (SINATRÁN), donde se extrajo los datos, la Unidad Nacional de Seguridad Vial (UNASEV), es un informe anual sobre la Siniestralidad Vial en Uruguay para dichos años.
+Se puede observar el contenido de dichos informes a través del siguiente enlace:http://unasev.gub.uy/inicio/sinatran/informes_siniestralidad_vial_uruguay/
 
 ## Datos obtenidos
 
