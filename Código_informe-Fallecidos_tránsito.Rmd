@@ -1,7 +1,7 @@
 ---
 title: "Siniestros de tránsito fatales en Uruguay, 2012-2017"
 author: "Martínez Matías, Zang Bruno"
-date: "18 de mayo de 2018"
+date: "20 de mayo de 2018"
 output: pdf_document
 ---
 
@@ -44,23 +44,41 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 
 
 ## Preguntas a responder
+
  - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad en el período dado?
+
  - ¿Cuál es la densidad de fallecidos por departamento?
+ 
  - ¿Qué relación posee el vehículo del fallecio con su rol el el mismo?
+ 
  - ¿Cuál es la frecuencia relativa según el tipo de siniestro para cada año?
+ 
  - ¿Cuál es la media de días de supervivencia luego del accidente?
+ 
  - ¿Qué relación existe entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
 
 
-(Grafico HETMAP colores fecha TWITTER)
+Sugerencias: (Gráfico HETMAP colores fecha TWITTER)
 
 ## 
 
 ```{r,echo=F}
 library(tidyverse)
-load("~/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_transito_uruguay__2013-2017.RData")
+library(knitr)
+#library(gmosaic)
+load("~/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_transito_uruguay__2012-2017.RData")
+```
+## Análisis Exploratorio de Datos
+
+```{r}
 dim(datos)
 str(datos)
 
+datos %>% count(a) %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia absoluta de fallecidos",title="Gráfico de barras: frecuencia absoluta fallecidos por año")
+
+datos %>% count(a) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año")
+
+a<-function(si)  
++ { datos %>% count(si) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(si,-n),n)) + geom_bar(stat="identity",aes(fill=si),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año") }
 ```
 
