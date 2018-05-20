@@ -81,10 +81,13 @@ load("~/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_
 dim(datos)
 str(datos)
 
+datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n)) + geom_bar(stat="identity",aes(fill=sexo),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por sexo")
+
 datos %>% count(a) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año")
 
-graf=datos %>% count(dep,a) %>% arrange(desc(n)) %>%  ggplot(aes(reorder(abbreviate(dep),-n),n,group=a)) + geom_bar(aes(frame=a),stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento")
 
+
+graf=datos %>% count(dep,a) %>% arrange(desc(n)) %>%  ggplot(aes(reorder(abbreviate(dep),-n),n,group=a)) + geom_bar(aes(frame=a),stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic"))
 ggplotly(graf)%>% animation_opts( 800, redraw = FALSE)
 
 ```
