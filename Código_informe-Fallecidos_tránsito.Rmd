@@ -74,11 +74,9 @@ load("~/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_
 dim(datos)
 str(datos)
 
-datos %>% count(a) %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia absoluta de fallecidos",title="Gráfico de barras: frecuencia absoluta fallecidos por año")
 
-datos %>% count(a) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año")
+datos %>% count(a) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año") + stat_peaks(geom = "text", colour = "red", hjust = -0.1)
 
-a<-function(si)  
-+ { datos %>% count(si) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(si,-n),n)) + geom_bar(stat="identity",aes(fill=si),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año") }
+
 ```
 
