@@ -27,7 +27,7 @@ Mediante su catálogo de datos abiertos se extrae la base de datos a utilizar, d
 
 ## Descripción de las variables:
 
-- **:**  
+- **a:** Año  
 - **:** 
 - **:** 
 - **:** 
