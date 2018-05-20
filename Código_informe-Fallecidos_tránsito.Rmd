@@ -88,7 +88,7 @@ datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n))
 
 datos %>% count(a) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año")
 
-
+datos %>% count(vehi,rol) %>% filter(n>=200) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(rol,vehi),fill=rol)) + coord_flip()
 
 graf=datos %>% count(dep,a) %>% arrange(desc(n)) %>%  ggplot(aes(reorder(abbreviate(dep),-n),n,group=a)) + geom_bar(aes(frame=a),stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic"))
 ggplotly(graf)%>% animation_opts( 800, redraw = FALSE)
