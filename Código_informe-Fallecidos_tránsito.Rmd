@@ -42,23 +42,15 @@ Mediante su catálogo de datos abiertos se extrae la base de datos a utilizar, d
 Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico R, con la puntual aplicación de paquete "tidyverse", que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
 Con el fin de crear visualizaciónes oportunas se gestará su formación con la librería "ggplot2", perteneciente a tidyverse, la cual al trabajar mediante acumulación de capas (layers) posee una mayor flexibilidad y permite generar gráficos que representen correctamente los datos, sin generar interpretaciones confusas. Toma como referencia una metodología de visualización de datos llamada the Grammar of Graphics (Wilkinson, 2005), que consiste en especificar de manera independiente las componentes del gráfico como si fuesen bloques y luego combinarlas.
 
+
 ## Preguntas a responder
- - 1.Cual es la distribucion relativa por sexo y cual es el comportamiento de la edad en el periodo dado.
- - 2. cual es la densidad por departamento en el correr de los años.
- - 3. Que relacion hay entre el vehiculo y el rol del fallecido
- - 4. Cual es la frecuencia relativa segun para el tipo de siniestro segun el año
- - 5. Cual es la media de dias de supervivencia anterior al fallecimiento
- - 6 Que relacion existe entre el vehiculo del fallecido y otro posible vehiculo
+ - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad en el período dado?
+ - ¿Cuál es la densidad de fallecidos por departamento?
+ - ¿Qué relación posee el vehículo del fallecio con su rol el el mismo?
+ - ¿Cuál es la frecuencia relativa según el tipo de siniestro para cada año?
+ - ¿Cuál es la media de días de supervivencia luego del accidente?
+ - ¿Qué relación existe entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
 
-
-
-- 1. Como varía la distribución de frecuencia absoluta del consumo de energia para el periodo especificado por total y porsector 
-- R Grafica interactiva para cada sector
-- 2. Cual es el comportamiento de la Densidad para cada sector y la distribucion en frecuencia relativa
-- 3. Existe relacion entre el Transito y la Industria
-- 4. Cual es la razon para cada sector del primer año al ultimo
-- 5. En que intervalo de tiempo de tiempo se producen los fallecimientos
-- 6. Cual es la Disposion de la fecha del fallecimiento
 
 (Grafico HETMAP colores fecha TWITTER)
 
