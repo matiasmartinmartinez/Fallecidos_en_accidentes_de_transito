@@ -69,5 +69,6 @@ library(tidyverse)
 load("~/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_transito_uruguay__2013-2017.RData")
 dim(datos)
 str(datos)
+
 ```
 
