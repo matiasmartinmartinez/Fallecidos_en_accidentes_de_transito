@@ -9,7 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#### Introducción:
+## Introducción:
 
 El presente estudio surge de la curiosidad por conocer el comportamiento de los siniestros de tránsitos en Uruguay y posee como objetivo madre una profunda aplicación de los conocimientos adquiridos en la asignatura "Nuevas técnicas para el análisis de datos", marcando énfasis en un correcto análisis exploratorio y la generación de adecuadas visualizaciones de los datos.
 Se analizara tanto los datos del fallecido como lo del suceso.
@@ -98,5 +98,6 @@ ggplotly(datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep),-n),n,gro
 
 
 datos %>% ggplot()+ geom_histogram(aes(edad)) + labs(x="Edad",y="Frecuencia absoluta") + facet_wrap(~a) + theme_minimal()
+
 ```
 
