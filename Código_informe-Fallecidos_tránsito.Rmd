@@ -73,8 +73,10 @@ Sugerencias: (Gráfico HETMAP colores fecha TWITTER)
 library(tidyverse)
 library(knitr)
 library(ggmosaic)
+library(plotly)
+        
 
-load("~/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_transito_uruguay__2012-2017.RData")
+load("C:/Users/5/Desktop/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 ```
 ## Análisis Exploratorio de Datos
 
@@ -83,17 +85,16 @@ dim(datos)
 str(datos)
 
 
-datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(sexo,a),fill=sexo))
+ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(sexo,a),fill=sexo)))
 
 datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n)) + geom_bar(stat="identity",aes(fill=sexo),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por sexo")
 
-datos %>% count(a) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año")
+ggplotly(datos %>% count(a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(a,-prop),prop)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año"))
 
-datos %>% filter(rol!="PEATON")%>% count(vehi,rol) %>% filter(n>=200) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(rol,2),abbreviate(vehi,1)),fill=abbreviate(rol,2))) 
-library(plotly)
-graf=datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic"))
+ggplotly(datos %>% count(vehi,rol) %>% filter(n>=200) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(rol,3),abbreviate(vehi,4)),fill=abbreviate(rol,2)))+labs(x="Vehículo")) 
 
-ggplotly(graf)%>% animation_opts( 800, redraw = TRUE)
+
+ggplotly(datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic")))%>% animation_opts( 800, redraw = TRUE)
 
 ```
 
