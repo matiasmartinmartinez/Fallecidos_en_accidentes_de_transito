@@ -96,5 +96,7 @@ ggplotly(datos %>% count(vehi,rol) %>% filter(n>=200) %>% ggplot() + geom_mosaic
 
 ggplotly(datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic")))%>% animation_opts( 800, redraw = TRUE)
 
+
+datos %>% ggplot()+ geom_histogram(aes(edad)) + labs(x="Edad",y="Frecuencia absoluta") + facet_wrap(~a) + theme_minimal()
 ```
 
