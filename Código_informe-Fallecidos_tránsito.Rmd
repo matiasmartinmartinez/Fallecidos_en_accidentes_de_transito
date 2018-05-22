@@ -99,5 +99,7 @@ ggplotly(datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep),-n),n,gro
 
 datos %>% ggplot()+ geom_histogram(aes(edad)) + labs(x="Edad",y="Frecuencia absoluta") + facet_wrap(~a) + theme_minimal()
 
+datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop))
+
 ```
 
