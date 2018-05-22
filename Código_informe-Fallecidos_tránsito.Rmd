@@ -84,20 +84,23 @@ load("C:/Users/5/Desktop/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_da
 dim(datos)
 str(datos)
 
-
+#Sexo
 ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(sexo,a),fill=sexo)))
 
 datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n)) + geom_bar(stat="identity",aes(fill=sexo),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por sexo")
 
+#Fallecidos por año
+
 ggplotly(datos %>% count(a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(a,-prop),prop)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año"))
 
-ggplotly(datos %>% count(vehi,rol) %>% filter(n>=200) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(rol,3),abbreviate(vehi,4)),fill=abbreviate(rol,2)))+labs(x="Vehículo")) 
+# Relación vehículo - rol
 
+datos %>% count(vehi,rol) %>% filter(n>=25) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo") + guides(fill = guide_legend(title = "Rol")) + theme_minimal()
 
 ggplotly(datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic")))%>% animation_opts( 800, redraw = TRUE)
 
 
-datos %>% ggplot()+ geom_histogram(aes(edad)) + labs(x="Edad",y="Frecuencia absoluta") + facet_wrap(~a) + theme_minimal()
+datos %>% ggplot()+ geom_density(aes(edad)) + labs(x="Edad",y="Densidad") + facet_wrap(~a) + theme_minimal()
 
 datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop))
 
