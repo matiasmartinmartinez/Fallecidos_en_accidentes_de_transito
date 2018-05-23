@@ -97,12 +97,15 @@ ggplotly(datos %>% count(a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(a,-
 
 datos %>% count(vehi,rol) %>% filter(n>=25) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo") + guides(fill = guide_legend(title = "Rol")) + theme_minimal()
 
-ggplotly(datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic")))%>% animation_opts( 800, redraw = TRUE)
-
+##Departamento por año
+datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep,1),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic"))+ facet_wrap(~a) + coord_flip()
+datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation_opts( 2000,transition=2000, mode = "next")
 
 datos %>% ggplot()+ geom_density(aes(edad)) + labs(x="Edad",y="Densidad") + facet_wrap(~a) + theme_minimal()
 
 datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop))
 
+datos %>% ggplot() + geom_density(aes(f.dias))
+datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo)
 ```
 
