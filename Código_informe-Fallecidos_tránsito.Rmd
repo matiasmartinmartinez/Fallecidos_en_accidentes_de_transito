@@ -27,10 +27,10 @@ Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), co
 
 Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
 
-## Población:
+### Población:
 Corresponde a los 2527 fallecidos en accidentes de tránsito dentro del territorio uruguayo para el período antes señalado.
 
-## Descripción de las variables:
+### Descripción de las variables:
 
 Se poseen 15 variables identificadas de la siguiente manera:
 
@@ -71,7 +71,7 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
  - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
 
 
-Sugerencias: (Gráfico HETMAP colores fecha TWITTER)
+
 
 ## 
 
