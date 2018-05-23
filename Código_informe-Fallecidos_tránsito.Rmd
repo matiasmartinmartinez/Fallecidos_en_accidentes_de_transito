@@ -17,7 +17,7 @@ Se analizara tanto los datos del fallecido como lo del suceso.
 
 
 
-## Antecedentes
+### Antecedentes
 En su programa de Sistema de Información Nacional de Tránsito (SINATRÁN), donde se extrajo los datos, la Unidad Nacional de Seguridad Vial (UNASEV), genera un informe anual sobre la Siniestralidad Vial en Uruguay para el periodo dado desde 2009 a la actualidad.
 Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.gub.uy/inicio/sinatran/informes_siniestralidad_vial_uruguay/
 
@@ -113,5 +113,9 @@ datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="ide
 
 datos %>% ggplot() + geom_density(aes(f.dias))
 datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo)
+
+datos %>% count(vehi,a) %>% mutate(prop=n/sum(n) %>% ggplot(aes(reorder(vehi,-prop),prop)) + geom_bar(stat="identity") + facet_wrap(~a)
+
+datos %>% count(vehi,otro.vehi) %>% ggplot() + ggmosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))
 ```
 
