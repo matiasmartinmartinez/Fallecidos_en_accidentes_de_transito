@@ -23,10 +23,16 @@ Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.
 
 ## Datos obtenidos
 
-Los datos fueron obtenidos de Unidad Nacional de Seguridad Vital (UNASEV) correspondiente al año 2017.
-Mediante su catálogo de datos abiertos se extrae la base de datos a utilizar, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/2017/
+Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), correspondientes al período comprendido entre 2013 y 2017. Originalmennte los datos correspondían al año 2017, sin embargo se identificó apropiada la utilización de una serie de tiempo por lo cual se mecharon bases desde el año 2013, esto provocó ciertos inconvenientes en cuanto a nombres de variables debido a la utilizacion de tildes o el aumento de variables para ciertos años pero finalmente fueron solucionados y concluimos en una base de datos apta y abarcativa.
+
+Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
+
+## Población:
+Corresponde a los 2527 fallecidos en accidentes de tránsito dentro del territorio uruguayo para el período antes señalado.
 
 ## Descripción de las variables:
+
+Se poseen 15 variables identificadas de la siguiente manera:
 
 - **a:** Año. 
 - **fecha:** Dia y Mes. 
