@@ -138,7 +138,7 @@ datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation
 
 ### Jurisdicción
 ```{r}
-datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop)) + labs(x="Jurisdicción",y="Proporción")
+datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop)) + labs(x="Jurisdicción",y="Proporción") 
 ```
 
 
@@ -153,7 +153,14 @@ datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x="Dias de supervivencia lu
 
 ```{r}
 #Un hetmap que cambie a medida de los aos 
-#datos %>% separate(fecha,c("dias","mes")) %>% count(dias, mes, a) %>% 
+#datos %>% separate(fecha,c("dia","mes")) %>% count(dia, mes, a) %>% ggplot( aes(dia,mes)) + geom_tile(aes(fill=n)) + scale_fill_viridis() + facet_wrap(~a)
+
+#datos %>% separate(fecha,c("dia","mes")) %>% mutate(ndia = substring(wday(date, label=T, abbr=T),1,2))) %>% separate(hora,c("hrs","min")) %>% count(hrs, dia) %>% ggplot(aes(hrs,dias)) + geom_tile(aes(fill=n)) + scale_fill_viridis()
+
+#ndia = format(datos$fecha, format = "%a")
+ndia
+#Aqui deseo los 7 dias de la semana, debo encontrar funcion para pasar los dias(1,2,...,31) a una variable nombre del dia(lunes, martes, miercoles,etc)
+
 ```
 
 
