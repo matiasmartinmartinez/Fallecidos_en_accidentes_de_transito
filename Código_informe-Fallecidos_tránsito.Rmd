@@ -138,21 +138,22 @@ datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation
 
 ### Jurisdicción
 ```{r}
-datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop))
+datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop)) + labs(x="Jurisdicción",y="Proporción")
 ```
 
 
 ### Días de supervivencia
 ```{r}
 datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo)
-datos %>% ggplot() + geom_density(aes(f.dias))
+datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x="Dias de supervivencia luego del accidente",y="Densidad")
 ```
 
 
 ### Fecha y hora
 
 ```{r}
-
+#Un hetmap que cambie a medida de los aos 
+#datos %>% separate(fecha,c("dias","mes")) %>% count(dias, mes, a) %>% 
 ```
 
 
@@ -160,3 +161,4 @@ datos %>% ggplot() + geom_density(aes(f.dias))
 ```{r}
 
 ```
+
