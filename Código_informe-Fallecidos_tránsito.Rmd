@@ -80,9 +80,9 @@ library(tidyverse)
 library(knitr)
 library(ggmosaic)
 library(plotly)
-        
+        
 
-load("C:/Users/5/Desktop/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_transito_uruguay_2013-2017.RData")
+load("~/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 ```
 ## Análisis Exploratorio de Datos
 
