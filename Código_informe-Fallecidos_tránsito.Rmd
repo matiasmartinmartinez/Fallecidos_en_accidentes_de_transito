@@ -114,8 +114,7 @@ datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="ide
 datos %>% ggplot() + geom_density(aes(f.dias))
 datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo)
 
-datos %>% count(vehi,a) %>% mutate(prop=n/sum(n) %>% ggplot(aes(reorder(vehi,-prop),prop)) + geom_bar(stat="identity") + facet_wrap(~a)
+datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(vehi,-prop),prop)) + geom_bar(stat="identity") + facet_wrap(~a)
 
-datos %>% count(vehi,otro.vehi) %>% ggplot() + ggmosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))
+datos %>% count(vehi,otro.vehi) %>% filter(n>=80) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Frecuencia Relativa") + guides(fill = guide_legend(title = "Otro Vehículo involucrado")) + theme_minimal()
 ```
-
