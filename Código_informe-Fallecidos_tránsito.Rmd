@@ -1,10 +1,8 @@
 ---
-title: "Siniestros de tránsito fatales en Uruguay, 2012-2017"
+title: "Siniestros de tránsito fatales en Uruguay, 2013-2017"
 author: "Martínez Matías, Zang Bruno"
 date: "24 de mayo de 2018"
-output: pdf_document
-params:
-plot: NA
+output: html_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -76,44 +74,88 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 
 ## 
 
-```{r,echo=F}
+```{r,echo=F,warning=FALSE}
 library(tidyverse)
 library(knitr)
 library(ggmosaic)
 library(plotly)
 load("~/Trabajo-Final-NT_Fallecidos_transito/Base_datos/base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 ```
-## Análisis Exploratorio de Datos
+# Análisis Exploratorio de Datos
 
 ```{r}
 dim(datos)
 str(datos)
+```
 
-#Sexo
+
+### Fallecidos por año
+```{r}
+
+ggplotly(datos %>% count(a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(a,-prop),prop)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año"))
+```
+
+
+##### Sexo
+```{r}
 ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(sexo,a),fill=sexo)))
 
 datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n)) + geom_bar(stat="identity",aes(fill=sexo),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por sexo")
+```
 
-#Fallecidos por año
 
-ggplotly(datos %>% count(a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(a,-prop),prop)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año"))
-
-# Relación vehículo - rol
-
-datos %>% count(vehi,rol) %>% filter(n>=25) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo") + guides(fill = guide_legend(title = "Rol")) + theme_minimal()
-
-##Departamento por año
-datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep,1),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic"))+ facet_wrap(~a) + coord_flip()
-datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation_opts( 2000,transition=2000, mode = "next")
+### Edad
+```{r}
 
 datos %>% ggplot()+ geom_density(aes(edad)) + labs(x="Edad",y="Densidad") + facet_wrap(~a) + theme_minimal()
+```
 
-datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop))
 
-datos %>% ggplot() + geom_density(aes(f.dias))
-datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo)
 
-datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(vehi,-prop),prop)) + geom_bar(stat="identity") + facet_wrap(~a)
+### Vehículo
+```{r}
+datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(vehi,-prop),prop)) + geom_bar(stat="identity") + facet_wrap(~a) + coord_flip() + labs(x="Vehículo",y="Proporción",title= "Proporción de vehículos por año")
+```
+
+
+### Relación vehículo - rol
+```{r}
+datos %>% count(vehi,rol) %>% filter(n>=25) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo") + guides(fill = guide_legend(title = "Rol")) + theme_minimal()
 
 datos %>% count(vehi,otro.vehi) %>% filter(n>=80) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Frecuencia Relativa") + guides(fill = guide_legend(title = "Otro Vehículo involucrado")) + theme_minimal()
+```
+
+
+
+### Departamento por año
+```{r}
+datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep,1),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic"))+ facet_wrap(~a) + coord_flip()
+datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation_opts( 2000,transition=2000, mode = "next")
+```
+
+
+
+### Jurisdicción
+```{r}
+datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop))
+```
+
+
+### Días de supervivencia
+```{r}
+datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo)
+datos %>% ggplot() + geom_density(aes(f.dias))
+```
+
+
+### Fecha y hora
+
+```{r}
+
+```
+
+
+### Dirección
+```{r}
+
 ```
