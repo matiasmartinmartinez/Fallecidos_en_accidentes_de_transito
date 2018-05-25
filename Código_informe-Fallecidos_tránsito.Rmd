@@ -80,6 +80,7 @@ library(knitr)
 library(ggmosaic)
 library(plotly)
 
+
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 ```
 # Análisis Exploratorio de Datos
@@ -108,22 +109,22 @@ datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n))
 ### Edad
 ```{r}
 
-datos %>% ggplot(aes(x=edad))+ geom_density(aes(fill=a)) + labs(x="Edad",y="Densidad", title="Gráfico de Densidad: Edad del fallecido") + facet_wrap(~a) + theme_minimal()
+datos %>% ggplot(aes(edad))+ geom_density(aes(fill=a),show.legend = F) + labs(x="Edad",y="Densidad", title="Gráfico de Densidad: Edad del fallecido") + facet_wrap(~a) + theme_gray()
 ```
 
 
 
 ### Vehículo
 ```{r}
-datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(vehi,-prop),prop)) + geom_bar(stat="identity") + facet_wrap(~a) + coord_flip() + labs(x="Vehículo",y="Proporción",title= "Proporción de vehículos por año")
+datos %>% count(vehi,a) %>% filter(n>=4) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(abbreviate(vehi,6),-prop),prop)) + geom_bar(stat="identity") + facet_wrap(~a) + coord_flip() + labs(x="Vehículo",y="Proporción",title= "Proporción de vehículos por año")
 ```
 
 
 ### Relación vehículo - rol
 ```{r}
-datos %>% count(vehi,rol) %>% filter(n>=25) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo") + guides(fill = guide_legend(title = "Rol")) + theme_minimal()
+datos %>% count(vehi,rol) %>% filter(n>=25) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo", caption="Únicamente fueron tomadas las rerlaciones con frecuencia absoluta mayores o iguales a 25 fallecidos") + guides(fill = guide_legend(title = "Rol")) + theme_minimal()
 
-datos %>% count(vehi,otro.vehi) %>% filter(n>=80) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Frecuencia Relativa",title="Grafico de Mosaico:Relacion entre los vehículos involucrados") + guides(fill = guide_legend(title = "Otro Vehículo involucrado")) + theme_minimal()
+datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Frecuencia Relativa",title="Grafico de Mosaico: Relación entre los vehículos involucrados",caption=" Únicamente incluye las rerlaciones con frecuencia absoluta mayores o iguales a 50 fallecidos ") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_brewer(palette = "Dark2")
 ```
 
 
@@ -138,14 +139,15 @@ datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation
 
 ### Jurisdicción
 ```{r}
-datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop)) + labs(x="Jurisdicción",y="Proporción",title="Grafica de Barra: Proporción de la jurisdicción") 
+datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop,fill=jur),show.legend = F) + labs(x="Jurisdicción",y="Proporción",title="Grafica de Barra: Proporción de la jurisdicción") + scale_fill_manual(values=c("seagreen3","indianred3"))
 ```
 
 
 ### Días de supervivencia
 ```{r}
-datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo)
-datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x="Días de supervivencia luego del accidente",y="Densidad.title="Grafico de Densidad sobre la supervivencia")
+datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo) + labs(x="Rol",y="Edad",title="Diagrama de caja: edad según rol, faceteado por sexo")
+
+datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x="Días de supervivencia luego del accidente",y="Densidad",title="Grafico de Densidad sobre la supervivencia")
 ```
 
 
