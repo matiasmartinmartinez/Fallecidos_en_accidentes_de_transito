@@ -147,7 +147,7 @@ datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="ide
 ```{r}
 datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo) + labs(x="Rol",y="Edad",title="Diagrama de caja: edad según rol, faceteado por sexo")
 
-datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x="Días de supervivencia luego del accidente",y="Densidad",title="Grafico de Densidad sobre la supervivencia")
+datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x= "Días de supervivencia luego del accidente" , y= "Densidad" , title="Grafico de Densidad sobre la supervivencia")
 ```
 
 
