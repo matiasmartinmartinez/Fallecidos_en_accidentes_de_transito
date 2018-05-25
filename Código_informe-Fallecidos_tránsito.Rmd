@@ -37,7 +37,7 @@ Se poseen 15 variables identificadas de la siguiente manera:
 - **fecha:** Dia y Mes. 
 - **hora:** Hora.
 - **dep:** Departamento.
-- **jur:** Juridición.
+- **jur:** Jurisdicción.
 - **tipo.sin:** Tipo de Siniestro.
 - **vehi:** Vehiculo.
 - **rol:** Rol que cumplía.
@@ -108,7 +108,7 @@ datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n))
 ### Edad
 ```{r}
 
-datos %>% ggplot()+ geom_density(aes(edad)) + labs(x="Edad",y="Densidad") + facet_wrap(~a) + theme_minimal()
+datos %>% ggplot()+ geom_density(aes(edad)) + labs(x="Edad",y="Densidad".title="Gráfico de Densidad")+ facet_wrap(~a) + theme_minimal()
 ```
 
 
@@ -138,14 +138,14 @@ datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation
 
 ### Jurisdicción
 ```{r}
-datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop)) + labs(x="Jurisdicción",y="Proporción") 
+datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop)) + labs(x="Jurisdicción",y="Proporción",title="Grafica de Barra: Proporción de la jurisdicción") 
 ```
 
 
 ### Días de supervivencia
 ```{r}
 datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo)
-datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x="Dias de supervivencia luego del accidente",y="Densidad")
+datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x="Días de supervivencia luego del accidente",y="Densidad.title="Grafico de Densidad sobre la supervivencia")
 ```
 
 
