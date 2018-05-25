@@ -108,7 +108,7 @@ datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n))
 ### Edad
 ```{r}
 
-datos %>% ggplot()+ geom_density(aes(edad)) + labs(x="Edad",y="Densidad".title="Gráfico de Densidad")+ facet_wrap(~a) + theme_minimal()
+datos %>% ggplot(aes(x=edad))+ geom_density(aes(fill=a)) + labs(x="Edad",y="Densidad", title="Gráfico de Densidad: Edad del fallecido") + facet_wrap(~a) + theme_minimal()
 ```
 
 
