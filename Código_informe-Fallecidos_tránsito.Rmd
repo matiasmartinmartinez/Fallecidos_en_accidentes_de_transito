@@ -92,7 +92,7 @@ str(datos)
 
 
 ### Fallecidos por año
-```{r}
+```{r,warning=FALSE}
 
 ggplotly(datos %>% count(a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(a,-prop),prop)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año"))
 ```
@@ -110,6 +110,8 @@ datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n))
 ```{r}
 
 datos %>% ggplot(aes(edad))+ geom_density(aes(fill=a),show.legend = F) + labs(x="Edad",y="Densidad", title="Gráfico de Densidad: Edad del fallecido") + facet_wrap(~a) + theme_gray()
+
+datos %>% ggplot(aes(edad))+ geom_density(aes(fill=a),show.legend = F) + labs(x="Edad",y="Densidad", title="Gráfico de Densidad: proporcion de edad segun rol") + facet_wrap(~rol) + theme_gray()
 ```
 
 
@@ -132,7 +134,6 @@ datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes
 ### Departamento por año
 ```{r}
 datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep,1),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic"))+ facet_wrap(~a) + coord_flip()
-datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation_opts( 2000,transition=2000, mode = "next")
 ```
 
 
@@ -140,6 +141,9 @@ datos %>% plot_ly(x=~(abbreviate(dep,4)),frame=~a,type="histogram")%>% animation
 ### Jurisdicción
 ```{r}
 datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop,fill=jur),show.legend = F) + labs(x="Jurisdicción",y="Proporción",title="Grafica de Barra: Proporción de la jurisdicción") + scale_fill_manual(values=c("seagreen3","indianred3"))
+
+datos %>% count(tipo.sin,jur) %>% filter(n>=20) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(tipo.sin,5)),fill=jur))
+
 ```
 
 
@@ -147,8 +151,20 @@ datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="ide
 ```{r}
 datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo) + labs(x="Rol",y="Edad",title="Diagrama de caja: edad según rol, faceteado por sexo")
 
-datos %>% ggplot() + geom_density(aes(f.dias)) +labs(x= "Días de supervivencia luego del accidente" , y= "Densidad" , title="Grafico de Densidad sobre la supervivencia")
+datos %>% count(f.dias)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(f.dias,n),stat="identity") +labs(x= "Días de supervivencia luego del accidente" , y= "Densidad" , title="Grafico de Densidad sobre la supervivencia")
+
+
+datos %>% filter(f.dias<=5) %>% count(f.dias)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(f.dias,n),stat="identity") +labs(x= "Días de supervivencia luego del accidente" , y= "Densidad" , title="Grafico de Densidad sobre la supervivencia")
+
+datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(tipo.sin,n),stat="identity") +labs(x= "Tipo de Siniestro" , y= "Proporcion" , title="Grafico de barras: Proporcion de tipos de siniestros para muerte subita") + coord_flip()
 ```
+
+
+```{r}
+
+```
+
+
 
 
 ### Fecha y hora
