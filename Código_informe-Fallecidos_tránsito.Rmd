@@ -100,7 +100,7 @@ ggplotly(datos %>% count(a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(a,-
 
 ##### Sexo
 ```{r}
-ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(sexo,a),fill=sexo))+ labs(x="Sexo",y="Frecuencia",title="Gráfico de Mosaico: frecuencia relativa fallecidos por sexo"))
+ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(a),fill=sexo))+ labs(x="Sexo",y="Frecuencia",title="Gráfico de Mosaico: frecuencia relativa fallecidos por sexo"))
 
 datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n)) + geom_bar(stat="identity",aes(fill=sexo),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por sexo")
 ```
@@ -111,14 +111,15 @@ datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n))
 
 datos %>% ggplot(aes(edad))+ geom_density(aes(fill=a),show.legend = F) + labs(x="Edad",y="Densidad", title="Gráfico de Densidad: Edad del fallecido") + facet_wrap(~a) + theme_gray()
 
-datos %>% ggplot(aes(edad))+ geom_density(aes(fill=a),show.legend = F) + labs(x="Edad",y="Densidad", title="Gráfico de Densidad: proporcion de edad segun rol") + facet_wrap(~rol) + theme_gray()
+datos %>% ggplot(aes(edad))+ geom_density(aes(fill=rol),alpha=0.6,show.legend = T) + labs(x="Edad",y="Densidad", title="Gráfico de densidad: proporción de edad según rol")  + theme_gray() +guides(fill = guide_legend(title = "Rol")) + theme(legend.position = "bottom",plot.title = (element_text(size=16,hjust=0.33,colour="darkslategray")))
 ```
 
 
 
 ### Vehículo
 ```{r}
-datos %>% count(vehi,a) %>% filter(n>=4) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(abbreviate(vehi,6),-prop),prop)) + geom_bar(stat="identity") + facet_wrap(~a) + coord_flip() + labs(x="Vehículo",y="Proporción",title= "Proporción de vehículos por año")
+datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% filter(n>=0)  %>% ggplot(aes(reorder(abbreviate(vehi,6),-prop),prop)) + geom_bar(stat="identity") + labs(x="Vehículo",y="Proporción",title= "Gráfico de barras: proporción de tipo de vehículo por año") + theme(plot.title = element_text(size=17,hjust=0.25,colour="lightpink4"))
+
 ```
 
 
