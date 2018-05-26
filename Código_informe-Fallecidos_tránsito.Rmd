@@ -102,7 +102,6 @@ ggplotly(datos %>% count(a) %>% mutate(prop=n/sum(n)) %>% ggplot(aes(reorder(a,-
 ```{r}
 ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(a),fill=sexo))+ labs(x="Sexo",y="Frecuencia",title="Gráfico de Mosaico: frecuencia relativa fallecidos por sexo"))
 
-datos %>% count(sexo) %>% mutate(n=n/sum(n)) %>% ggplot(aes(reorder(sexo,-n),n)) + geom_bar(stat="identity",aes(fill=sexo),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por sexo")
 ```
 
 
@@ -127,21 +126,21 @@ datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% filter(n>=0)  %>% ggplot(a
 ```{r}
 datos %>% count(vehi,rol) %>% filter(n>=25) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo", caption="Únicamente fueron tomadas las rerlaciones con frecuencia absoluta mayores o iguales a 25 fallecidos") + guides(fill = guide_legend(title = "Rol")) + theme_minimal()
 
-datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Frecuencia Relativa",title="Grafico de Mosaico: Relación entre los vehículos involucrados",caption=" Únicamente incluye las rerlaciones con frecuencia absoluta mayores o iguales a 50 fallecidos ") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_brewer(palette = "Dark2")
+datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Proporción",title="Gráfico de mosaico: relación entre los vehículos involucrados",caption="Únicamente incluye las rerlaciones con frecuencia absoluta mayores o iguales a 50 fallecidos") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_brewer(palette = "Dark2") + theme(plot.title = element_text(colour="gray37",size=17))
 ```
 
 
 
 ### Departamento por año
 ```{r}
-datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep,1),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.5,colour="palegreen4",size=15,face="italic"))+ facet_wrap(~a) + coord_flip()
+datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep,1),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.4,colour="palegreen4",size=15,face="bold"))+ facet_wrap(~a) + coord_flip()
 ```
 
 
 
 ### Jurisdicción
 ```{r}
-datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop,fill=jur),show.legend = F) + labs(x="Jurisdicción",y="Proporción",title="Grafica de Barra: Proporción de la jurisdicción") + scale_fill_manual(values=c("seagreen3","indianred3"))
+datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop,fill=jur),show.legend = F) + labs(x="Jurisdicción",y="Proporción",title="Gráfica de barras: proporción de la jurisdicción") + scale_fill_manual(values=c("seagreen3","indianred3")) + theme(plot.title = element_text(size=17.5,colour="gray29",hjust=0.4))
 
 datos %>% count(tipo.sin,jur) %>% filter(n>=20) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(tipo.sin,5)),fill=jur))
 
