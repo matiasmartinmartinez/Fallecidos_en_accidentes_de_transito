@@ -169,13 +169,11 @@ datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot
 ### Fecha y hora
 
 ```{r}
-#Un hetmap que cambie a medida de los aos 
-#datos %>% separate(fecha,c("dia","mes")) %>% count(dia, mes, a) %>% ggplot( aes(dia,mes)) + geom_tile(aes(fill=n)) + scale_fill_viridis() + facet_wrap(~a)
+datos %>% separate(fecha,c("dia","mes")) %>% count(mes, a) %>% ggplot( aes(mes,a)) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Mes",y="Año",title="Diagrama térmico: año según mes ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
 
 #datos %>% separate(fecha,c("dia","mes")) %>% mutate(ndia = substring(wday(date, label=T, abbr=T),1,2))) %>% separate(hora,c("hrs","min")) %>% count(hrs, dia) %>% ggplot(aes(hrs,dias)) + geom_tile(aes(fill=n)) + scale_fill_viridis()
 
-#ndia = format(datos$fecha, format = "%a")
-#ndia
+
 #Aqui deseo los 7 dias de la semana, debo encontrar funcion para pasar los dias(1,2,...,31) a una variable nombre del dia(lunes, martes, miercoles,etc)
 
 ```
