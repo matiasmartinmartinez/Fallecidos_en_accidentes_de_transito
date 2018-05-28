@@ -155,7 +155,7 @@ ggplotly(datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend =
 ggplotly(datos %>% count(f.dias)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(f.dias,n),stat="identity") +labs(x= "Días de supervivencia luego del accidente" , y= "Proporción" , title="Gráfico de barras: proporción de días de supervivencia") + theme(plot.title = element_text(hjust = 0.4,size=16,colour="gray27")))
 
 
-datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(reorder(abbreviate(tipo.sin,6),-n),n),stat="identity") +labs(x= "Tipo de Siniestro" , y= "Proporción" , title="Gráfico de barras: proporción de muerte súbita según tipo de siniestro", caption="Como muerte súbita se hace alución a que la persona fallecio en el acto o en menos de 24 horas.") + theme(plot.title = element_text(size = 15,colour="grey20"))
+datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(reorder(abbreviate(tipo.sin,6),-n),n),stat="identity") +labs(x= "Tipo de Siniestro" , y= "Proporción" , title="Gráfico de barras: proporción de muerte súbita según tipo de siniestro", caption="Como muerte súbita se hace alución a la persona que fallecio en el acto o en menos de 24 horas luego de ocurrido el accidente.") + theme(plot.title = element_text(size = 15,colour="grey20"))
 ```
 
 
