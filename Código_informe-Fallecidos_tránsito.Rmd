@@ -176,7 +176,9 @@ n.dia<-weekdays(as.Date(datos %>% separate(fecha,c("dia","mes")) %>% select(a,me
 f<-data.frame(fecha,n.dia)
 
 
-f %>% count(mes, a) %>% ggplot( aes(mes,a)) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Mes",y="Año",title="Diagrama térmico: año según mes ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
+f %>% count(mes) %>% arrange(desc(n)) %>% ggplot() + geom_bar(aes(mes,n),stat="identity") 
+
+#f %>% count(mes, a) %>% ggplot( aes(mes,a)) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Mes",y="Año",title="Diagrama térmico: año según mes ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
 
 f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","martes","miércoles","jueves","viernes","sábado","domingo" )))) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Hora",y="Día",title="Diagrama térmico: día según hora ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
 ```
