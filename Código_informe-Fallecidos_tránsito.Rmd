@@ -98,7 +98,7 @@ ggplotly(datos %>% count(a)  %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="i
 ```
 
 
-##### Sexo
+### Sexo
 ```{r}
 ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(a),fill=sexo))+ labs(x="Año",y="Proporción según sexo",title="Gráfico de Mosaico: frecuencia relativa fallecidos por sexo") + theme(plot.title = element_text(size=14.4,colour = "darkslategrey")))
 
