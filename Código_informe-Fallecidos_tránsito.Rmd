@@ -127,7 +127,7 @@ datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% filter(n>=0)  %>% ggplot(a
 ```{r}
 ggplotly(datos %>% count(vehi,rol) %>% filter(n>=5) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo") + guides(fill = guide_legend(title = "Rol")) + theme_minimal() + theme(plot.title = element_text(size=18,colour="aquamarine4"),axis.text.x = element_text(angle=40,size=9))) %>% layout(annotations= list(text="Únicamente fueron tomadas las relaciones con frecuencia absoluta mayor o igual a 5 fallecidos",x = 1.1, y = -0.19,showarrow = F, xref='paper', yref='paper', xanchor='right',   font=list(size=11)))
 
-datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Proporción",title="Gráfico de mosaico: relación entre los vehículos involucrados",caption="Únicamente incluye las rerlaciones con frecuencia absoluta mayores o iguales a 50 fallecidos") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_brewer(palette = "Dark2") + theme(plot.title = element_text(colour="gray37",size=17))
+datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Proporción",title="Gráfico de mosaico: relación entre los vehículos involucrados",caption="Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_brewer(palette = "Dark2") + theme(plot.title = element_text(colour="gray37",size=17))
 ```
 
 
@@ -143,7 +143,7 @@ datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep,1),-n),n,group=a)) 
 ```{r}
 datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop,fill=jur),show.legend = F) + labs(x="Jurisdicción",y="Proporción",title="Gráfica de barras: proporción de la jurisdicción") + scale_fill_manual(values=c("seagreen3","indianred3")) + theme(plot.title = element_text(size=17.5,colour="gray29",hjust=0.4))
 
-datos %>% count(tipo.sin,jur) %>% filter(n>=20) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(tipo.sin,5)),fill=jur)) + theme(legend.position = "bottom",plot.title = element_text(hjust=0.4,size=17,colour="salmon4")) + labs(x="Tipo de siniestro",y="Proporción jurisdicción", title="Gráfico de mosaicos: jurisdicción según tipo de siniestro",fill="Jurisdicción") + scale_fill_manual(values=c("sienna","seagreen3"))
+datos %>% count(tipo.sin,jur) %>% filter(n>=20) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(tipo.sin,5)),fill=jur)) + theme(legend.position = "bottom",plot.title = element_text(hjust=0.4,size=17,colour="salmon4")) + labs(x="Tipo de siniestro",y="Proporción jurisdicción", title="Gráfico de mosaicos: jurisdicción según tipo de siniestro",fill="Jurisdicción", caption="Solamente se incluyen los tipos de accidente con una frecuencia absoluta mayor o igual a 20.") + scale_fill_manual(values=c("sienna","seagreen3"))
 ```
 
 
@@ -155,7 +155,7 @@ ggplotly(datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend =
 ggplotly(datos %>% count(f.dias)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(f.dias,n),stat="identity") +labs(x= "Días de supervivencia luego del accidente" , y= "Proporción" , title="Gráfico de barras: proporción de días de supervivencia") + theme(plot.title = element_text(hjust = 0.4,size=16,colour="gray27")))
 
 
-datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(reorder(abbreviate(tipo.sin,6),-n),n),stat="identity") +labs(x= "Tipo de Siniestro" , y= "Proporción" , title="Gráfico de barras: proporción de muerte súbita según tipo de siniestro") + theme(plot.title = element_text(size = 15,colour="grey20")) 
+datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(reorder(abbreviate(tipo.sin,6),-n),n),stat="identity") +labs(x= "Tipo de Siniestro" , y= "Proporción" , title="Gráfico de barras: proporción de muerte súbita según tipo de siniestro", caption="Como muerte súbita se hace alución a que la persona fallecio en el acto o en menos de 24 horas.") + theme(plot.title = element_text(size = 15,colour="grey20"))
 ```
 
 
