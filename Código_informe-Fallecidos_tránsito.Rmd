@@ -169,12 +169,11 @@ datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot
 ### Fecha y hora
 
 ```{r}
-fecha<-datos %>% separate(fecha,c("dia","mes")) %>% select(a,mes,dia) %>% unite(sep="-") %>% unlist()
-n.dia<-weekdays(as.Date(fecha.ren))
-fecha.sep<-datos %>% separate(fecha,c("dia","mes")) %>% select(1:3)
+fecha<-datos %>% separate(hora,c("hrs","min",sep=":")) %>%  separate(fecha,c("dia","mes")) %>% select(1:5)
 
-f<-data.frame(fecha,fecha.sep,n.dia)
-datos %>% separate(fecha,c("dia","mes"))
+n.dia<-weekdays(as.Date(datos %>% separate(fecha,c("dia","mes")) %>% select(a,mes,dia) %>% unite(sep="-") %>% unlist()))
+
+f<-data.frame(fecha,n.dia)
 
 
 f %>% count(mes, a) %>% ggplot( aes(mes,a)) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Mes",y="Año",title="Diagrama térmico: año según mes ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
