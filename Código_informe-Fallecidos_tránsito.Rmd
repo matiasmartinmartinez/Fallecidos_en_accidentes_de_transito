@@ -92,21 +92,21 @@ str(datos)
 
 
 ### Fallecidos por año
-```{r,warning=FALSE}
+```{r,warning=FALSE,echo=F}
 
 ggplotly(datos %>% count(a)  %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año") + theme(plot.title = element_text(size=16,colour="grey16")))
 ```
 
 
 ### Sexo
-```{r}
+```{r,echo=F}
 ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(a),fill=sexo))+ labs(x="Año",y="Proporción según sexo",title="Gráfico de Mosaico: frecuencia relativa fallecidos por sexo") + theme(plot.title = element_text(size=14.4,colour = "darkslategrey")))
 
 ```
 
 
 ### Edad
-```{r}
+```{r,echo=F}
 datos %>% ggplot(aes(edad))+ geom_density(aes(fill=a),size=0.74,colour="grey10",show.legend = F) + labs(x="Edad",y="Densidad", title="Gráfico de densidad: edad del fallecido") + facet_wrap(~a) + theme_gray() + theme(plot.title = element_text(size=16,face="bold",hjust=0.4,colour="grey20"))
 
 
@@ -118,13 +118,13 @@ datos %>% ggplot(aes(edad))+ geom_density(aes(fill=rol),alpha=0.6,show.legend = 
 
 
 ### Vehículo
-```{r}
+```{r,echo=F}
 datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% filter(n>=0)  %>% ggplot(aes(reorder(abbreviate(vehi,6),-prop),prop)) + geom_bar(stat="identity") + labs(x="Vehículo",y="Proporción",title= "Gráfico de barras: proporción de vehículo por año") + theme(plot.title = element_text(size=17,hjust=0.35,colour="lightpink4"))
 ```
 
 
 ### Relación vehículo - rol
-```{r}
+```{r,echo=F,warning=FALSE}
 ggplotly(datos %>% count(vehi,rol) %>% filter(n>=5) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo") + guides(fill = guide_legend(title = "Rol")) + theme_minimal() + theme(plot.title = element_text(size=18,colour="aquamarine4"),axis.text.x = element_text(angle=40,size=9))) %>% layout(annotations= list(text="Únicamente fueron tomadas las relaciones con frecuencia absoluta mayor o igual a 5 fallecidos",x = 1.1, y = -0.19,showarrow = F, xref='paper', yref='paper', xanchor='right',   font=list(size=11)))
 
 datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Proporción",title="Gráfico de mosaico: relación entre los vehículos involucrados",caption="Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_brewer(palette = "Dark2") + theme(plot.title = element_text(colour="gray37",size=17))
@@ -133,14 +133,14 @@ datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes
 
 
 ### Departamento por año
-```{r}
+```{r,echo=F}
 datos %>% count(dep,a) %>% ggplot(aes(reorder(abbreviate(dep,1),-n),n,group=a)) + geom_bar(stat="identity")+ labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") +theme(plot.title = element_text(hjust = 0.4,colour="palegreen4",size=15,face="bold"))+ facet_wrap(~a) + coord_flip()
 ```
 
 
 
 ### Jurisdicción
-```{r}
+```{r,echo=F}
 datos %>% count(jur) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(jur,prop,fill=jur),show.legend = F) + labs(x="Jurisdicción",y="Proporción",title="Gráfica de barras: proporción de la jurisdicción") + scale_fill_manual(values=c("seagreen3","indianred3")) + theme(plot.title = element_text(size=17.5,colour="gray29",hjust=0.4))
 
 datos %>% count(tipo.sin,jur) %>% filter(n>=20) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(tipo.sin,5)),fill=jur)) + theme(legend.position = "bottom",plot.title = element_text(hjust=0.4,size=17,colour="salmon4")) + labs(x="Tipo de siniestro",y="Proporción jurisdicción", title="Gráfico de mosaicos: jurisdicción según tipo de siniestro",fill="Jurisdicción", caption="Solamente se incluyen los tipos de accidente con una frecuencia absoluta mayor o igual a 20.") + scale_fill_manual(values=c("sienna","seagreen3"))
@@ -148,7 +148,7 @@ datos %>% count(tipo.sin,jur) %>% filter(n>=20) %>% ggplot() + geom_mosaic(aes(w
 
 
 ### Días de supervivencia
-```{r}
+```{r,echo=F,warning=FALSE}
 ggplotly(datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo) + labs(x="Rol",y="Edad",title="Diagrama de caja: edad según rol, faceteado por sexo") + theme(plot.title = element_text(size=15)))
 
 
@@ -168,7 +168,7 @@ datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot
 
 ### Fecha y hora
 
-```{r}
+```{r,warning=FALSE,echo=F}
 fecha<-datos %>% separate(hora,c("hrs","min",sep=":")) %>%  separate(fecha,c("dia","mes")) %>% select(1:5)
 
 n.dia<-weekdays(as.Date(datos %>% separate(fecha,c("dia","mes")) %>% select(a,mes,dia) %>% unite(sep="-") %>% unlist()))
@@ -178,9 +178,7 @@ f<-data.frame(fecha,n.dia)
 
 f %>% count(mes, a) %>% ggplot( aes(mes,a)) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Mes",y="Año",title="Diagrama térmico: año según mes ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
 
-ggplotly(f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,n.dia)) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Hora",y="Día",title="Diagrama térmico: día según hora ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4)))
-
-
+f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","martes","miércoles","jueves","viernes","sábado","domingo" )))) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Hora",y="Día",title="Diagrama térmico: día según hora ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
 ```
 
 
