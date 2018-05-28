@@ -7,4 +7,4 @@ A realizar:
 
 - mosaico jur (solo u otro vehi) crear variable solo o no
 -
-- fecha lunes/martes/etc según mes, consultar pasar de fecha a nombre del dia
+- file:///C:/Users/bedelia/Desktop/Trabajo-Final-NT_Fallecidos_transito-master/Trabajo-Final-NT_Fallecidos_transito-master/a/C%C3%B3digo_informe-Fallecidos_tr%C3%A1nsito.html
