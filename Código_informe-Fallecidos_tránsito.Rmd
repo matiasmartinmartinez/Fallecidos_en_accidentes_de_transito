@@ -203,6 +203,9 @@ f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","mar
 
 ### Dirección
 ```{r}
+# m<-map(regions = "uruguay", fill=TRUE, add=TRUE)
 
+#ggplot()+  geom_polygon( data=m ,aes(x , y , group = range)) +
+  coord_map()
 ```
 
