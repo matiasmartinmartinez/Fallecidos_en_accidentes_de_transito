@@ -202,11 +202,11 @@ f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","mar
 
 
 ### Dirección
-```{r}
- m<-map(regions = "uruguay", fill=T, add=F)
- m<-data.frame(x=m$x,y=m$y)
+```{r,warning=FALSE}
+ #m<-map(regions = "uruguay", fill=T, add=F)
+ #m<-data.frame(x=m$x,y=m$y)
 
-ggplot( m ,aes(x , y ))+  geom_polygon() +
+#ggplot( m ,aes(x , y ))+  geom_polygon() +
   coord_map()
   
   
@@ -217,7 +217,10 @@ ggplot( m ,aes(x , y ))+  geom_polygon() +
 #download.file("http://ine.gub.uy/documents/10181/18006/Mapas+Vectoriales+a%C3%B1o+2004/6f41de7b-95ca-4287-b697-8e4b66513464", "mapa.zip")
 #unzip("mapa.zip")
 
-#library(qmap)
-#qmap('uruguay', zoom = 7)
+library(ggmap)
+map <-qmap('uruguay', zoom = 7)
+datos<- mutate(datos,x=0-x,y=0-y)
+coord<-select(datos,x=x,y)
+map + geom_point(data=coord, aes(x,y), color="red")
 ```
 
