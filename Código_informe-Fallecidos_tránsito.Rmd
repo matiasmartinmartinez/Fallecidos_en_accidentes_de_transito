@@ -208,5 +208,13 @@ f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","mar
 
 ggplot( m ,aes(x , y ))+  geom_polygon() +
   coord_map()
+  
+  
+  
+  
+ # install.packages("rgdal")
+#library(rgdal)
+#download.file("http://ine.gub.uy/documents/10181/18006/Mapas+Vectoriales+a%C3%B1o+2004/6f41de7b-95ca-4287-b697-8e4b66513464", "mapa.zip")
+#unzip("mapa.zip")
 ```
 
