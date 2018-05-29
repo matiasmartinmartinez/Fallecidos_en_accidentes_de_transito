@@ -216,5 +216,8 @@ ggplot( m ,aes(x , y ))+  geom_polygon() +
 #library(rgdal)
 #download.file("http://ine.gub.uy/documents/10181/18006/Mapas+Vectoriales+a%C3%B1o+2004/6f41de7b-95ca-4287-b697-8e4b66513464", "mapa.zip")
 #unzip("mapa.zip")
+
+#library(qmap)
+#qmap('uruguay', zoom = 7)
 ```
 
