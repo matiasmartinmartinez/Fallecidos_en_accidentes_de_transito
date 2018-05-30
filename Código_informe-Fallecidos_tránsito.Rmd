@@ -209,9 +209,8 @@ f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","mar
 ### Dirección
 ```{r,warning=FALSE}
 
-map <-qmap('uruguay', zoom = 7)
-datos<- mutate(datos,x=0-x,y=0-y)
+datos<- mutate(datos,x=(x*-1),y=(y*-1))
 coord<-select(datos,x=x,y)
-map + geom_point(data=coord, aes(as.numeric(x),as.numeric(y)), color="red")
+ggmap(get_googlemap(center="uruguay",zoom=7)) + geom_point(data=coord, aes(y,x), color="red")
 ```
 
