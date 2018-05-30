@@ -65,9 +65,11 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
  
  - ¿Cuál es la frecuencia relativa según el tipo de siniestro para cada año?
  
- - ¿Cuál es la media de días de supervivencia luego del accidente?
+ - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?
  
  - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
+ 
+ - ¿Cuál es la media de días de supervivencia luego del accidente?
  
  - ¿Qué fechas y horarios poseen mayor frecuencia acumulada de fallecidos?
 
@@ -79,6 +81,8 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 - Debido a la concentración en zonas metropolitanas tanto en sectores productores, educativos, turísticos, ect; se provocan altos porcentajes de accidentes de tráficos y esto tendras como consecuencias que dichos departamentos indiquen las mayores proporciones de fallecidos en el país. 
 
 - Por cuestiones de seguridad del propio vehículo es de esperar frecuencias absolutas mayores para vehículos más débiles en su ensamblaje como motos, bicicletas, autos pequeños,etc. Dicho esto, se considera mayor mortalidad para conductores de estos vehiculos y para los consiguentes vehiculos la mortalidad estara dada principalmente en pasajeros, ya que su estructura protege mayormente al conductor.
+
+- Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base a la práctica de altas velocidades principalmente. Tanto despistes como colisiones tendrán mayor propoción de fallecidos en rutas no departamentales, sin embargo he de excluirse atropello de peatones de dicha jurisdicción debido a su nula circulación en las mismas.
 
 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colision entre vehículos e impacto con obstáculos.
 
