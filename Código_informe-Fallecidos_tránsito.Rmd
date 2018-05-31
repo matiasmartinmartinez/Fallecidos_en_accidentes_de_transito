@@ -218,8 +218,12 @@ f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","mar
 
 
 
-ggmap(get_googlemap(center="uruguay",zoom=7)) + geom_point(data=datos,aes(lon,lat), color="red", alpha = .5,size=2645) + facet_wrap(~jur)
+ggmap(get_googlemap(center="uruguay",zoom=7)) + geom_point(data=datos,aes(lon,lat), color="red", alpha = .5,size=2) + facet_wrap(~jur)
 
+
+
+#Ejemplo
+#ggmap(get_googlemap(center="uruguay",zoom=7)) + geom_point(aes(-55,-32), color="red", alpha = .5,size=2)
 
 ```
 
