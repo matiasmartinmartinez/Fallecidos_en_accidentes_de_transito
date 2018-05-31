@@ -7,3 +7,4 @@ A realizar:
 
 - Cambiar los intervalos a 2 horas
 - Agregar nuevas preguntas surgidas del análisis exploratorio de datos.
+- Responder preguntas.
