@@ -100,10 +100,13 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 
 ```{r,echo=F,warning=FALSE,error=FALSE}
 
-#install.packages("tidyverse")
-#install.packages("ggmosaic")
-#install.packages("plotly")
-#install.packages("ggmap")
+ipak <- function(pkg){
+    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+    if (length(new.pkg)) 
+        install.packages(new.pkg, dependencies = TRUE)
+    sapply(pkg, require, character.only = TRUE)
+}
+ipak(c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster","rgdal"))
 
 
 library(tidyverse)
@@ -111,6 +114,7 @@ library(knitr)
 library(ggmosaic)
 library(plotly)
 library(ggmap)
+library(raster)
 
 
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
@@ -186,7 +190,7 @@ ggplotly(datos %>% count(vehi,rol) %>% filter(n>=5) %>% ggplot() + geom_mosaic(a
 
 
 
- ggplotly(datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Proporción",title="Gráfico de mosaico: relación entre los vehículos involucrados") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_manual(values=c("darkseagreen4","tan2","indianred","khaki3","thistle4","lightsteelblue")) + theme(plot.title = element_text(colour="gray37",size=17)))
+ ggplotly(datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Proporción",title="Gráfico de mosaico: relación entre los vehículos involucrados") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_manual(values=c("darkseagreen4","tan2","indianred","khaki3","thistle4","lightsteelblue")) + theme(plot.title = element_text(colour="gray37",size=16)))
 ```
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
@@ -243,7 +247,7 @@ ggplotly(datos %>% count(f.dias)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(a
 
 
 
-datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(reorder(abbreviate(tipo.sin,6),-n),n),stat="identity") +labs(x= "Tipo de Siniestro" , y= "Proporción" , title="Gráfico de barras: proporción de muerte súbita según tipo de siniestro", caption="Como muerte súbita se hace alución a la persona que fallecio en el acto o en menos de 24 horas luego de ocurrido el accidente.") + theme(plot.title = element_text(size = 15,colour="grey20"))
+datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(reorder(abbreviate(tipo.sin,6),-n),n),stat="identity") +labs(x= "Tipo de Siniestro" , y= "Proporción" , title="Gráfico de barras: proporción de muerte súbita según tipo de siniestro", caption="Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") + theme(plot.title = element_text(size = 15,colour="grey20"))
 ```
 
 
@@ -258,9 +262,7 @@ n.dia<-weekdays(as.Date(datos %>% separate(fecha,c("dia","mes")) %>% select(a,me
 f<-data.frame(fecha,n.dia)
 
 
-f %>% count(mes) %>% arrange(desc(n)) %>% ggplot(aes(mes,n)) + geom_bar(aes(fill=2),stat="identity",show.legend = F) + labs(x="Mes", y="Frecuencia absoluta" ,title="Gráfico de barras: frecuencia absoluta por mes") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4)) 
-
-#f %>% count(mes, a) %>% ggplot( aes(mes,a)) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red", high = "red", mid = "yellow") + labs(x="Mes",y="Año",title="Diagrama térmico: año según mes ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
+f %>% count(mes) %>% arrange(desc(n)) %>% ggplot(aes(mes,n)) + geom_bar(aes(fill=2),stat="identity",show.legend = F) + labs(x="Mes", y="Frecuencia absoluta" ,title="Gráfico de barras: frecuencia absoluta por mes") + theme_minimal() + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4)) 
 
 f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","martes","miércoles","jueves","viernes","sábado","domingo" )))) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red2", high = "red2", mid = "yellow") + labs(x="Hora",y="Día",title="Diagrama térmico: día según hora ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
 ```
@@ -271,6 +273,11 @@ f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","mar
 
 ### Dirección
 ```{r,warning=FALSE}
+
+uruguay <- getData("GADM", country = "UY", level = 0)
+uruguay_states <- getData("GADM", country = "UY", level = 1)
+uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
+NAME_1 <- uystates_UTM@data$NAME_1
 
 
 #ggmap(get_googlemap(center="uruguay",zoom=7)) + geom_point(data=datos,aes(lon,lat), color="red", alpha = .5,size=2) + facet_wrap(~jur)
