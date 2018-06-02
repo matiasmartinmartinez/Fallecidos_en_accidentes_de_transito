@@ -273,12 +273,35 @@ f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","mar
 
 
 ### Dirección
-```{r,warning=FALSE}
+```{r,warning=FALSE,echo=FALSE}
 
 uruguay <- getData("GADM", country = "UY", level = 0)
 uruguay_states <- getData("GADM", country = "UY", level = 1)
 uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
 NAME_1 <- uystates_UTM@data$NAME_1
+n<-datos %>% count(dep)
+df <- data.frame(NAME_1,n)
+
+uystates_UTM@data$id <- rownames(uystates_UTM@data)
+uystates_UTM@data <- plyr::join(uystates_UTM@data, df, by="NAME_1")
+uystates_df <- fortify(uystates_UTM)
+uystates_df <- plyr::join(uystates_df,uystates_UTM@data, by="id")
+uystates_df <-uystates_df %>% filter(!(NAME_1=="Rivera"& lat<6400000)) 
+
+theme_opts <- list(theme(panel.grid.minor = element_blank(),
+panel.grid.major = element_blank(),
+panel.background = element_blank(),
+plot.background = element_blank(),
+axis.line = element_blank(),
+axis.text.x = element_blank(),
+axis.text.y = element_blank(),
+axis.ticks = element_blank(),
+axis.title.x = element_blank(),
+axis.title.y = element_blank(),
+plot.title = element_text(size=16.4,colour="darkslategrey",hjust=0.25)))
+
+ggplot() + geom_polygon(data = uystates_df, aes(x = long, y = lat, group = group, fill =n), color = "black", size = 0.25)+ theme(aspect.ratio = 1) + labs(fill = "Cantidad",x=NULL,y=NULL,title="Gráfico de mapas: cantidad de fallecidos por departamento") + theme_opts
+
 
 
 ```
