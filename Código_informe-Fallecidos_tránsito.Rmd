@@ -312,6 +312,6 @@ mapeo(n=datos%>% count(dep,a))+labs(fill = "Cantidad",x=NULL,y=NULL,title="Gráf
 
 #df <- data.frame(NAME_1,n=datos%>% count(dep,a))
 #df
-#error: no me cro la base adecuada, por eso monetiveo no se ve en colores altos para todos los años
+#error: no me creó el data.frame adecuado, por eso Montevideo no se ve en colores altos para todos los años, probar ordenando por año antes de crear el data.frame
 ```
 El punto medio corresponde a 75 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
