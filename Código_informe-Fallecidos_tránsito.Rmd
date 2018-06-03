@@ -99,6 +99,8 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 ## 
 
 ```{r,echo=F,warning=FALSE,error=FALSE}
+
+#Función que instala y carga los paquetes a utilizar
 ipack <- function(pkg)
   {
   new.pkg <-  pkg[!(pkg %in% installed.packages()[, "Package"])]
@@ -106,6 +108,7 @@ ipack <- function(pkg)
         install.packages(new.pkg, dependencies = TRUE)
     sapply(pkg, require, character.only = TRUE)
     }
+
 
 paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal")
 
@@ -127,7 +130,7 @@ str(datos)
 ### Fallecidos por año
 ```{r,warning=FALSE,echo=F}
 
-
+# Gráfico de barras: frecuencia relativa fallecidos por año
 ggplotly(
   datos %>% count(a)  %>% ggplot(aes(reorder(a, -n), n)) + 
     geom_bar(stat =  "identity", 
@@ -148,6 +151,7 @@ ggplotly(
 ### Sexo
 ```{r,echo=F}
 
+# Gráfico de Mosaico: frecuencia relativa fallecidos por sexo
 ggplotly(
   datos %>% count(a, sexo) %>% ggplot() +
     geom_mosaic(aes(
@@ -170,6 +174,8 @@ ggplotly(
 
 ### Edad
 ```{r,echo=F}
+
+# Gráfico de densidad: edad del fallecido
 datos %>% ggplot(aes(edad)) + 
   geom_density(
     aes(fill=a),
@@ -192,7 +198,7 @@ datos %>% ggplot(aes(edad)) +
 
 
 
-
+# Diagrama de caja: edad según sexo
 ggplotly(
   datos %>% ggplot(aes(sexo, edad)) + 
     stat_boxplot(
@@ -209,7 +215,7 @@ ggplotly(
     scale_fill_manual(values =c("yellow3", "springgreen3")) ) 
 
 
-
+# Gráfico de densidad: proporción de edad según rol
 datos %>% ggplot(aes(edad)) +
   geom_density(
     aes(fill = rol), 
@@ -237,7 +243,7 @@ datos %>% ggplot(aes(edad)) +
 ```{r,echo=F}
 
 
-
+# Gráfico de barras: proporción de vehículo por año
 datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>% ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
   geom_bar(stat ="identity") + 
   labs(
@@ -257,7 +263,7 @@ datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>% g
 ### Relación vehículo
 ```{r,echo=F,warning=FALSE}
 
-
+# Gráfico de mosaico: rol según vehículo
 ggplotly(
   datos %>% count(vehi, rol) %>% filter(n >= 5) %>% ggplot() +
     geom_mosaic(aes(
@@ -297,7 +303,7 @@ ggplotly(
 
 
 
-
+# Gráfico de mosaico: relación entre los vehículos involucrados
 ggplotly(
   datos %>% count(vehi, otro.vehi) %>% filter(n >= 50) %>% ggplot() + 
     geom_mosaic(aes( 
@@ -308,10 +314,9 @@ ggplotly(
       x = "Vehículo",
       y = "Proporción",
       title = "Gráfico de mosaico: relación entre los vehículos involucrados") +
-  
     guides(  fill = guide_legend( title = "Otro vehículo")) +
     scale_fill_manual(
-  values = c("darkseagreen4", "tan2", "indianred","khaki3", "thistle4",  "lightsteelblue")) +
+      values = c("darkseagreen4","tan2","indianred","khaki3", "thistle4", "lightsteelblue")) +
     theme(  plot.title =
               element_text(
                 colour = "gray37",
@@ -327,6 +332,8 @@ ggplotly(
 
 ### Departamento por año
 ```{r,echo=F}
+
+# Gráfico de barras: frecuencia acumulada por departamento
  ggplot( datos %>% count(dep), aes (reorder(abbreviate(dep,4),+n),n)) +
   geom_bar(stat="identity") +
   labs(
@@ -352,13 +359,14 @@ ggplotly(
 ### Jurisdicción
 ```{r,echo=F}
 
+
+# Gráfica de barras: proporción de la jurisdicción
 datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>% ggplot() + 
   geom_bar( 
     stat = "identity",
     aes(a, prop, fill = jur),
     position = position_dodge(),
     show.legend = T) +
-  
   labs(
     x = "Jurisdicción",
     y = "Proporción", 
@@ -375,7 +383,7 @@ datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>% ggplot() +
 
 
 
-
+# Gráfico de mosaico: otro vehículo involucrado según jurisdicción
 datos %>% count(involucrado, jur) %>% ggplot() +
   geom_mosaic(aes(
     weight = n,
@@ -395,7 +403,7 @@ datos %>% count(involucrado, jur) %>% ggplot() +
  
  
  
-
+# Gráfico de mosaicos: jurisdicción según tipo de siniestro
  datos %>% count(tipo.sin, jur) %>% filter(n >= 20) %>% ggplot() + geom_mosaic(aes(
    weight = n,
    x = product(abbreviate(tipo.sin, 5)),
@@ -414,6 +422,7 @@ datos %>% count(involucrado, jur) %>% ggplot() +
    title = "Gráfico de mosaicos: jurisdicción según tipo de siniestro",
    
    fill = "Jurisdicción",
+   
    caption = "Solamente se incluyen los tipos de accidente con una frecuencia absoluta mayor o igual a 20.") + 
    
    scale_fill_manual(values = c("cornflowerblue", "seagreen3"))
@@ -424,6 +433,12 @@ datos %>% count(involucrado, jur) %>% ggplot() +
 
 ### Días de supervivencia
 ```{r,echo=F,warning=FALSE}
+
+
+
+
+
+# Diagrama de caja: edad según rol, faceteado por sexo
 ggplotly(
   datos %>% ggplot() + stat_boxplot(aes(rol, edad, fill = sexo), show.legend = F) + 
     facet_wrap( ~ sexo) + 
@@ -438,7 +453,7 @@ ggplotly(
 
 
 
-
+# Gráfico de barras: proporción de días de supervivencia
 ggplotly(
 datos %>% count(f.dias) %>% mutate(n = n / sum(n)) %>% ggplot() +
   geom_bar(aes(f.dias, n), stat ="identity") +
@@ -454,8 +469,9 @@ colour = "gray27")))
 
 
 
+
  
-#Gráfico de barras: proporción de muerte súbita según tipo de siniestro
+# Gráfico de barras: proporción de muerte súbita según tipo de siniestro
 datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>% mutate(n = n / sum(n)) %>% ggplot() +         geom_bar(aes(reorder(abbreviate(tipo.sin, 6), -n), n), stat = "identity") +
        labs(                                                                                            x = "Tipo de Siniestro" ,
                                                                                                         y = "Proporción" ,
@@ -470,6 +486,7 @@ datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>% mutate(n = n / sum(n)) %>%
 ### Fecha y hora
 
 ```{r,warning=FALSE,echo=F}
+
 fecha<-datos %>% separate(hora,c("hrs","min",sep=":")) %>%  separate(fecha,c("dia","mes")) %>% dplyr::select(1:5)
 
 n.dia <-  weekdays(as.Date(
@@ -478,7 +495,10 @@ n.dia <-  weekdays(as.Date(
 
 f<-data.frame(fecha,n.dia)
 
-#Gráfico de barras: frecuencia absoluta por mes
+
+
+
+# Gráfico de barras: frecuencia absoluta por mes
 f %>% count(mes) %>% arrange(desc(n)) %>%
   ggplot(aes(mes, n)) + 
   geom_bar(aes(fill = 2), stat = "identity", show.legend = F) +
@@ -493,7 +513,11 @@ f %>% count(mes) %>% arrange(desc(n)) %>%
   face = "bold",
   hjust = 0.4))
 
-#Diagrama térmico: día según hora
+
+
+
+
+# Diagrama térmico: día según hora
 f %>% count(n.dia, hrs) %>%
   ggplot(aes(hrs, ordered(
   n.dia,
@@ -524,17 +548,17 @@ NAME_1 <- uystates_UTM@data$NAME_1
 
 
 
-#Función mapa
-mapeo<-function(n)  {
+# Función mapa
+mapeo<-  function(n) 
+  {
+  df <- data.frame(NAME_1,n)
+  uystates_UTM@data$id <- rownames(uystates_UTM@data)
+  uystates_UTM@data <- plyr::join(uystates_UTM@data, df, by="NAME_1")
+  uystates_df <- fortify(uystates_UTM)
+  uystates_df <- plyr::join(uystates_df,uystates_UTM@data, by="id")
+  uystates_df <-uystates_df %>% filter(!(NAME_1=="Rivera"& lat<6400000)) 
   
-df <- data.frame(NAME_1,n)
-uystates_UTM@data$id <- rownames(uystates_UTM@data)
-uystates_UTM@data <- plyr::join(uystates_UTM@data, df, by="NAME_1")
-uystates_df <- fortify(uystates_UTM)
-uystates_df <- plyr::join(uystates_df,uystates_UTM@data, by="id")
-uystates_df <-uystates_df %>% filter(!(NAME_1=="Rivera"& lat<6400000)) 
-
-theme_opts <- list(theme(panel.grid.minor = element_blank(),
+  theme_opts <- list(theme(panel.grid.minor = element_blank(),
                          panel.grid.major = element_blank(),
                          panel.background = element_blank(),
                          plot.background = element_blank(),
@@ -546,32 +570,36 @@ theme_opts <- list(theme(panel.grid.minor = element_blank(),
                          axis.title.y = element_blank(),
                          plot.title =
                            element_text(size=16.4,colour="darkslategrey",hjust=0.25)))
+  
+  ggplot() + geom_polygon(
+    data = uystates_df,
+    aes(
+      x = long,
+      y = lat,
+      group = group,
+      fill = n),
+    color = "black",
+    size = 0.25) +
+    theme(aspect.ratio = 1) + 
+    theme_opts
+  } 
 
-ggplot() + geom_polygon(
-  data = uystates_df,
-  aes(
-  x = long,
-  y = lat,
-  group = group,
-  fill = n),
-  color = "black",
-  size = 0.25) +
-  theme(aspect.ratio = 1) + theme_opts
-} 
 
 
-
-#Gráfico de mapas: cantidad de fallecidos por departamento
+# Gráfico de mapas: cantidad de fallecidos por departamento
 mapeo(n = datos %>% count(dep)) +
   labs(fill = "Cantidad",
   x = NULL,
   y = NULL,
   title = "Gráfico de mapas: cantidad de fallecidos por departamento") +
-  scale_fill_gradient2(low = "grey2", mid = "midnightblue",  high = "white")
+  scale_fill_gradient2(
+    low = "grey2",
+    mid = "midnightblue", 
+    high = "white")
 
 
 
-#Gráfico de mapas: cantidad de fallecidos en departamento por año
+# Gráfico de mapas: cantidad de fallecidos en departamento por año
 mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
   labs(fill = "Cantidad",
   x = NULL,
@@ -584,7 +612,6 @@ mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
   high = "blue",
   midpoint = 75) +
   facet_wrap( ~ a) 
-
 
 ```
 
