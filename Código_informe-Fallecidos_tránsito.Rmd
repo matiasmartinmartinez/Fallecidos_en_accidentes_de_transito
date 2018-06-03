@@ -147,16 +147,63 @@ ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=produ
 
 ### Edad
 ```{r,echo=F}
-datos %>% ggplot(aes(edad))+ geom_density(aes(fill=a),size=0.74,colour="grey10",show.legend = F) + labs(x="Edad",y="Densidad", title="Gráfico de densidad: edad del fallecido") + facet_wrap(~a) + theme_gray() + theme(plot.title = element_text(size=16,face="bold",hjust=0.4,colour="grey20"))
+datos %>% ggplot(aes(edad)) + 
+  geom_density(
+    aes(fill=a),
+    size=0.74,
+    colour="grey10",
+    show.legend = F) + 
+  labs(
+    x="Edad",
+    y="Densidad",
+    title="Gráfico de densidad: edad del fallecido") +
+  facet_wrap(~a) +
+  theme_gray() +
+  theme(
+    plot.title =
+      element_text(
+        size=16,
+        face="bold",
+        hjust=0.4,
+        colour="grey20"))
 
 
 
 
-ggplotly(datos %>% ggplot(aes(sexo,edad)) + stat_boxplot(aes(fill=sexo),show.legend = F) + labs(x="Sexo",y="Edad en años",title="Diagrama de caja: edad según sexo") + theme(plot.title=element_text(size=16,colour="grey19"))+ scale_fill_manual(values=c("yellow3","springgreen3"))) 
+ggplotly(
+  datos %>% ggplot(aes(sexo, edad)) + 
+    stat_boxplot(
+      aes(fill = sexo),
+      show.legend = F) + 
+    labs(
+      x =  "Sexo",
+      y = "Edad en años",
+      title = "Diagrama de caja: edad según sexo") +
+    theme(plot.title =
+            element_text(
+              size = 16,
+              colour = "grey19")) +
+    scale_fill_manual(values =c("yellow3", "springgreen3")) ) 
 
 
 
-datos %>% ggplot(aes(edad))+ geom_density(aes(fill=rol),alpha=0.6,show.legend = T) + labs(x="Edad",y="Densidad", title="Gráfico de densidad: proporción de edad según rol")  + theme_gray() +guides(fill = guide_legend(title = "Rol")) + theme(legend.position = "bottom",plot.title = (element_text(size=16,hjust=0.33,colour="darkslategray")))
+datos %>% ggplot(aes(edad)) +
+  geom_density(
+    aes(fill = rol), 
+    alpha = 0.6, 
+    show.legend = T) +
+  labs(
+    x =  "Edad", 
+    y = "Densidad", 
+    title = "Gráfico de densidad: proporción de edad según rol")  + 
+  theme_gray() + 
+  guides(fill = guide_legend(title = "Rol")) +
+  theme(
+    legend.position = "bottom", 
+    plot.title = (element_text(
+      size = 16,
+      hjust = 0.33,
+      colour = "darkslategray")))
 ```
 
 
@@ -167,7 +214,17 @@ datos %>% ggplot(aes(edad))+ geom_density(aes(fill=rol),alpha=0.6,show.legend = 
 ```{r,echo=F}
 
 
-datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% filter(n>=0)  %>% ggplot(aes(reorder(abbreviate(vehi,6),-prop),prop)) + geom_bar(stat="identity") + labs(x="Vehículo",y="Proporción",title= "Gráfico de barras: proporción de vehículo por año") + theme(plot.title = element_text(size=17,hjust=0.35,colour="lightpink4"))
+
+datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>% ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
+  geom_bar(stat ="identity") + 
+  labs(
+    x = "Vehículo",
+    y = "Proporción", 
+    title = "Gráfico de barras: proporción de vehículo por año") +
+  theme(plot.title = element_text(
+    size = 17,
+    hjust = 0.35,
+    colour = "lightpink4"))
 ```
 
 
@@ -178,13 +235,64 @@ datos %>% count(vehi,a) %>% mutate(prop=n/sum(n)) %>% filter(n>=0)  %>% ggplot(a
 ```{r,echo=F,warning=FALSE}
 
 
-ggplotly(datos %>% count(vehi,rol) %>% filter(n>=5) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(vehi,4)),fill=abbreviate(rol,1)))+labs(x="Vehículo",title="Gráfico de mosaico: rol según vehículo") + guides(fill = guide_legend(title = "Rol")) + theme_minimal() + theme(plot.title = element_text(size=18,colour="aquamarine4"),axis.text.x = element_text(angle=40,size=9)) + scale_fill_brewer(palette="Dark2")) %>% layout(annotations= list(text="Únicamente fueron tomadas las relaciones con frecuencia absoluta mayor o igual a 5 fallecidos",x = 1, y = -0.201,showarrow = F, xref='paper', yref='paper', xanchor='right',   font=list(size=11)))
+ggplotly(
+  datos %>% count(vehi, rol) %>% filter(n >= 5) %>% ggplot() +
+    geom_mosaic(aes(
+      weight = n,
+      x = product(abbreviate(vehi, 4)),
+      fill = abbreviate(rol, 1))) +
+    labs(
+      x = "Vehículo", 
+      title = "Gráfico de mosaico: rol según vehículo") +
+      guides(fill = guide_legend(title = "Rol")) +
+      theme_minimal() +
+      theme(
+        plot.title =
+          element_text(size = 18,
+                       colour = "aquamarine4"),
+      axis.text.x =
+        element_text(
+          angle = 40,
+          size = 9)
+      ) +
+      scale_fill_brewer(palette = "Dark2")
+  ) %>% 
+  layout(
+  annotations =
+    list(
+      text = "Únicamente fueron tomadas las relaciones con frecuencia absoluta mayor o igual a 5 fallecidos",
+      x = 1,
+      y = -0.201,
+      showarrow = F,
+      xref = 'paper',
+      yref = 'paper',
+      xanchor = 'right',
+      font = list(size = 11)))
 
 
 
 
 
- ggplotly(datos %>% count(vehi,otro.vehi) %>% filter(n>=50) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(vehi),fill=otro.vehi))+ labs(x="Vehículo", y="Proporción",title="Gráfico de mosaico: relación entre los vehículos involucrados") + guides(fill = guide_legend(title = "Otro vehículo")) + scale_fill_manual(values=c("darkseagreen4","tan2","indianred","khaki3","thistle4","lightsteelblue")) + theme(plot.title = element_text(colour="gray37",size=16)))
+
+
+ggplotly(
+  datos %>% count(vehi, otro.vehi) %>% filter(n >= 50) %>% ggplot() + 
+    geom_mosaic(aes( 
+      weight = n,
+      x = product(vehi),
+      fill = otro.vehi)) +
+    labs(
+      x = "Vehículo",
+      y = "Proporción",
+      title = "Gráfico de mosaico: relación entre los vehículos involucrados") +
+  
+    guides(  fill = guide_legend( title = "Otro vehículo")) +
+    scale_fill_manual(
+  values = c("darkseagreen4", "tan2", "indianred","khaki3", "thistle4",  "lightsteelblue")) +
+    theme(  plot.title =
+              element_text(
+                colour = "gray37",
+                size = 16)) )
 ```
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
@@ -196,7 +304,22 @@ ggplotly(datos %>% count(vehi,rol) %>% filter(n>=5) %>% ggplot() + geom_mosaic(a
 
 ### Departamento por año
 ```{r,echo=F}
- ggplot(datos %>% count(dep) ,aes(reorder(abbreviate(dep,4),+n),n)) + geom_bar(stat="identity") + labs(x="Departamento",y="Frecuencia acumulada",title="Gráfico de barras: frecuencia acumulada por departamento") + coord_flip() + theme_minimal() + theme(plot.title = element_text(hjust = 0.4,colour="palevioletred4",size=15,face="bold")) +  geom_hline(yintercept = mean((datos %>% count(dep))$n) ,cex=1.2,colour="coral3") 
+ ggplot( datos %>% count(dep), aes (reorder(abbreviate(dep,4),+n),n)) +
+  geom_bar(stat="identity") +
+  labs(
+    x="Departamento",
+    y="Frecuencia acumulada",
+    title="Gráfico de barras: frecuencia acumulada por departamento") +
+  coord_flip() + 
+  theme_minimal() + 
+  theme(
+    plot.title =
+      element_text(
+        hjust = 0.4,
+        colour="palevioletred4",
+        size=15,face="bold")) +  
+  geom_hline( yintercept = mean((datos %>% count(dep))$n) ,
+              cex=1.2,colour="coral3") 
 ```
 
 
@@ -206,16 +329,44 @@ ggplotly(datos %>% count(vehi,rol) %>% filter(n>=5) %>% ggplot() + geom_mosaic(a
 ### Jurisdicción
 ```{r,echo=F}
 
+datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>% ggplot() + 
+  geom_bar( 
+    stat = "identity",
+    aes(a, prop, fill = jur),
+    position = position_dodge(),
+    show.legend = T) +
+  
+  labs(
+    x = "Jurisdicción",
+    y = "Proporción", 
+    title = "Gráfica de barras: proporción de la jurisdicción") +
+  scale_fill_manual(values = c("skyblue3", "tan2")) +
+  theme(
+    plot.title = element_text(
+      size = 17.5,
+      colour = "gray29",
+      hjust = 0.4),
+    legend.position = "bottom") + 
+  guides(fill = guide_legend(title = "Jurisdicción"))
 
 
 
-datos %>% count(jur,a) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="identity",aes(a,prop,fill=jur), position=position_dodge(),show.legend = T) + labs(x="Jurisdicción",y="Proporción",title="Gráfica de barras: proporción de la jurisdicción") + scale_fill_manual(values=c("skyblue3","tan2")) + theme(plot.title = element_text(size=17.5,colour="gray29",hjust=0.4),legend.position = "bottom")  + guides(fill = guide_legend(title = "Jurisdicción"))
 
 
-
-
-
- datos %>% count(involucrado,jur) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(jur),fill=involucrado)) + labs(x="Jurisdicción",y="Proporción involucrado",title="Gráfico de mosaico: otro vehículo involucrado según jurisdicción") + theme(plot.title = element_text(size=15,face="italic",colour = "grey20")) + scale_fill_manual(values=c("yellow3","mediumpurple"))
+datos %>% count(involucrado, jur) %>% ggplot() +
+  geom_mosaic(aes(
+    weight = n,
+    x = product(jur),
+    fill = involucrado)) +
+  labs(
+    x = "Jurisdicción",
+    y = "Proporción involucrado", 
+    title = "Gráfico de mosaico: otro vehículo involucrado según jurisdicción") +
+  theme(plot.title = element_text(
+    size = 15,
+    face = "italic",
+    colour = "grey20")) + 
+  scale_fill_manual(values = c("yellow3", "mediumpurple"))
 
 
  
