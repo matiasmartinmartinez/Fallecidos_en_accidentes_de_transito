@@ -99,22 +99,16 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 ## 
 
 ```{r,echo=F,warning=FALSE,error=FALSE}
-
 ipack <- function(pkg){
     new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
     if (length(new.pkg)) 
         install.packages(new.pkg, dependencies = TRUE)
     sapply(pkg, require, character.only = TRUE)
 }
-  x<-c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster","rgdal")
-ipack(x)
 
-library(tidyverse)
-library(knitr)
-library(ggmosaic)
-library(plotly)
-library(ggmap)
-library(raster)
+paquetes.a.utilizar<-c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster","rgdal")
+
+ipack(paquetes.a.utilizar)
 
 
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
@@ -228,7 +222,27 @@ datos %>% count(jur,a) %>% mutate(prop=n/sum(n)) %>% ggplot() + geom_bar(stat="i
  
  
 
-datos %>% count(tipo.sin,jur) %>% filter(n>=20) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(abbreviate(tipo.sin,5)),fill=jur)) + theme(legend.position = "bottom",plot.title = element_text(hjust=0.4,size=17,colour="gray32")) + labs(x="Tipo de siniestro",y="Proporción jurisdicción", title="Gráfico de mosaicos: jurisdicción según tipo de siniestro",fill="Jurisdicción", caption="Solamente se incluyen los tipos de accidente con una frecuencia absoluta mayor o igual a 20.") + scale_fill_manual(values=c("cornflowerblue","seagreen3"))
+ datos %>% count(tipo.sin, jur) %>% filter(n >= 20) %>% ggplot() + geom_mosaic(aes(
+   weight = n,
+   x = product(abbreviate(tipo.sin, 5)),
+   fill = jur)) +
+   theme(
+   legend.position = "bottom",
+   plot.title = element_text(
+   hjust = 0.4,
+   size = 17,
+   colour = "gray32")) + 
+   labs(
+   x = "Tipo de siniestro",
+   
+   y = "Proporción jurisdicción",
+   
+   title = "Gráfico de mosaicos: jurisdicción según tipo de siniestro",
+   
+   fill = "Jurisdicción",
+   caption = "Solamente se incluyen los tipos de accidente con una frecuencia absoluta mayor o igual a 20.") + 
+   
+   scale_fill_manual(values = c("cornflowerblue", "seagreen3"))
 ```
 
 
@@ -236,18 +250,45 @@ datos %>% count(tipo.sin,jur) %>% filter(n>=20) %>% ggplot() + geom_mosaic(aes(w
 
 ### Días de supervivencia
 ```{r,echo=F,warning=FALSE}
-ggplotly(datos %>% ggplot() + stat_boxplot(aes(rol,edad,fill=sexo),show.legend = F)+ facet_wrap(~sexo) + labs(x="Rol",y="Edad",title="Diagrama de caja: edad según rol, faceteado por sexo") + theme(plot.title = element_text(size=17,face="italic")))
+ggplotly(
+  datos %>% ggplot() + stat_boxplot(aes(rol, edad, fill = sexo), show.legend = F) + 
+    facet_wrap( ~ sexo) + 
+    labs(
+      x = "Rol", 
+      y = "Edad", 
+      title = "Diagrama de caja: edad según rol, faceteado por sexo") + 
+    theme(plot.title = element_text(size =
+  17, face = "italic"))
+  )
 
 
 
 
-ggplotly(datos %>% count(f.dias)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(f.dias,n),stat="identity") +labs(x= "Días de supervivencia luego del accidente" , y= "Proporción" , title="Gráfico de barras: proporción de días de supervivencia") + theme(plot.title = element_text(hjust = 0.4,size=16,colour="gray27")))
+
+ggplotly(
+datos %>% count(f.dias) %>% mutate(n = n / sum(n)) %>% ggplot() +
+  geom_bar(aes(f.dias, n), stat ="identity") +
+  labs(
+    x = "Días de supervivencia luego del accidente" ,
+    y = "Proporción" ,
+    title =
+"Gráfico de barras: proporción de días de supervivencia") + 
+  theme(plot.title = element_text(
+hjust = 0.4,
+size = 16,
+colour = "gray27")))
 
 
 
 
 
-datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot() + geom_bar(aes(reorder(abbreviate(tipo.sin,6),-n),n),stat="identity") +labs(x= "Tipo de Siniestro" , y= "Proporción" , title="Gráfico de barras: proporción de muerte súbita según tipo de siniestro", caption="Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") + theme(plot.title = element_text(size = 15,colour="grey20"))
+datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>% mutate(n = n / sum(n)) %>% ggplot() +         geom_bar(aes(reorder(abbreviate(tipo.sin, 6), -n), n), stat = "identity") +
+       labs(                                                                                            x = "Tipo de Siniestro" ,
+                                                                                                        y = "Proporción" ,
+                                                                                                        title = "Gráfico de barras: proporción de muerte súbita según tipo de siniestro",
+                                                                                                       caption = "Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") +
+  
+  theme(plot.title = element_text(size = 15, colour = "grey20"))
 ```
 
 
@@ -257,15 +298,42 @@ datos %>% filter(f.dias==0) %>% count(tipo.sin)%>% mutate(n=n/sum(n)) %>% ggplot
 ```{r,warning=FALSE,echo=F}
 fecha<-datos %>% separate(hora,c("hrs","min",sep=":")) %>%  separate(fecha,c("dia","mes")) %>% dplyr::select(1:5)
 
-n.dia<-weekdays(as.Date(datos %>% separate(fecha,c("dia","mes")) %>% dplyr::select(a,mes,dia) %>% unite(sep="-") %>% unlist()))
+n.dia <-  weekdays(as.Date(
+  datos %>% separate(fecha, c("dia", "mes")) %>% dplyr::select(a, mes, dia) %>% unite(sep =
+  "-") %>% unlist()))
 
 f<-data.frame(fecha,n.dia)
 
 
-f %>% count(mes) %>% arrange(desc(n)) %>% ggplot(aes(mes,n)) + geom_bar(aes(fill=2),stat="identity",show.legend = F) + labs(x="Mes", y="Frecuencia absoluta" ,title="Gráfico de barras: frecuencia absoluta por mes") + theme_minimal() + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
+f %>% count(mes) %>% arrange(desc(n)) %>%
+  ggplot(aes(mes, n)) + 
+  eom_bar(aes(fill = 2), stat = "identity", show.legend = F) +
+  labs(
+    x = "Mes",
+    y = "Frecuencia absoluta",
+    title = "Gráfico de barras: frecuencia absoluta por mes") +
+  theme_minimal() +
+  theme(plot.title = element_text(
+  size = 17,
+  colour = "grey30",
+  face = "bold",
+  hjust = 0.4))
 
 
-f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","martes","miércoles","jueves","viernes","sábado","domingo" )))) + geom_tile(aes(fill=n)) + scale_fill_gradient2(low = "red2", high = "red2", mid = "yellow") + labs(x="Hora",y="Día",title="Diagrama térmico: día según hora ") + theme(plot.title = element_text(size=17,colour="grey30",face="bold",hjust=0.4))
+f %>% count(n.dia, hrs) %>%
+  ggplot(aes(hrs, ordered(
+  n.dia,
+  levels = c( "lunes",  "martes",  "miércoles",  "jueves",  "viernes","sábado", "domingo" )))) +
+  geom_tile(aes(fill = n)) + scale_fill_gradient2(low = "red2", high = "red2", mid = "yellow") +
+  labs(
+    x = "Hora",
+    y = "Día",
+    title = "Diagrama térmico: día según hora ") +
+  theme(plot.title = element_text(
+  size = 17,
+  colour = "grey30",
+  face = "bold",
+  hjust = 0.4))
 ```
 
 
@@ -274,6 +342,7 @@ f %>% count(n.dia, hrs) %>% ggplot( aes(hrs,ordered(n.dia, levels=c("lunes","mar
 
 ### Dirección
 ```{r,warning=FALSE,echo=FALSE}
+
 uruguay <- getData("GADM", country = "UY", level = 0)
 uruguay_states <- getData("GADM", country = "UY", level = 1)
 uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
@@ -282,36 +351,64 @@ NAME_1 <- uystates_UTM@data$NAME_1
 
 
 
-mapeo<-function(n){
+mapeo<-function(n)  {
+  
 df <- data.frame(NAME_1,n)
 uystates_UTM@data$id <- rownames(uystates_UTM@data)
 uystates_UTM@data <- plyr::join(uystates_UTM@data, df, by="NAME_1")
 uystates_df <- fortify(uystates_UTM)
 uystates_df <- plyr::join(uystates_df,uystates_UTM@data, by="id")
 uystates_df <-uystates_df %>% filter(!(NAME_1=="Rivera"& lat<6400000)) 
+
 theme_opts <- list(theme(panel.grid.minor = element_blank(),
-panel.grid.major = element_blank(),
-panel.background = element_blank(),
-plot.background = element_blank(),
-axis.line = element_blank(),
-axis.text.x = element_blank(),
-axis.text.y = element_blank(),
-axis.ticks = element_blank(),
-axis.title.x = element_blank(),
-axis.title.y = element_blank(),
-plot.title = element_text(size=16.4,colour="darkslategrey",hjust=0.25)))
-ggplot() + geom_polygon(data = uystates_df, aes(x = long, y = lat, group = group, fill =n), color = "black", size = 0.25)+ theme(aspect.ratio = 1)+ theme_opts} 
+                         panel.grid.major = element_blank(),
+                         panel.background = element_blank(),
+                         plot.background = element_blank(),
+                         axis.line = element_blank(),
+                         axis.text.x = element_blank(),
+                         axis.text.y = element_blank(),
+                         axis.ticks = element_blank(),
+                         axis.title.x = element_blank(),
+                         axis.title.y = element_blank(),
+                         plot.title =
+                           element_text(size=16.4,colour="darkslategrey",hjust=0.25)))
+
+ggplot() + geom_polygon(
+  data = uystates_df,
+  aes(
+  x = long,
+  y = lat,
+  group = group,
+  fill = n),
+  color = "black",
+  size = 0.25) +
+  theme(aspect.ratio = 1) + theme_opts
+} 
 
 
 
 
-mapeo(n=datos%>% count(dep))+ labs(fill = "Cantidad",x=NULL,y=NULL,title="Gráfico de mapas: cantidad de fallecidos por departamento") + theme_opts + scale_fill_gradient2(low = "grey2", mid = "midnightblue",  high = "white")
+mapeo(n = datos %>% count(dep)) +
+  labs(fill = "Cantidad",
+  x = NULL,
+  y = NULL,
+  title = "Gráfico de mapas: cantidad de fallecidos por departamento") +
+  scale_fill_gradient2(low = "grey2", mid = "midnightblue",  high = "white")
 
 
-mapeo(n=datos%>% count(dep,a))+labs(fill = "Cantidad",x=NULL,y=NULL,title="Gráfico de mapas: cantidad de fallecidos en departamento por año") + theme_opts + scale_fill_gradient2(low = "red", mid = "white",  high = "blue", midpoint =75) +facet_wrap(~a) 
 
-#df <- data.frame(NAME_1,n=datos%>% count(dep,a))
-#df
-#error: no me creó el data.frame adecuado, por eso Montevideo no se ve en colores altos para todos los años, probar ordenando por año antes de crear el data.frame
+mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
+  labs(fill = "Cantidad",
+  x = NULL,
+  y = NULL,
+  title = "Gráfico de mapas: cantidad de fallecidos en departamento por año") +
+  scale_fill_gradient2(
+  low = "red",
+  mid = "white",
+  high = "blue",
+  midpoint = 75) +
+  facet_wrap( ~ a) 
+
+
 ```
 El punto medio corresponde a 75 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
