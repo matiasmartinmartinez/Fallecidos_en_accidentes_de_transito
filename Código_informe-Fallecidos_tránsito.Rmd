@@ -1,7 +1,7 @@
 ---
 title: "Siniestros de tránsito fatales en Uruguay, 2013-2017"
 author: "Martínez Matías, Zang Bruno"
-date: "2 de junio de 2018"
+date: "3 de junio de 2018"
 output: html_document
 ---
 
