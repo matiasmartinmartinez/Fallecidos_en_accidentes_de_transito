@@ -100,6 +100,7 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 
 ```{r,echo=F,warning=FALSE,error=FALSE}
 
+
 #Función que instala y carga los paquetes a utilizar
 ipack <- function(pkg)
   {
@@ -109,19 +110,24 @@ ipack <- function(pkg)
     sapply(pkg, require, character.only = TRUE)
     }
 
-
 paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal")
 
 ipack(paquetes.a.utilizar)
 
 
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
+
+
 ```
+
 # Análisis Exploratorio de Datos
 
+
 ```{r}
+
 dim(datos)
 str(datos)
+
 ```
 
 
@@ -143,6 +149,9 @@ ggplotly(
     theme(plot.title = element_text(
       size =16, 
       colour = "grey16")) )
+
+
+
 ```
 
 
@@ -166,6 +175,9 @@ ggplotly(
       plot.title = element_text(
         size = 14.4,
         colour = "darkslategrey")) )
+
+
+
 
 ```
 
@@ -195,7 +207,6 @@ datos %>% ggplot(aes(edad)) +
         face="bold",
         hjust=0.4,
         colour="grey20"))
-
 
 
 # Diagrama de caja: edad según sexo
@@ -233,8 +244,10 @@ datos %>% ggplot(aes(edad)) +
       size = 16,
       hjust = 0.33,
       colour = "darkslategray")))
-```
 
+
+
+```
 
 
 
@@ -254,8 +267,10 @@ datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>% g
     size = 17,
     hjust = 0.35,
     colour = "lightpink4"))
-```
 
+
+
+```
 
 
 
@@ -299,10 +314,6 @@ ggplotly(
       font = list(size = 11)))
 
 
-
-
-
-
 # Gráfico de mosaico: relación entre los vehículos involucrados
 ggplotly(
   datos %>% count(vehi, otro.vehi) %>% filter(n >= 50) %>% ggplot() + 
@@ -321,11 +332,12 @@ ggplotly(
               element_text(
                 colour = "gray37",
                 size = 16)) )
+
+
+
 ```
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
-
-
 
 
 
@@ -350,15 +362,16 @@ ggplotly(
         size=15,face="bold")) +  
   geom_hline( yintercept = mean((datos %>% count(dep))$n) ,
               cex=1.2,colour="coral3") 
-```
 
+
+
+```
 
 
 
 
 ### Jurisdicción
 ```{r,echo=F}
-
 
 # Gráfica de barras: proporción de la jurisdicción
 datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>% ggplot() + 
@@ -381,8 +394,6 @@ datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>% ggplot() +
   guides(fill = guide_legend(title = "Jurisdicción"))
 
 
-
-
 # Gráfico de mosaico: otro vehículo involucrado según jurisdicción
 datos %>% count(involucrado, jur) %>% ggplot() +
   geom_mosaic(aes(
@@ -399,9 +410,6 @@ datos %>% count(involucrado, jur) %>% ggplot() +
     colour = "grey20")) + 
   scale_fill_manual(values = c("yellow3", "mediumpurple"))
 
-
- 
- 
  
 # Gráfico de mosaicos: jurisdicción según tipo de siniestro
  datos %>% count(tipo.sin, jur) %>% filter(n >= 20) %>% ggplot() + geom_mosaic(aes(
@@ -426,6 +434,9 @@ datos %>% count(involucrado, jur) %>% ggplot() +
    caption = "Solamente se incluyen los tipos de accidente con una frecuencia absoluta mayor o igual a 20.") + 
    
    scale_fill_manual(values = c("cornflowerblue", "seagreen3"))
+ 
+ 
+ 
 ```
 
 
@@ -433,10 +444,6 @@ datos %>% count(involucrado, jur) %>% ggplot() +
 
 ### Días de supervivencia
 ```{r,echo=F,warning=FALSE}
-
-
-
-
 
 # Diagrama de caja: edad según rol, faceteado por sexo
 ggplotly(
@@ -449,8 +456,6 @@ ggplotly(
     theme(plot.title = element_text(size =
   17, face = "italic"))
   )
-
-
 
 
 # Gráfico de barras: proporción de días de supervivencia
@@ -468,9 +473,6 @@ size = 16,
 colour = "gray27")))
 
 
-
-
- 
 # Gráfico de barras: proporción de muerte súbita según tipo de siniestro
 datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>% mutate(n = n / sum(n)) %>% ggplot() +         geom_bar(aes(reorder(abbreviate(tipo.sin, 6), -n), n), stat = "identity") +
        labs(                                                                                            x = "Tipo de Siniestro" ,
@@ -479,7 +481,11 @@ datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>% mutate(n = n / sum(n)) %>%
                                                                                                        caption = "Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") +
   
   theme(plot.title = element_text(size = 15, colour = "grey20"))
+
+
+
 ```
+
 
 
 
@@ -494,8 +500,6 @@ n.dia <-  weekdays(as.Date(
   "-") %>% unlist()))
 
 f<-data.frame(fecha,n.dia)
-
-
 
 
 # Gráfico de barras: frecuencia absoluta por mes
@@ -514,9 +518,6 @@ f %>% count(mes) %>% arrange(desc(n)) %>%
   hjust = 0.4))
 
 
-
-
-
 # Diagrama térmico: día según hora
 f %>% count(n.dia, hrs) %>%
   ggplot(aes(hrs, ordered(
@@ -532,8 +533,10 @@ f %>% count(n.dia, hrs) %>%
   colour = "grey30",
   face = "bold",
   hjust = 0.4))
-```
 
+
+
+```
 
 
 
@@ -545,7 +548,6 @@ uruguay <- getData("GADM", country = "UY", level = 0)
 uruguay_states <- getData("GADM", country = "UY", level = 1)
 uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
 NAME_1 <- uystates_UTM@data$NAME_1
-
 
 
 # Función mapa
@@ -585,7 +587,6 @@ mapeo<-  function(n)
   } 
 
 
-
 # Gráfico de mapas: cantidad de fallecidos por departamento
 mapeo(n = datos %>% count(dep)) +
   labs(fill = "Cantidad",
@@ -596,7 +597,6 @@ mapeo(n = datos %>% count(dep)) +
     low = "grey2",
     mid = "midnightblue", 
     high = "white")
-
 
 
 # Gráfico de mapas: cantidad de fallecidos en departamento por año
@@ -611,7 +611,11 @@ mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
   mid = "white",
   high = "blue",
   midpoint = 75) +
-  facet_wrap( ~ a) 
+  facet_wrap( ~ a)
+
+
+
+
 
 ```
 
