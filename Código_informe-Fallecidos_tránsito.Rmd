@@ -99,14 +99,15 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 ## 
 
 ```{r,echo=F,warning=FALSE,error=FALSE}
-ipack <- function(pkg){
-    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+ipack <- function(pkg)
+  {
+  new.pkg <-  pkg[!(pkg %in% installed.packages()[, "Package"])]
     if (length(new.pkg)) 
         install.packages(new.pkg, dependencies = TRUE)
     sapply(pkg, require, character.only = TRUE)
-}
+    }
 
-paquetes.a.utilizar<-c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster","rgdal")
+paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal")
 
 ipack(paquetes.a.utilizar)
 
@@ -116,7 +117,6 @@ load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 # Análisis Exploratorio de Datos
 
 ```{r}
-
 dim(datos)
 str(datos)
 ```
@@ -128,7 +128,18 @@ str(datos)
 ```{r,warning=FALSE,echo=F}
 
 
-ggplotly(datos %>% count(a)  %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="identity",aes(fill=a),show.legend = F) + labs(x="Año", y=" Frecuencia relativa de fallecidos",title="Gráfico de barras: frecuencia relativa fallecidos por año") + theme(plot.title = element_text(size=16,colour="grey16")))
+ggplotly(
+  datos %>% count(a)  %>% ggplot(aes(reorder(a, -n), n)) + 
+    geom_bar(stat =  "identity", 
+             aes(fill = a),
+             show.legend = F) + 
+    labs(
+      x = "Año", 
+      y = " Frecuencia relativa de fallecidos",
+      title = "Gráfico de barras: frecuencia relativa fallecidos por año") +
+    theme(plot.title = element_text(
+      size =16, 
+      colour = "grey16")) )
 ```
 
 
@@ -137,8 +148,20 @@ ggplotly(datos %>% count(a)  %>% ggplot(aes(reorder(a,-n),n)) + geom_bar(stat="i
 ### Sexo
 ```{r,echo=F}
 
-
-ggplotly(datos %>% count(a,sexo) %>% ggplot() + geom_mosaic(aes(weight=n,x=product(a),fill=sexo))+ labs(x="Año",y="Proporción según sexo",title="Gráfico de Mosaico: frecuencia relativa fallecidos por sexo") + theme(plot.title = element_text(size=14.4,colour = "darkslategrey")))
+ggplotly(
+  datos %>% count(a, sexo) %>% ggplot() +
+    geom_mosaic(aes(
+      weight = n,
+      x = product(a),
+      fill = sexo  )) + 
+    labs(
+      x = "Año", 
+      y = "Proporción según sexo",
+      title = "Gráfico de Mosaico: frecuencia relativa fallecidos por sexo") + 
+    theme(
+      plot.title = element_text(
+        size = 14.4,
+        colour = "darkslategrey")) )
 
 ```
 
@@ -431,8 +454,8 @@ colour = "gray27")))
 
 
 
-
-
+ 
+#Gráfico de barras: proporción de muerte súbita según tipo de siniestro
 datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>% mutate(n = n / sum(n)) %>% ggplot() +         geom_bar(aes(reorder(abbreviate(tipo.sin, 6), -n), n), stat = "identity") +
        labs(                                                                                            x = "Tipo de Siniestro" ,
                                                                                                         y = "Proporción" ,
@@ -455,10 +478,10 @@ n.dia <-  weekdays(as.Date(
 
 f<-data.frame(fecha,n.dia)
 
-
+#Gráfico de barras: frecuencia absoluta por mes
 f %>% count(mes) %>% arrange(desc(n)) %>%
   ggplot(aes(mes, n)) + 
-  eom_bar(aes(fill = 2), stat = "identity", show.legend = F) +
+  geom_bar(aes(fill = 2), stat = "identity", show.legend = F) +
   labs(
     x = "Mes",
     y = "Frecuencia absoluta",
@@ -470,7 +493,7 @@ f %>% count(mes) %>% arrange(desc(n)) %>%
   face = "bold",
   hjust = 0.4))
 
-
+#Diagrama térmico: día según hora
 f %>% count(n.dia, hrs) %>%
   ggplot(aes(hrs, ordered(
   n.dia,
@@ -501,7 +524,7 @@ NAME_1 <- uystates_UTM@data$NAME_1
 
 
 
-
+#Función mapa
 mapeo<-function(n)  {
   
 df <- data.frame(NAME_1,n)
@@ -538,7 +561,7 @@ ggplot() + geom_polygon(
 
 
 
-
+#Gráfico de mapas: cantidad de fallecidos por departamento
 mapeo(n = datos %>% count(dep)) +
   labs(fill = "Cantidad",
   x = NULL,
@@ -548,11 +571,13 @@ mapeo(n = datos %>% count(dep)) +
 
 
 
+#Gráfico de mapas: cantidad de fallecidos en departamento por año
 mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
   labs(fill = "Cantidad",
   x = NULL,
   y = NULL,
   title = "Gráfico de mapas: cantidad de fallecidos en departamento por año") +
+   theme(plot.title = element_text(size=15)) +
   scale_fill_gradient2(
   low = "red",
   mid = "white",
@@ -562,4 +587,6 @@ mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
 
 
 ```
+
+
 El punto medio corresponde a 75 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
