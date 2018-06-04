@@ -538,18 +538,22 @@ f<-data.frame(fecha,n.dia)
 
 # Gráfico de barras: frecuencia absoluta por mes
 f %>% count(mes) %>% arrange(desc(n)) %>%
-  ggplot(   aes(mes, n)) + 
-  geom_bar(aes(fill = 2), stat = "identity", show.legend = F) +
+  ggplot( ) + 
+  geom_bar(aes(mes, n),fill = "seagreen4", stat = "identity", show.legend = F) +
   labs(
     x = "Mes",
     y = "Frecuencia absoluta",
     title = "Gráfico de barras: frecuencia absoluta por mes") +
   theme_minimal() +
-  theme(plot.title = element_text(
-  size = 17,
-  colour = "grey30",
-  face = "bold",
-  hjust = 0.4)   )
+  theme(
+    plot.title = element_text(
+      size = 17,
+      colour = "grey39",
+      face = "bold",
+      hjust = 0.4),
+    axis.text = element_text(
+      colour = "grey27"),
+    labs(color="gray27") )
 
 
 # Diagrama térmico: día según hora
