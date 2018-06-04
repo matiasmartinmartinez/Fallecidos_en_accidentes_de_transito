@@ -113,7 +113,7 @@ ipack <- function( pkg )
     
     }
 
-paquetes.a.utilizar<- c("tidyverse", "ggmosaic","ggthemes", "plotly", "ggmap", "raster", "rgdal")
+paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal")
 
 ipack(paquetes.a.utilizar)
 
@@ -141,10 +141,12 @@ str(datos)
 
 # Gráfico de barras: frecuencia relativa fallecidos por año
 ggplotly(
-  datos %>% count(a)  %>% ggplot(aes(reorder(a, -n), n)) + 
+  datos %>% count(a)  %>% 
+    ggplot(   aes(reorder(a, -n), n)) + 
     geom_bar(stat =  "identity", 
              aes(fill = a),
-             show.legend = F) + 
+             show.legend = F) +
+    theme_minimal()+
     labs(
       x = "Año", 
       y = " Frecuencia relativa de fallecidos",
@@ -170,7 +172,8 @@ ggplotly(
       aes(
         weight = n,
         x = product(a),
-        fill = sexo)) + 
+        fill = sexo)) +
+    theme_minimal() +
     labs(
       x = "Año", 
       y = "Proporción según sexo",
@@ -204,8 +207,9 @@ datos %>% ggplot(aes(edad)) +
     y="Densidad",
     title="Gráfico de densidad: edad del fallecido") +
   facet_wrap(~a) +
-  theme_gray() +
-  theme(
+  theme( 
+    panel.background = element_rect(
+      fill = "beige"),
     plot.title =
       element_text(
         size=16,
@@ -227,7 +231,7 @@ ggplotly(
     labs(
       x =  "Sexo",
       y = "Edad en años",
-      title = "Diagrama de caja: edad según sexo") +
+      title = "Diagrama de caja: edad según sexo") +   theme_bw()+
     theme(plot.title =
             element_text(
               size = 16,
@@ -253,7 +257,7 @@ datos %>% ggplot(aes(edad)) +
     x =  "Edad", 
     y = "Densidad", 
     title = "Gráfico de densidad: proporción de edad según rol")  + 
-  theme_gray() + 
+  theme_minimal() + 
   guides(fill = guide_legend(title = "Rol")) +
   theme(
     legend.position = "bottom", 
@@ -552,8 +556,7 @@ f %>% count(mes) %>% arrange(desc(n)) %>%
       face = "bold",
       hjust = 0.4),
     axis.text = element_text(
-      colour = "grey27"),
-    labs(color="gray27") )
+      colour = "grey27"))
 
 
 # Diagrama térmico: día según hora
