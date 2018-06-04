@@ -306,7 +306,8 @@ ggplotly(
       x = product(abbreviate(vehi, 4)),
       fill = abbreviate(rol, 1))) +
     labs(
-      x = "Vehículo", 
+      x = "Vehículo",
+      y = "Proporción de fallecidos",
       title = "Gráfico de mosaico: rol según vehículo") +
       guides(fill = guide_legend(title = "Rol")) +
       theme_minimal() +
