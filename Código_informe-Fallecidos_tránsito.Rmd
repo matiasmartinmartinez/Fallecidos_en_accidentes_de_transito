@@ -225,7 +225,7 @@ datos %>% ggplot(aes(edad)) +
 # Diagrama de caja: edad según sexo
 ggplotly(
   datos %>% ggplot(aes(sexo, edad)) + 
-    stat_boxplot(
+    geom_boxplot(
       aes(fill = sexo),
       show.legend = F) + 
     labs(
@@ -277,11 +277,12 @@ datos %>% ggplot(aes(edad)) +
 # Gráfico de barras: proporción de vehículo por año
 datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
   ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
-  geom_bar(stat ="identity") + 
+  geom_bar(stat ="identity",fill="lightpink4") + 
   labs(
     x = "Vehículo",
     y = "Proporción", 
     title = "Gráfico de barras: proporción de vehículo por año") +
+  theme_minimal()+
   theme(plot.title = element_text(
     size = 17,
     hjust = 0.35,
@@ -349,10 +350,12 @@ ggplotly(
     guides(  fill = guide_legend( title = "Otro vehículo")) +
     scale_fill_manual(
       values = c("darkseagreen4","tan2","indianred","khaki3", "thistle4", "lightsteelblue")) +
-    theme(  plot.title =
-              element_text(
-                colour = "gray37",
-                size = 16)) )
+    theme( 
+      panel.background = element_rect(
+        fill="white"),
+      plot.title = element_text(
+        colour = "gray37",
+        size = 16)) )
 
 
 
@@ -411,6 +414,7 @@ datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>%
     title = "Gráfica de barras: proporción de la jurisdicción") +
   scale_fill_manual(values = c("skyblue3", "tan2")) +
   theme(
+    panel.background = element_rect(fill="white"),
     plot.title = element_text(
       size = 17.5,
       colour = "gray29",
@@ -429,10 +433,17 @@ datos %>% count(involucrado, jur) %>% ggplot() +
     x = "Jurisdicción",
     y = "Proporción involucrado", 
     title = "Gráfico de mosaico: otro vehículo involucrado según jurisdicción")+
-  theme(plot.title = element_text(
-    size = 15,
-    face = "italic",
-    colour = "grey20")) + 
+  theme(
+    panel.background = element_rect(
+      fill="white"),
+    plot.title = element_text(
+      size = 16.6,
+      face = "italic",
+      colour = "grey20",
+      vjust = -2),
+     axis.title = element_text(
+       size=12,
+       colour="grey20")) + 
   scale_fill_manual(values = c("yellow3", "mediumpurple"))
 
  
@@ -443,6 +454,8 @@ datos %>% count(involucrado, jur) %>% ggplot() +
    fill = jur)) +
    theme(
    legend.position = "bottom",
+   panel.background = element_rect(
+      fill="white"),
    plot.title = element_text(
    hjust = 0.4,
    size = 17,
@@ -481,6 +494,7 @@ ggplotly(
       x = "Rol", 
       y = "Edad", 
       title = "Diagrama de caja: edad según rol, faceteado por sexo") + 
+    theme_minimal()+
     theme(plot.title = 
             element_text(size = 17, face = "italic")))
 
