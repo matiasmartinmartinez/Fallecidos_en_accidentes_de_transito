@@ -333,6 +333,14 @@ ggplotly(
       font = list(size = 11)))
 
 
+
+```
+
+
+
+
+```{r}
+
 # Gráfico de mosaico: relación entre los vehículos involucrados
 ggplotly(
   datos %>% count(vehi, otro.vehi) %>% filter(n >= 50) %>%
@@ -356,9 +364,6 @@ ggplotly(
       plot.title = element_text(
         colour = "gray37",
         size = 16)) )
-
-
-
 ```
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
@@ -422,6 +427,12 @@ datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>%
     legend.position = "bottom") + 
   guides(fill = guide_legend(title = "Jurisdicción"))
 
+ 
+```
+
+
+```{r}
+
 
 # Gráfico de mosaico: otro vehículo involucrado según jurisdicción
 datos %>% count(involucrado, jur) %>% ggplot() +
@@ -445,7 +456,10 @@ datos %>% count(involucrado, jur) %>% ggplot() +
        size=12,
        colour="grey20")) + 
   scale_fill_manual(values = c("yellow3", "mediumpurple"))
+```
 
+
+```{r}
  
 # Gráfico de mosaicos: jurisdicción según tipo de siniestro
  datos %>% count(tipo.sin, jur) %>% filter(n >= 20) %>% ggplot() + geom_mosaic(aes(
@@ -472,9 +486,6 @@ datos %>% count(involucrado, jur) %>% ggplot() +
    caption = "Solamente se incluyen los tipos de accidente con una frecuencia absoluta mayor o igual a 20.") + 
    
    scale_fill_manual(values = c("cornflowerblue", "seagreen3"))
- 
- 
- 
 ```
 
 
@@ -496,7 +507,13 @@ ggplotly(
       title = "Diagrama de caja: edad según rol, faceteado por sexo") + 
     theme_minimal()+
     theme(plot.title = 
-            element_text(size = 17, face = "italic")))
+            element_text(size = 17,colour="grey20")))
+
+
+```
+
+
+```{r}
 
 
 # Gráfico de barras: proporción de días de supervivencia
@@ -508,30 +525,41 @@ datos %>% count(f.dias) %>% mutate(n = n / sum(n)) %>% ggplot() +
     y = "Proporción" ,
     title =
 "Gráfico de barras: proporción de días de supervivencia") + 
-  theme(plot.title = element_text(
-hjust = 0.4,
-size = 16,
-colour = "gray27")))
+  theme_get()+
+  theme(
+    plot.title = element_text(
+    hjust = 0.4,
+    size = 16,
+    colour = "gray27"),
+   axis.title = element_text(
+     size=11.6,
+     colour="grey20")))
+```
+
+
+```{r}
 
 
 # Gráfico de barras: proporción de muerte súbita según tipo de siniestro
 datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>%
   mutate(n = n / sum(n)) %>%  ggplot() +
   geom_bar(
-    aes(reorder(abbreviate(tipo.sin, 6),-n), n), 
-    stat = "identity") +
+  aes(reorder(abbreviate(tipo.sin, 6),-n), n,
+      fill= tipo.sin),
+  stat = "identity",
+  show.legend = F) + theme_minimal() +
   labs(
     x = "Tipo de Siniestro" ,
     y = "Proporción" ,
   title = "Gráfico de barras: proporción de muerte súbita según tipo de siniestro",
   caption = "Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") +
-  theme(plot.title = 
-          element_text(size = 15, colour = "grey20"))
-
-
-
+  theme(
+    plot.title = element_text(size = 16, colour = "grey20"),
+    axis.title = element_text(size=13,colour="grey16")  ) +
+  scale_fill_manual(
+    values=c("sienna3","skyblue4","yellowgreen",
+             "firebrick1","mediumseagreen","palevioletred4","yellow2"))
 ```
-
 
 
 
@@ -554,10 +582,15 @@ n.dia <-  weekdays(
 f<-data.frame(fecha,n.dia)
 
 
+```
+
+```{r}
+
+
 # Gráfico de barras: frecuencia absoluta por mes
 f %>% count(mes) %>% arrange(desc(n)) %>%
   ggplot( ) + 
-  geom_bar(aes(mes, n),fill = "seagreen4", stat = "identity", show.legend = F) +
+  geom_bar(aes(mes, n),fill = "tomato4", stat = "identity", show.legend = F) +
   labs(
     x = "Mes",
     y = "Frecuencia absoluta",
@@ -571,8 +604,9 @@ f %>% count(mes) %>% arrange(desc(n)) %>%
       hjust = 0.4),
     axis.text = element_text(
       colour = "grey27"))
+```
 
-
+```{r}
 # Diagrama térmico: día según hora
 f %>% count(n.dia, hrs) %>%
   ggplot(aes(hrs, ordered(
@@ -589,10 +623,7 @@ f %>% count(n.dia, hrs) %>%
   face = "bold",
   hjust = 0.4))
 
-
-
 ```
-
 
 
 
@@ -646,6 +677,12 @@ mapeo<-  function(n)
     
   } 
 
+```
+
+
+
+```{r}
+
 
 # Gráfico de mapas: cantidad de fallecidos por departamento
 mapeo(n = datos %>% count(dep)) +
@@ -657,6 +694,10 @@ mapeo(n = datos %>% count(dep)) +
     low = "grey2",
     mid = "midnightblue", 
     high = "white")
+
+```
+
+```{r}
 
 
 # Gráfico de mapas: cantidad de fallecidos en departamento por año
@@ -673,11 +714,6 @@ mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
     high = "blue",
     midpoint = 75) +
   facet_wrap( ~ a)
-
-
-
-
 ```
-
 
 El punto medio corresponde a 75 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
