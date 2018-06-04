@@ -8,7 +8,7 @@ output: html_document
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE,warning = F,error=F)
 ```
 
 ## Introducción:
@@ -157,7 +157,7 @@ ggplotly(
 
 ```
 
-
+Desde el año 2013 la frecuencia absoluta de fallecios en tránsito manifestaba un claro descenso. Ésta racha se detuvo en el año 2017 donde sucedieron 24 muertes más que ára su año antecesor. Sin embargo, tal pendiente en la cantidad de fallecios profiere un correcto desarrollo y accionar en sectores políticos y una alta concientización en los uruguayos para dichos temas.
 
 
 ### Sexo
@@ -182,14 +182,15 @@ ggplotly(
 
 
 
-
 ```
 
+ Existe una continuidad en la proporciones para el período denotado, tales carecen de amplio desvío y se ubican muy proximas al 75% para fallecidos de sexo masculino.
 
 
 
 ### Edad
 ```{r,echo=F}
+
 
 # Gráfico de densidad: edad del fallecido
 datos %>% ggplot(aes(edad)) + 
@@ -212,7 +213,11 @@ datos %>% ggplot(aes(edad)) +
         hjust=0.4,
         colour="grey20"))
 
+```
 
+ Se percibe una fuerte concentración en edades cercanas a los 25 años, la cual es inalterable al paso de los años para el período dado. Sin embargo, la distribución para aproximadamente 30 a 70 años varía cosiderablemente cambiando de poseer una meseta en el 2013, luego poseer una brusca y cosiderable pendiente decreciente en el año 2014 y retomar lentamente su meseta pero más expandida  llegando a los 70 años con proporciones superiores al 10%.
+ 
+```{r}
 # Diagrama de caja: edad según sexo
 ggplotly(
   datos %>% ggplot(aes(sexo, edad)) + 
@@ -228,7 +233,10 @@ ggplotly(
               size = 16,
               colour = "grey19")) +
     scale_fill_manual(values =c("yellow3", "springgreen3")) ) 
+```
+ 
 
+```{r}
 
 # Gráfico de densidad: proporción de edad según rol
 datos %>% ggplot(aes(edad)) +
@@ -248,9 +256,6 @@ datos %>% ggplot(aes(edad)) +
       size = 16,
       hjust = 0.33,
       colour = "darkslategray")))
-
-
-
 ```
 
 
