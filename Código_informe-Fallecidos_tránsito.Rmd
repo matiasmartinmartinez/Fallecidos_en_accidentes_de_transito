@@ -159,7 +159,7 @@ ggplotly(
 
 ```
 
-Desde el año 2013 la frecuencia absoluta de fallecios en tránsito manifestaba un claro descenso. Ésta racha se detuvo en el año 2017 donde sucedieron 24 muertes más que ára su año antecesor. Sin embargo, tal pendiente en la cantidad de fallecios profiere un correcto desarrollo y accionar en sectores políticos y una alta concientización en los uruguayos para dichos temas.
+Desde el año 2013 la frecuencia absoluta de fallecios en tránsito manifestaba un claro descenso. Ésta racha se detuvo en el año 2017 donde sucedieron 24 muertes más que en el año previo. Sin embargo, tal pendiente en la cantidad de fallecidos profiere un correcto desarrollo y accionar en sectores políticos y una alta concientización en los uruguayos para dichos temas.
 
 
 ### Sexo
@@ -242,7 +242,7 @@ ggplotly(
 
 ```
  
-  Para el sexo femenino existe una amplia variación de los datos, ya que pese a corresponder a aproximadamente un 25% de los fallecidos logra poseer un rango inetercuartílico mayor al masculino. Los hombres en tanto se concentran a edades menores, con una mediana 6 años menor que la femínea.
+  Para el sexo femenino existe una amplia variación de los datos, ya que pese a corresponder a aproximadamente un 25% de los fallecidos logra poseer un rango intercuartílico mayor al masculino. Los hombres en tanto se concentran a edades menores, con una mediana 6 años menor que la femenina.
   
  
 ```{r}
@@ -292,7 +292,7 @@ datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
 
 ```
 
-
+Del gráfico anterior se puede denotar, que la mayor proporción de fallecidos en el lapso de tiempo trabajado, es dada por el vehículo moto, habiendo asi que casi el 50% de los fallecidos se movilizaban con este vehículo.
 
 
 ### Relación vehículo
