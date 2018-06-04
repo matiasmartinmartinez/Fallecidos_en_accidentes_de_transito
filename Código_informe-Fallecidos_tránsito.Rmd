@@ -233,9 +233,14 @@ ggplotly(
               size = 16,
               colour = "grey19")) +
     scale_fill_manual(values =c("yellow3", "springgreen3")) ) 
+
+
+
 ```
  
-
+  Para el sexo femenino existe una amplia variación de los datos, ya que pese a corresponder a aproximadamente un 25% de los fallecidos logra poseer un rango inetercuartílico mayor al masculino. Los hombres en tanto se concentran a edades menores, con una mediana 6 años menor que la femínea.
+  
+ 
 ```{r}
 
 # Gráfico de densidad: proporción de edad según rol
