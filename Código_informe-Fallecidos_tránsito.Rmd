@@ -1,7 +1,7 @@
 ---
 title: "Siniestros de tránsito fatales en Uruguay, 2013-2017"
 author: "Martínez Matías, Zang Bruno"
-date: "3 de junio de 2018"
+date: "4 de junio de 2018"
 output: html_document
 ---
 
@@ -257,7 +257,8 @@ datos %>% ggplot(aes(edad)) +
 
 
 # Gráfico de barras: proporción de vehículo por año
-datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>% ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
+datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
+  ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
   geom_bar(stat ="identity") + 
   labs(
     x = "Vehículo",
@@ -474,12 +475,14 @@ colour = "gray27")))
 
 
 # Gráfico de barras: proporción de muerte súbita según tipo de siniestro
-datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>% mutate(n = n / sum(n)) %>% ggplot() +         geom_bar(aes(reorder(abbreviate(tipo.sin, 6), -n), n), stat = "identity") +
-       labs(                                                                                            x = "Tipo de Siniestro" ,
-                                                                                                        y = "Proporción" ,
-                                                                                                        title = "Gráfico de barras: proporción de muerte súbita según tipo de siniestro",
-                                                                                                       caption = "Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") +
-  
+datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>%
+  mutate(n = n / sum(n)) %>%  ggplot() +
+  geom_bar(aes(reorder(abbreviate(tipo.sin, 6),-n), n), stat = "identity") +
+  labs(
+    x = "Tipo de Siniestro" ,
+    y = "Proporción" ,
+  title = "Gráfico de barras: proporción de muerte súbita según tipo de siniestro",
+  caption = "Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") +
   theme(plot.title = element_text(size = 15, colour = "grey20"))
 
 
