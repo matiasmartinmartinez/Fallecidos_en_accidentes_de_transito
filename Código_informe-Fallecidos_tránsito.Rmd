@@ -187,7 +187,7 @@ ggplotly(
 
 ```
 
- Existe una continuidad en la proporciones para el período denotado, tales carecen de amplio desvío y se ubican muy proximas al 75% para fallecidos de sexo masculino.
+ Existe una continuidad en la proporciones para el período denotado, tales carecen de amplio desvío y se ubican muy próximas al 75% para fallecidos de sexo masculino.
 
 
 
@@ -217,7 +217,7 @@ datos %>% ggplot(aes(edad)) +
 
 ```
 
- Se percibe una fuerte concentración en edades cercanas a los 25 años, la cual es inalterable al paso de los años para el período dado. Sin embargo, la distribución para aproximadamente de 30 a 70 años varía cosiderablemente: cambiando de poseer una meseta en el 2013, luego poseer una brusca y cosiderable pendiente decreciente en el año 2014, a retomar lentamente su meseta pero más expandida, llegando a los 70 años con proporciones superiores al 10%.
+ Se percibe una fuerte concentración en edades cercanas a los 25 años, la cual es inalterable al paso de los años para el período dado. Sin embargo, la distribución para aproximadamente de 30 a 70 años varía cosiderablemente: de poseer una meseta en el 2013, luego poseer una brusca y cosiderable pendiente decreciente en el año 2014, a retomar lentamente su meseta pero más expandida, llegando a los 70 años con proporciones superiores al 10%.
  
 ```{r}
 # Diagrama de caja: edad según sexo
@@ -265,8 +265,8 @@ datos %>% ggplot(aes(edad)) +
       colour = "darkslategray")))
 ```
 
- La distribución de la densidad en la edad según el rol del fallecido cambia suntuosamente dependiendo si existe la condición de peatón o no: en el caso de existir se observa una fuerte concentración a edades avanzadas, sin embargo en el caso de no serlo su concentración es mayoritariamente adultos menores (de 20 a 30 años).
- Los conductores por su parte predominan sobre los pasajeros desde los 17 a los 72 años, fuera de estos períodos la densidad de pasajeros crece debido a que a ciertas edades la persona no está apta para conducir o simplemente decide no hacerlo.
+ La distribución de la densidad en la edad según el rol del fallecido cambia suntuosamente dependiendo si existe la condición de peatón o no: en el caso de existir se observa una fuerte concentración a edades avanzadas, sin embargo en el caso de no serlo su concentración es mayoritariamente en adultos menores (de 20 a 30 años).
+ Los conductores por su parte predominan sobre los pasajeros desde los 17 a los 72 años, fuera de este período la densidad de pasajeros crece debido a que a ciertas edades la persona no está apta para conducir o simplemente decide no hacerlo.
 
 
 ### Vehículo
@@ -291,7 +291,7 @@ datos %>% dplyr::count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)
 
 ```
 
-Existe una clara hegemonía por parte de las motos como vehículo del fallecido, poseyendo aproximadamente un 50% de los mismos. También se visualiza una alta proporción de peatones, cercana a las proporción de fallecios en autos. Luego se aprecian valores minimos para vehículos menos frecuentes en el trásito del día a día.
+Existe una clara hegemonía por parte de las motos como vehículo del fallecido, poseyendo aproximadamente un 50% de los mismos. También se visualiza una alta proporción de peatones, cercana a las proporción de fallecios en autos. Luego se aprecian valores poco considerables para vehículos menos frecuentes en el trásito del día a día.
 
 
 ### Relación vehículo
@@ -368,8 +368,8 @@ ggplotly(
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
 
-La mayor proporción de los accidentes desde el punto de vista del fallecido no ivolucran otro vehículo. El veículo dque mayor involcrado estuvo en los accidentes fue el auto. 
-La distribución varía considerablemente dependiendo del vehículo en cuestión.
+La mayor proporción de los accidentes desde el punto de vista del fallecido no involucran otro vehículo. El medio de transporte que más involcrado estuvo en los accidentes fue el auto. 
+Es de apreciar que la distribución varía considerablemente dependiendo del vehículo en cuestión.
 
 
 
@@ -464,7 +464,7 @@ Si bien para ambas jurisdicciones existe una alta proporción de accidentes fata
    scale_fill_manual(values = c("cornflowerblue", "seagreen3"))
 ```
 
-
+Salvo despistes y atropellos de animales, los restantes tipos de siniestros predominan en jurisdicciones departamentales. El tipo de accidente con mayor proporción de difuntos es la colisión entre vehículos, acompañada de los despiestes y atropellos de peatones respectivamente.
 
 
 ### Días de supervivencia
@@ -528,7 +528,7 @@ datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
               "thistle4", "lightsteelblue","grey44"))
 ```
 
-
+De igual manera que para el total, colisiones entre vehiculos, despistes y atropello de animales son los tres tipos de siniestros que mayor proporción de fallecios en muerte súbita poseen.
 
 ### Departamento
 ```{r,echo=F}
