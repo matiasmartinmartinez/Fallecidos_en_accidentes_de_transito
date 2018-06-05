@@ -242,7 +242,7 @@ ggplotly(
 
 ```
  
-  Para el sexo femenino existe una amplia variación de los datos, ya que pese a corresponder a aproximadamente un 25% de los fallecidos logra poseer un rango intercuartílico mayor al masculino. Los hombres en tanto se concentran a edades menores, con una mediana 6 años menor que la femenina.
+  Para el sexo femenino existe una amplia variación de los datos, ya que pese a corresponder a aproximadamente un 25% de los fallecidos logra poseer un rango intercuartílico mayor al masculino. Los hombres en tanto se concentran a edades menores, con una mediana 6 años menor que la femínea.
   
  
 ```{r}
@@ -589,22 +589,34 @@ f<-data.frame(fecha,n.dia)
 
 
 # Gráfico de barras: frecuencia absoluta por mes
-f %>% count(mes) %>% arrange(desc(n)) %>%
-  ggplot( ) + 
-  geom_bar(aes(mes, n),fill = "tomato4", stat = "identity", show.legend = F) +
-  labs(
-    x = "Mes",
+ggplotly(f %>% count(mes,a) %>%
+    ggplot(  aes(mes,n,frame=a) ) + 
+   geom_segment( aes(x=mes, xend=mes, y=0, yend=n),
+                 cex=1.23,
+                 colour="grey23") + 
+   geom_point( 
+   size=5, 
+     fill=alpha("orangered", 0.9),
+     shape=21,
+     stroke=2,
+     colour="grey23")  +
+    labs(
+      x = "Mes",
     y = "Frecuencia absoluta",
-    title = "Gráfico de barras: frecuencia absoluta por mes") +
+      title = "Gráfico de barras: frecuencia absoluta por mes") +
   theme_minimal() +
-  theme(
-    plot.title = element_text(
-      size = 17,
-      colour = "grey39",
-      face = "bold",
-      hjust = 0.4),
-    axis.text = element_text(
-      colour = "grey27"))
+    theme(
+      plot.title = element_text(
+        size = 19,
+        colour = "grey39",
+        face = "bold",
+        hjust = 0.4),
+      axis.text = element_text(
+        colour = "grey27",size=12),
+      axis.title = element_text(size=13.6,colour="grey23")) ) %>% 
+  animation_opts(
+     1000, easing = "elastic", redraw = FALSE )
+ 
 ```
 
 ```{r}
