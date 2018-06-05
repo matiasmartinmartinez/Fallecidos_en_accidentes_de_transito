@@ -370,36 +370,8 @@ ggplotly(
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
 
-La mayor proporcion de los accidentes desde el punto de vista del fallecido, no ivolucran otro vehículo, y varía considerablemente dependiendo del vehículo en cuestión.
-
-
-### Departamento por año
-```{r,echo=F}
-
-# Gráfico de barras: frecuencia acumulada por departamento
- ggplot(   (datos %>% count(dep)  ),
-           aes (reorder(abbreviate(dep,4),+n),n)) +
-  geom_bar(stat="identity") +
-  labs(
-    x="Departamento",
-    y="Frecuencia acumulada",
-    title="Gráfico de barras: frecuencia acumulada por departamento") +
-  coord_flip() + 
-  theme_minimal() + 
-  theme(
-    plot.title =
-      element_text(
-        hjust = 0.4,
-        colour="palevioletred4",
-        size=15,face="bold")) +  
-  geom_hline( 
-    yintercept = mean(  (datos %>% count(dep))$n   ),     
-    cex=1.2,
-    colour="coral3") 
-
-
-
-```
+La mayor proporción de los accidentes desde el punto de vista del fallecido no ivolucran otro vehículo. El veículo dque mayor involcrado estuvo en los accidentes fue el auto. 
+La distribución varía considerablemente dependiendo del vehículo en cuestión.
 
 
 
@@ -494,27 +466,6 @@ datos %>% count(involucrado, jur) %>% ggplot() +
 
 
 ### Días de supervivencia
-```{r,echo=F,warning=FALSE}
-
-# Diagrama de caja: edad según rol, faceteado por sexo
-ggplotly(
-  datos %>% ggplot() + 
-    stat_boxplot( 
-      aes(rol, edad, fill = sexo),
-      show.legend = F) + 
-    facet_wrap( ~ sexo) + 
-    labs(
-      x = "Rol", 
-      y = "Edad", 
-      title = "Diagrama de caja: edad según rol, faceteado por sexo") + 
-    theme_minimal()+
-    theme(plot.title = 
-            element_text(size = 17,colour="grey20")))
-
-
-```
-
-
 ```{r}
 
 
@@ -538,6 +489,7 @@ datos %>% count(f.dias) %>% mutate(n = n / sum(n)) %>% ggplot() +
      colour="grey20")))
 ```
 
+Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas. 
 
 ```{r}
 
@@ -565,83 +517,35 @@ datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>%
 
 
 
-### Fecha y hora
+### Departamento
+```{r,echo=F}
 
-```{r,warning=FALSE,echo=F}
-
-fecha<-datos %>% 
-  separate(hora,c("hrs","min",sep=":")) %>% 
-  separate(fecha,c("dia","mes")) %>%
-  dplyr::select(1:5)
-
-n.dia <-  weekdays(
-  as.Date( 
-    datos %>% separate(fecha, c("dia", "mes")) %>% 
-      dplyr::select(a, mes, dia) %>% 
-      unite(sep ="-") %>%
-      unlist()))
-
-f<-data.frame(fecha,n.dia)
-
-
-```
-
-```{r}
-
-
-# Gráfico de barras: frecuencia absoluta por mes
-ggplotly(f %>% count(mes,a) %>%
-    ggplot(  aes(mes,n,frame=a) ) + 
-   geom_segment( aes(x=mes, xend=mes, y=0, yend=n),
-                 cex=1.23,
-                 colour="grey23") + 
-   geom_point( 
-   size=5, 
-     fill=alpha("orangered", 0.9),
-     shape=21,
-     stroke=2,
-     colour="grey23")  +
-    labs(
-      x = "Mes",
-    y = "Frecuencia absoluta",
-      title = "Gráfico de barras: frecuencia absoluta por mes") +
-  theme_minimal() +
-    theme(
-      plot.title = element_text(
-        size = 19,
-        colour = "grey39",
-        face = "bold",
-        hjust = 0.4),
-      axis.text = element_text(
-        colour = "grey27",size=12),
-      axis.title = element_text(size=13.6,colour="grey23")) ) %>% 
-  animation_opts(
-     1000, easing = "elastic", redraw = FALSE )
- 
-```
-
-```{r}
-# Diagrama térmico: día según hora
-f %>% count(n.dia, hrs) %>%
-  ggplot(aes(hrs, ordered(
-    n.dia,
-    levels = c( "lunes",  "martes",  "miércoles",  "jueves",  "viernes","sábado", "domingo" )))) +
-  geom_tile(aes(fill = n)) + scale_fill_gradient2(low = "red2", high = "red2", mid = "yellow") +
+# Gráfico de barras: frecuencia acumulada por departamento
+ ggplot(   (datos %>% count(dep)  ),
+           aes (reorder(abbreviate(dep,4),+n),n)) +
+  geom_bar(stat="identity") +
   labs(
-    x = "Hora",
-    y = "Día",
-    title = "Diagrama térmico: día según hora ") +
-  theme(plot.title = element_text(
-  size = 17,
-  colour = "grey30",
-  face = "bold",
-  hjust = 0.4))
+    x="Departamento",
+    y="Frecuencia acumulada",
+    title="Gráfico de barras: frecuencia acumulada por departamento") +
+  coord_flip() + 
+  theme_minimal() + 
+  theme(
+    plot.title =
+      element_text(
+        hjust = 0.4,
+        colour="palevioletred4",
+        size=15,face="bold")) +  
+  geom_hline( 
+    yintercept = mean(  (datos %>% count(dep))$n   ),     
+    cex=1.2,
+    colour="coral3") 
+
+
 
 ```
 
 
-
-### Dirección
 ```{r,warning=FALSE,echo=FALSE}
 
 uruguay <- getData("GADM", country = "UY", level = 0)
@@ -731,3 +635,83 @@ mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
 ```
 
 El punto medio corresponde a 75 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
+
+
+
+
+### Fecha y hora
+
+```{r,warning=FALSE,echo=F}
+
+fecha<-datos %>% 
+  separate(hora,c("hrs","min",sep=":")) %>% 
+  separate(fecha,c("dia","mes")) %>%
+  dplyr::select(1:5)
+
+n.dia <-  weekdays(
+  as.Date( 
+    datos %>% separate(fecha, c("dia", "mes")) %>% 
+      dplyr::select(a, mes, dia) %>% 
+      unite(sep ="-") %>%
+      unlist()))
+
+f<-data.frame(fecha,n.dia)
+
+
+```
+
+```{r}
+
+
+# Gráfico de barras: frecuencia absoluta por mes
+ggplotly(f %>% count(mes,a) %>%
+    ggplot(  aes(mes,n,frame=a) ) + 
+   geom_segment( aes(x=mes, xend=mes, y=0, yend=n),
+                 cex=1.23,
+                 colour="grey23") + 
+   geom_point( 
+   size=5, 
+     fill=alpha("orangered", 0.9),
+     shape=21,
+     stroke=2,
+     colour="grey23")  +
+    labs(
+      x = "Mes",
+    y = "Frecuencia absoluta",
+      title = "Gráfico de barras: frecuencia absoluta por mes") +
+  theme_minimal() +
+    theme(
+      plot.title = element_text(
+        size = 19,
+        colour = "grey39",
+        face = "bold",
+        hjust = 0.4),
+      axis.text = element_text(
+        colour = "grey27",size=12),
+      axis.title = element_text(size=13.6,colour="grey23")) ) %>% 
+  animation_opts(
+     1000, easing = "elastic", redraw = FALSE )
+ 
+```
+
+```{r}
+# Diagrama térmico: día según hora
+f %>% count(n.dia, hrs) %>%
+  ggplot(aes(hrs, ordered(
+    n.dia,
+    levels = c( "lunes",  "martes",  "miércoles",  "jueves",  "viernes","sábado", "domingo" )))) +
+  geom_tile(aes(fill = n)) + scale_fill_gradient2(low = "red2", high = "red2", mid = "yellow") +
+  labs(
+    x = "Hora",
+    y = "Día",
+    title = "Diagrama térmico: día según hora ") +
+  theme(plot.title = element_text(
+  size = 17,
+  colour = "grey30",
+  face = "bold",
+  hjust = 0.4))
+
+```
+
+
+
