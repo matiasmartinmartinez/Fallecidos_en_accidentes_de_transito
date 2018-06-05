@@ -275,14 +275,14 @@ datos %>% ggplot(aes(edad)) +
 ```{r,echo=F}
 
 
-# Gráfico de barras: proporción de vehículo por año
+# Gráfico de barras: proporción por vehículo 
 datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
   ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
   geom_bar(stat ="identity",fill="lightpink4") + 
   labs(
     x = "Vehículo",
     y = "Proporción", 
-    title = "Gráfico de barras: proporción de vehículo por año") +
+    title = "Gráfico de barras: proporción por vehículo") +
   theme_minimal()+
   theme(plot.title = element_text(
     size = 17,
@@ -293,7 +293,7 @@ datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
 
 ```
 
-
+Existe una clara hegemonía por parte de las motos como vehículo del fallecido, poseyendo aproximadamente un 50% de los mismos. También se visualiza una alta proporción de peatones, cercana a las proporción de fallecios en autos. Luego se aprecian valores minimos para vehículos menos frecuentes en el trásito del día a día.
 
 
 ### Relación vehículo
@@ -301,7 +301,7 @@ datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
 
 # Gráfico de mosaico: rol según vehículo
 ggplotly(
-  datos %>% count(vehi, rol) %>% filter(n >= 5) %>% ggplot() +
+  datos %>% dplyr::count(vehi, rol) %>% filter(rol!="PEATON", n >= 5) %>% ggplot() +
     geom_mosaic(aes(
       weight = n,
       x = product(abbreviate(vehi, 4)),
@@ -335,10 +335,10 @@ ggplotly(
       font = list(size = 11)))
 
 
-#INCONVENIENTE: ¿filtrar por distinto a  peatones? Es una obviedad que son peatones, pero aporta la probabilidad de falllecer siendo peatón.
 ```
 
-Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen moto u auto, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
+Por supuesto, además de filtrar con la finalidad de no sobrecargar el gráfico, se eliminó el rol peatón, ya que no poseé vehículo como tal.
+Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
 
 ```{r}
