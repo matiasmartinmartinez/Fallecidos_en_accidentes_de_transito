@@ -141,7 +141,7 @@ str(datos)
 
 # Gráfico de barras: frecuencia relativa fallecidos por año
 ggplotly(
-  datos %>% count(a)  %>% 
+  datos %>% dplyr::count(a)  %>% 
     ggplot(   aes(reorder(a, -n), n)) + 
     geom_bar(stat =  "identity", 
              aes(fill = a),
@@ -167,7 +167,7 @@ Desde el año 2013 la frecuencia absoluta de fallecios en tránsito manifestaba 
 
 # Gráfico de Mosaico: frecuencia relativa fallecidos por sexo
 ggplotly(
-  datos %>% count(a, sexo) %>% ggplot() +
+  datos %>% dplyr::count(a, sexo) %>% ggplot() +
     geom_mosaic(
       aes(
         weight = n,
@@ -208,8 +208,6 @@ datos %>% ggplot(aes(edad)) +
     title="Gráfico de densidad: edad del fallecido") +
   facet_wrap(~a) +
   theme( 
-    panel.background = element_rect(
-      fill = "beige"),
     plot.title =
       element_text(
         size=16,
@@ -276,7 +274,7 @@ datos %>% ggplot(aes(edad)) +
 
 
 # Gráfico de barras: proporción por vehículo 
-datos %>% count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
+datos %>% dplyr::count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
   ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
   geom_bar(stat ="identity",fill="lightpink4") + 
   labs(
@@ -345,8 +343,8 @@ Es de destacar que quienes sufren la mayor proporción de muertes por accidentes
 
 # Gráfico de mosaico: relación entre los vehículos involucrados
 ggplotly(
-  datos %>% count(vehi, otro.vehi) %>% filter(n >= 50) %>%
-   mutate(otro.vehi = ifelse( otro.vehi == ""," Nada",otro.vehi)) %>% 
+  datos %>% dplyr::count(vehi, otro.vehi) %>% filter(n >= 50) %>%
+   mutate(otro.vehi = ifelse( otro.vehi == ""," NADA",otro.vehi)) %>% 
     arrange(desc(n)) %>%
     ggplot() + 
     geom_mosaic(aes( 
@@ -380,12 +378,12 @@ La distribución varía considerablemente dependiendo del vehículo en cuestión
 ```{r,echo=F}
 
 # Gráfica de barras: proporción de la jurisdicción
-datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>%
+datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
   ggplot() + 
   geom_bar( 
     stat = "identity",
     aes(a, prop, fill = jur),
-    position = position_dodge(),
+    position = "fill",
     show.legend = T) +
   labs(
     x = "Jurisdicción",
@@ -404,12 +402,13 @@ datos %>% count(jur, a) %>% mutate(prop = n / sum(n)) %>%
  
 ```
 
+Existe una disminución de la proporción de fallecimientos en jurisdicciones nacionales hasta el año 2015 y luego se comporta con una pendiete creciente hasta el final del período dado, donde supera el 50% de las defunciones.
 
 ```{r}
 
 
 # Gráfico de mosaico: otro vehículo involucrado según jurisdicción
-datos %>% count(involucrado, jur) %>% ggplot() +
+datos %>% dplyr::count(involucrado, jur) %>% ggplot() +
   geom_mosaic(aes(
     weight = n,
     x = product(jur),
@@ -429,14 +428,17 @@ datos %>% count(involucrado, jur) %>% ggplot() +
      axis.title = element_text(
        size=12,
        colour="grey20")) + 
-  scale_fill_manual(values = c("yellow3", "mediumpurple"))
+  scale_fill_manual(values = c("yellow3", "mediumpurple"))+
+  guides(
+    fill=guide_legend("Involucrado"))
 ```
 
+Si bien para ambas jurisdicciones existe una alta proporción de accidentes fatales con otro vehículo involucrado (aproximadamente un 60%), sobresale en departamental acercándose a un 75% de los accidentes fatales.
 
 ```{r}
  
 # Gráfico de mosaicos: jurisdicción según tipo de siniestro
- datos %>% count(tipo.sin, jur) %>% filter(n >= 20) %>% ggplot() + geom_mosaic(aes(
+ datos %>% dplyr::count(tipo.sin, jur) %>% filter(n >= 20) %>% ggplot() + geom_mosaic(aes(
    weight = n,
    x = product(abbreviate(tipo.sin, 5)),
    fill = jur)) +
@@ -497,7 +499,7 @@ ggplotly(
       colour="grey20")))
 ```
 
-La curva verde corresponde al digrama de Pareto y represanta la densidad acumulada hasta *x* día.
+La curva verde corresponde al diagrama de Pareto y representa la densidad acumulada hasta *x* día.
 
 Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas.
 
@@ -506,7 +508,7 @@ Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar
 
 
 # Gráfico de barras: proporción de muerte súbita según tipo de siniestro
-datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>%
+datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
   mutate(n = n / sum(n)) %>%  ggplot() +
   geom_bar(
   aes(reorder(abbreviate(tipo.sin, 6),-n), n,
@@ -522,8 +524,8 @@ datos %>% filter(f.dias == 0) %>% count(tipo.sin) %>%
     plot.title = element_text(size = 16, colour = "grey20"),
     axis.title = element_text(size=13,colour="grey16")  ) +
   scale_fill_manual(
-    values=c("sienna3","skyblue4","yellowgreen",
-             "firebrick1","mediumseagreen","palevioletred4","yellow2"))
+    values= c("darkseagreen4","tan2","indianred","khaki3",
+              "thistle4", "lightsteelblue","grey44"))
 ```
 
 
