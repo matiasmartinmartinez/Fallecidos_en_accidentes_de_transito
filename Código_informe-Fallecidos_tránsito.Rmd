@@ -470,26 +470,37 @@ datos %>% count(involucrado, jur) %>% ggplot() +
 
 
 # Gráfico de barras: proporción de días de supervivencia
-ggplotly(
-datos %>% count(f.dias) %>% mutate(n = n / sum(n)) %>% ggplot() +
-  geom_bar(aes(f.dias, n), stat ="identity") +
-  labs(
-    x = "Días de supervivencia luego del accidente" ,
-    y = "Proporción" ,
-    title =
-"Gráfico de barras: proporción de días de supervivencia") + 
-  theme_get()+
-  theme(
-    plot.title = element_text(
-    hjust = 0.4,
-    size = 16,
-    colour = "gray27"),
-   axis.title = element_text(
-     size=11.6,
-     colour="grey20")))
+ggplotly( 
+  ggplot() +   
+    geom_bar(
+      data= (datos %>% dplyr::count(f.dias) %>% mutate(n = n / sum(n))) ,
+      aes(f.dias, n), 
+      stat ="identity") +
+    stat_ecdf(
+      data=datos,
+      aes(f.dias),
+      geom = "line",
+      colour="green4") +
+   labs(
+     x = "Días de supervivencia luego del accidente" ,
+     y = "Proporción" ,
+     title =
+ "Gráfico de barras: proporción de días de supervivencia") + 
+   theme_get()+
+   theme(
+     plot.title = element_text(
+     hjust = 0.4,
+     size = 16,
+     colour = "gray27"),
+    axis.title = element_text(
+      size=11.6,
+      colour="grey20")))
 ```
 
-Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas. 
+La curva verde corresponde al digrama de Pareto y represanta la densidad acumulada hasta *x* día.
+
+Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas.
+
 
 ```{r}
 
