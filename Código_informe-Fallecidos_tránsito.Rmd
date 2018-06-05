@@ -370,7 +370,7 @@ ggplotly(
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
 
-
+La mayor proporcion de los accidentes desde el punto de vista del fallecido, no ivolucran otro vehículo, y varía considerablemente dependiendo del vehículo en cuestión.
 
 
 ### Departamento por año
