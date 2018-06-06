@@ -113,7 +113,7 @@ ipack <- function( pkg )
     
     }
 
-paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal")
+paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal","knitr")
 
 ipack(paquetes.a.utilizar)
 
@@ -677,9 +677,9 @@ f<-data.frame(fecha,n.dia)
 
 
 # Gráfico de barras: frecuencia absoluta por mes
-ggplotly(f %>% count(mes,a) %>%
-    ggplot(  aes(mes,n,frame=a) ) + 
-   geom_segment( aes(x=mes, xend=mes, y=0, yend=n),
+f %>% count(mes) %>% mutate(mes=as.numeric(mes),n.mes=month.abb[as.numeric(mes)]) %>%
+    ggplot(  aes(n.mes,n) ) + 
+   geom_segment( aes(x=reorder(n.mes,+mes), xend=mes, y=0, yend=n),
                  cex=1.23,
                  colour="grey23") + 
    geom_point( 
@@ -701,11 +701,12 @@ ggplotly(f %>% count(mes,a) %>%
         hjust = 0.4),
       axis.text = element_text(
         colour = "grey27",size=12),
-      axis.title = element_text(size=13.6,colour="grey23")) ) %>% 
-  animation_opts(
-     1000, easing = "elastic", redraw = FALSE )
+      axis.title = element_text(size=13.6,colour="grey23")) +
+  coord_flip()
  
 ```
+
+ Aunque el mes de diciembre tiene una cantidad de fallecidos mayor, no existe una clara tendencia, salvo el mes de mayo donde los accidentes fatales tienen la frecuencia anbsoluta de menor valor.
 
 ```{r}
 # Diagrama térmico: día según hora
@@ -726,5 +727,7 @@ f %>% count(n.dia, hrs) %>%
 
 ```
 
+
+Los accidentes se concentran de 16:00 a 20:00 horas, aumentabdo paulativamente a medida se acercan los días correspondientes al fin de semana.
 
 
