@@ -594,7 +594,8 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
   labs(
     x="Departamento",
     y="Frecuencia acumulada",
-    title="Gráfico de barras: frecuencia acumulada por departamento") +
+    title="Gráfico de barras: frecuencia acumulada por departamento",
+    caption="La línea roja corresponde a la media de la frecuencia acumulada total del el país") +
   coord_flip() + 
   theme_minimal() + 
   theme(
