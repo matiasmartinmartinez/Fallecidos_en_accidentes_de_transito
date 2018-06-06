@@ -346,6 +346,7 @@ Existe una clara hegemonía por parte de las motos como vehículo del fallecido,
        hjust = 0.33,
        colour = "darkslategray"))) + scale_fill_manual(values=c("limegreen","slateblue"))
 ```
+Se puede percibir en la distribucion de densidad por edad segun el vehiculo donde se encontraba el fallecido, que comenzando de una edad muy temprana las motos tienen un gran crecimiento de fallecidos siendo mayores que los fallecidos en autos, alcanzando su tope a la edad cercana de 25 años para luego presentar un significante decenso; tal asi que a las edades cercana de los 50 años los fallecidos en autos empiezan a tener mas protagonismo siendo que  autos en  las edades de 20 años hasta los 75 no habia presetado cambios signiricativos en la distribucion de la densidad.
 
 
 ### Relación vehículo
