@@ -142,7 +142,7 @@ str(datos)
 # Gráfico de barras: frecuencia relativa fallecidos por año
 ggplotly(
   datos %>% dplyr::count(a)  %>% 
-    ggplot(   aes(reorder(a, -n), n)) + 
+    ggplot(   aes(reorder(a, +a), n)) + 
     geom_bar(stat =  "identity", 
              aes(fill = a),
              show.legend = F) +
@@ -267,6 +267,23 @@ datos %>% ggplot(aes(edad)) +
 
  La distribución de la densidad en la edad según el rol del fallecido cambia suntuosamente dependiendo si existe la condición de peatón o no: en el caso de existir se observa una fuerte concentración a edades avanzadas, sin embargo en el caso de no serlo su concentración es mayoritariamente en adultos menores (de 20 a 30 años).
  Los conductores por su parte predominan sobre los pasajeros desde los 17 a los 72 años, fuera de este período la densidad de pasajeros crece debido a que a ciertas edades la persona no está apta para conducir o simplemente decide no hacerlo.
+
+
+
+
+### Peatones
+
+```{r}
+ggplotly(datos %>% count(a,rol) %>% group_by(a) %>% mutate(prop=n/sum(n)) %>% 
+  ggplot() + 
+  geom_bar( 
+    aes(rol, prop, fill=rol,frame=a), 
+    show.legend = T))  
+```
+
+
+
+
 
 
 ### Vehículo
