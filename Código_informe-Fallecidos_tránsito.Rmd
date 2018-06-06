@@ -292,6 +292,8 @@ ggplot() +
       colour = "darkslategray")))
 ```
 
+Para este período trabajado no parece variar significativamente las proporciones, tiende a mantenerse en el tiempo observando que los peatones y pasajeros representan un 20% y los conductor representan un 60%.
+
 ### Peatones
 
 ```{r}
