@@ -213,7 +213,7 @@ datos %>% ggplot(aes(edad)) +
         size=16,
         face="bold",
         hjust=0.4,
-        colour="grey20"))
+        colour="darkslategray"))
 
 ```
 
@@ -271,19 +271,30 @@ datos %>% ggplot(aes(edad)) +
 
 
 
-### Peatones
+### Rol
 
 ```{r}
-#ggplotly
+
 datos %>% dplyr::count(rol, a) %>% group_by(a) %>% mutate(prop = n/sum(n)) %>%
 ggplot() + 
   geom_bar( 
     stat = "identity",
     aes(a,prop,fill=rol),
-    show.legend = T)  
+    alpha=0.8,
+    show.legend = T)  + 
+  theme_minimal()  +
+  labs(x="Rol",y="Proporción",title="Gráfico de barras apilado: rol por año") + 
+  theme_minimal() + 
+  guides(fill = guide_legend(title = "Rol:")) +
+  theme(
+    plot.title = (element_text(
+      size = 18,
+      hjust = 0.33,
+      vjust=-1.9,
+      colour = "darkslategray")))
 ```
 
-
+### Peatones
 
 
 
