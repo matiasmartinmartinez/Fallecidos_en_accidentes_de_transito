@@ -613,6 +613,9 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
 
 ```
 
+Como era de esperarse, el área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José, superan la media de fallecidos en el país, lo que significando que la mayoría de los accidentes fatales de tráficos ocurridos se dieron principalmente en estas zonas anteriormente mencionadas.
+
+
 
 ```{r,warning=FALSE,echo=FALSE}
 
