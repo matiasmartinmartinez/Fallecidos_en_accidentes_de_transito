@@ -274,11 +274,13 @@ datos %>% ggplot(aes(edad)) +
 ### Peatones
 
 ```{r}
-ggplotly(datos %>% count(a,rol) %>% group_by(a) %>% mutate(prop=n/sum(n)) %>% 
-  ggplot() + 
+#ggplotly
+datos %>% dplyr::count(rol, a) %>% group_by(a) %>% mutate(prop = n/sum(n)) %>%
+ggplot() + 
   geom_bar( 
-    aes(rol, prop, fill=rol,frame=a), 
-    show.legend = T))  
+    stat = "identity",
+    aes(a,prop,fill=rol),
+    show.legend = T)  
 ```
 
 
