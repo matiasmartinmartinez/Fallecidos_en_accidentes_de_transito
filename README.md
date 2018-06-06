@@ -5,6 +5,7 @@ Datos de siniestros de tránsito fatales ocurridos en Uruguay desde 2013 a 2017.
 
 A realizar:
 
-- Cambiar los intervalos a 2 horas
+- Peatones, pensar gráfico y preguntas.
 - Agregar nuevas preguntas surgidas del análisis exploratorio de datos.
 - Responder preguntas.
+- Agregar comentarios.
