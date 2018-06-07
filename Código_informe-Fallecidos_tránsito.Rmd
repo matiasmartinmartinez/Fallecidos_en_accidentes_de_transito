@@ -1,7 +1,7 @@
 ---
 title: " Siniestros de tránsito fatales en Uruguay, 2013-2017 "
 author: "Martínez Matías, Zang Bruno"
-date: " 5 de junio de 2018"
+date: "7 de junio de 2018"
 output: html_document
 ---
 
@@ -292,7 +292,7 @@ ggplot() +
       colour = "darkslategray")))
 ```
 
-Para este período trabajado no parece variar significativamente las proporciones, tiende a mantenerse en el tiempo observando que los peatones y pasajeros representan un 20% y los conductor representan un 60%.
+Para este período trabajado no parece variar significativamente las proporciones, tiende a mantenerse en el tiempo observando que tanto peatones como pasajeros representan un 20%, mientras que los fallecidos en rol de conductores se aproximan al 60%.
 
 ### Peatones
 
@@ -348,8 +348,9 @@ Existe una clara hegemonía por parte de las motos como vehículo del fallecido,
        hjust = 0.33,
        colour = "darkslategray"))) + scale_fill_manual(values=c("limegreen","slateblue"))
 ```
-Se puede percibir en la distribucion de densidad por edad segun el vehiculo donde se encontraba el fallecido, que comenzando de una edad muy temprana las motos tienen un gran crecimiento de fallecidos siendo mayores que los fallecidos en autos, alcanzando su tope a la edad cercana de 25 años para luego presentar un significante decenso; tal asi que a las edades cercana de los 50 años los fallecidos en autos empiezan a tener mas protagonismo siendo que  autos en  las edades de 20 años hasta los 75 no habia presetado cambios signiricativos en la distribucion de la densidad.
 
+Se denota que proximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino decenso.
+En tanto autos representan una distribución aproximadamente constante desde los 25 a los 70 años. Para edades cercanas a 50 años los fallecidos en dicho vehículo comienzan a tener mayores proporciones en contraste con motos.
 
 ### Relación vehículo
 ```{r,echo=F,warning=FALSE}
@@ -598,7 +599,7 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
     x="Departamento",
     y="Frecuencia acumulada",
     title="Gráfico de barras: frecuencia acumulada por departamento",
-    caption="La línea roja corresponde a la media de la frecuencia acumulada total del el país") +
+    caption="La recta roja corresponde a la media de frecuencia acumulada total del país") +
   coord_flip() + 
   theme_minimal() + 
   theme(
@@ -616,7 +617,7 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
 
 ```
 
-Como era de esperarse, el área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José, superan la media de fallecidos en el país, lo que significando que la mayoría de los accidentes fatales de tráficos ocurridos se dieron principalmente en estas zonas anteriormente mencionadas.
+El área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José superan la media de fallecidos en el país, lo que implica una clara concentracíon de los accidentes fatales en la zona sur del territorio nacional.
 
 
 
