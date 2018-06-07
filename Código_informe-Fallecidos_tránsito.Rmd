@@ -349,7 +349,7 @@ Existe una clara hegemonía por parte de las motos como vehículo del fallecido,
        colour = "darkslategray"))) + scale_fill_manual(values=c("limegreen","slateblue"))
 ```
 
-Se denota que proximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino decenso.
+Se denota que próximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino decenso.
 En tanto autos representan una distribución aproximadamente constante desde los 25 a los 70 años. Para edades cercanas a 50 años los fallecidos en dicho vehículo comienzan a tener mayores proporciones en contraste con motos.
 
 ### Relación vehículo
