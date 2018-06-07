@@ -417,22 +417,22 @@ Es de apreciar que la distribución varía considerablemente dependiendo del veh
 
 
 
-
 ### Jurisdicción
-```{r,echo=F}
+```{r,echo=F, fig.cap="Gráfica de serie de tiempo: frecuencia absoluta de fallecidos por jurisdicción"}
 
-# Gráfica de barras: proporción de la jurisdicción
 datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
-  ggplot() + 
-  geom_bar( 
-    stat = "identity",
-    aes(a, prop, fill = jur),
-    position = "fill",
-    show.legend = T) +
+  ggplot(
+    aes(
+      x=a,
+      y=n,
+      fill=jur,
+      colour=jur)) +
+  geom_point() +
+  geom_line() +
   labs(
     x = "Jurisdicción",
-    y = "Proporción", 
-    title = "Gráfica de barras: proporción de la jurisdicción") +
+    y = "Frecuencia absoluta", 
+    title = " ") +
   scale_fill_manual(values = c("skyblue3", "tan2")) +
   theme(
     panel.background = element_rect(fill="white"),
@@ -440,8 +440,8 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
       size = 17.5,
       colour = "gray29",
       hjust = 0.4),
-    legend.position = "bottom") + 
-  guides(fill = guide_legend(title = "Jurisdicción"))
+    legend.position = "bottom") +
+  coord_cartesian(y=c(0,400))
 
  
 ```
