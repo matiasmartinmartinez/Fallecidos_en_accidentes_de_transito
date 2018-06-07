@@ -6,9 +6,8 @@ output: html_document
 ---
 
 
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,warning = F,error=F,message = F,fig.pos = "hbpt",out.extra = "")
+knitr::opts_chunk$set(echo = FALSE, fig.pos = 'hbpt', out.extra = '', message = FALSE, warning = FALSE)
 ```
 
 ## Introducción:
@@ -162,7 +161,7 @@ Desde el año 2013 la frecuencia absoluta de fallecios en tránsito manifestaba 
 
 ggplotly(
    datos %>% dplyr::count(a, sexo) %>% ggplot(aes(a,n,colour=sexo)) + geom_point()+
-     geom_line() +
+     geom_line(cex=1) +
      theme_minimal() +
      labs(
        x = "Año", 
@@ -233,9 +232,8 @@ ggplotly(
   
 ### Rol
 
-```{r}
+```{r,fig.cap="Gráfico de densidad: proporción en la edad del fallecido según rol"}
 
-# Gráfico de densidad: proporción de edad según rol
 datos %>% ggplot(aes(edad)) +
   geom_density(
     aes(fill = rol), 
@@ -243,8 +241,7 @@ datos %>% ggplot(aes(edad)) +
     show.legend = T) +
   labs(
     x =  "Edad", 
-    y = "Densidad",
-    title = "Gráfico de densidad: proporción de edad según rol")  + 
+    y = "Densidad")  + 
   theme_minimal() + 
   guides(fill = guide_legend(title = "Rol:")) +
   theme(
@@ -259,26 +256,25 @@ datos %>% ggplot(aes(edad)) +
  Los conductores por su parte predominan sobre los pasajeros desde los 17 a los 72 años, fuera de este período la densidad de pasajeros crece debido a que a ciertas edades la persona no está apta para conducir o simplemente decide no hacerlo.
 
 
+```{r,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos según rol"}
 
-```{r}
-
-datos %>% dplyr::count(rol, a) %>% group_by(a) %>% mutate(prop = n/sum(n)) %>%
-ggplot() + 
-  geom_bar( 
-    stat = "identity",
-    aes(a,prop,fill=rol),
-    alpha=0.8,
-    show.legend = T)  + 
-  theme_minimal()  +
-  labs(x="Rol",y="Proporción",title="Gráfico de barras apilado: rol por año") + 
-  theme_minimal() + 
-  guides(fill = guide_legend(title = "Rol:")) +
-  theme(
-    plot.title = (element_text(
-      size = 18,
-      hjust = 0.33,
-      vjust=-1.9,
-      colour = "darkslategray")))
+ggplotly(datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
+     ggplot(
+         aes(a,n,
+             fill=rol,
+             colour=rol)) + 
+     geom_line(
+         alpha=0.8)  + 
+     geom_point() +
+     theme_minimal()  +
+     labs(
+         x="Rol",
+         y="Frecuencia absoluta") + 
+     theme_minimal() +
+     coord_cartesian(y=c(0,400))+ 
+       theme(
+         axis.title = element_text(
+           colour="grey30")))
 ```
 
 Para este período trabajado no parece variar significativamente las proporciones, tiende a mantenerse en el tiempo observando que tanto peatones como pasajeros representan un 20%, mientras que los fallecidos en rol de conductores se aproximan al 60%.
