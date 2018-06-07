@@ -112,7 +112,7 @@ ipack <- function( pkg )
     
     }
 
-paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal","knitr")
+paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal","knitr","zoo")
 
 ipack(paquetes.a.utilizar)
 
@@ -722,36 +722,27 @@ f<-data.frame(fecha,n.dia)
 
 ```
 
-```{r}
+```{r,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos según mes"}
 
 
-# Gráfico de barras: frecuencia absoluta por mes
-f %>% count(mes) %>% mutate(mes=as.numeric(mes),n.mes=month.abb[as.numeric(mes)]) %>%
-    ggplot(  aes(n.mes,n) ) + 
-   geom_segment( aes(x=reorder(n.mes,+mes), xend=mes, y=0, yend=n),
-                 cex=1.23,
-                 colour="grey23") + 
-   geom_point( 
-   size=5, 
-     fill=alpha("orangered", 0.9),
-     shape=21,
-     stroke=2,
-     colour="grey23")  +
-    labs(
-      x = "Mes",
-    y = "Frecuencia absoluta",
-      title = "Gráfico de barras: frecuencia absoluta por mes") +
-  theme_minimal() +
-    theme(
-      plot.title = element_text(
-        size = 19,
-        colour = "grey39",
-        face = "bold",
-        hjust = 0.4),
-      axis.text = element_text(
-        colour = "grey27",size=12),
-      axis.title = element_text(size=13.6,colour="grey23")) +
-  coord_flip()
+#ggplotly(datos %>% separate(fecha,c("dia","mes"))%>%  mutate(a.mes=as.yearmon(paste(a, " ", mes), format = "%Y %m") ) %>% count(a.mes)%>% arrange(a.mes) %>% mutate(a.mes=as.character(a.mes)) %>% ggplot(aes (a.mes,n,group=0))+ stat_summary(fun.y=sum,geom="line"))
+
+f %>% count(mes) %>% mutate(mes=as.numeric(mes),n.mes=month.abb[as.numeric(mes)])%>% arrange(mes)%>%
+     ggplot(  aes(mes,n) ) + 
+    geom_point()  + geom_line(stat="identity")+
+     labs(
+       x = "Mes",
+     y = "Frecuencia absoluta") +
+   theme_minimal() +
+     theme(
+       plot.title = element_text(
+         size = 19,
+         colour = "grey39",
+         face = "bold",
+         hjust = 0.4),
+       axis.text = element_text(
+         colour = "grey27",size=12),
+       axis.title = element_text(size=13.6,colour="grey23")) + coord_cartesian(ylim = c(0,1,300))
  
 ```
 
