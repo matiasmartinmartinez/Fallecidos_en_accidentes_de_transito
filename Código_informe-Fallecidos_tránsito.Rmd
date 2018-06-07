@@ -725,24 +725,25 @@ f<-data.frame(fecha,n.dia)
 ```{r,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos según mes"}
 
 
-#ggplotly(datos %>% separate(fecha,c("dia","mes"))%>%  mutate(a.mes=as.yearmon(paste(a, " ", mes), format = "%Y %m") ) %>% count(a.mes)%>% arrange(a.mes) %>% mutate(a.mes=as.character(a.mes)) %>% ggplot(aes (a.mes,n,group=0))+ stat_summary(fun.y=sum,geom="line"))
 
-f %>% count(mes) %>% mutate(mes=as.numeric(mes),n.mes=month.abb[as.numeric(mes)])%>% arrange(mes)%>%
-     ggplot(  aes(mes,n) ) + 
-    geom_point()  + geom_line(stat="identity")+
+
+datos %>% separate(fecha,c("dia","mes")) %>% 
+  mutate(a.mes=paste(a,"-",mes) ) %>%
+  count(a.mes) %>% arrange(desc(a.mes)) %>%
+     ggplot(  aes(a.mes,n,group=1,) ) + 
+     geom_point()  + geom_line(stat="identity")+
      labs(
-       x = "Mes",
-     y = "Frecuencia absoluta") +
-   theme_minimal() +
+         x = "Mes",
+         y = "Frecuencia absoluta") +
+     theme_minimal() +
      theme(
-       plot.title = element_text(
-         size = 19,
-         colour = "grey39",
-         face = "bold",
-         hjust = 0.4),
-       axis.text = element_text(
-         colour = "grey27",size=12),
-       axis.title = element_text(size=13.6,colour="grey23")) + coord_cartesian(ylim = c(0,1,300))
+         plot.title = element_text(
+             size = 19,
+             colour = "grey39",
+             face = "bold",
+             hjust = 0.4),
+         axis.text.x =   element_text(
+             colour = "grey27",angle=90,size=6)) + coord_cartesian(ylim = c(0,75)) 
  
 ```
 
