@@ -8,7 +8,7 @@ output: html_document
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,warning = F,error=F)
+knitr::opts_chunk$set(echo = FALSE,warning = F,error=F,message = F,fig.pos = "hbpt",out.extra = "")
 ```
 
 ## Introducción:
@@ -137,24 +137,19 @@ str(datos)
 
 
 ### Fallecidos por año
-```{r,warning=FALSE,echo=F}
+```{r,warning=FALSE,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos"}
 
-# Gráfico de barras: frecuencia relativa fallecidos por año
 ggplotly(
-  datos %>% dplyr::count(a)  %>% 
-    ggplot(   aes(reorder(a, +a), n)) + 
-    geom_bar(stat =  "identity", 
-             aes(fill = a),
-             show.legend = F) +
-    theme_minimal()+
-    labs(
-      x = "Año", 
-      y = " Frecuencia relativa de fallecidos",
-      title = "Gráfico de barras: frecuencia relativa fallecidos por año") +
-    theme(plot.title = element_text(
-      size =16, 
-      colour = "grey16")) )
-
+   datos %>% dplyr::count(a)  %>% 
+     ggplot(   aes(a, n)) + 
+     geom_point() + geom_line()+
+     theme_minimal()+
+     labs(
+       x = "Año", 
+       y = " Frecuencia relativa de fallecidos") +
+     theme(plot.title = element_text(
+       size =16, 
+       colour = "grey16"))+ coord_cartesian(ylim=c(0,600)) ) 
 
 
 ```
@@ -163,25 +158,19 @@ Desde el año 2013 la frecuencia absoluta de fallecios en tránsito manifestaba 
 
 
 ### Sexo
-```{r,echo=F}
+```{r,echo=F,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos por sexo"}
 
-# Gráfico de Mosaico: frecuencia relativa fallecidos por sexo
 ggplotly(
-  datos %>% dplyr::count(a, sexo) %>% ggplot() +
-    geom_mosaic(
-      aes(
-        weight = n,
-        x = product(a),
-        fill = sexo)) +
-    theme_minimal() +
-    labs(
-      x = "Año", 
-      y = "Proporción según sexo",
-      title = "Gráfico de Mosaico: frecuencia relativa fallecidos por sexo") + 
-    theme(
-      plot.title = element_text(
-        size = 14.4,
-        colour = "darkslategrey")) )
+   datos %>% dplyr::count(a, sexo) %>% ggplot(aes(a,n,colour=sexo)) + geom_point()+
+     geom_line() +
+     theme_minimal() +
+     labs(
+       x = "Año", 
+       y = "Proporción según sexo") + 
+     theme(
+       plot.title = element_text(
+         size = 14.4,
+         colour = "darkslategrey")) + coord_cartesian(ylim = c(0,500)) )
 
 
 
@@ -690,6 +679,7 @@ mapeo(n = datos %>% count(dep)) +
     high = "white")
 
 ```
+
 
 ```{r}
 
