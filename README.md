@@ -10,3 +10,8 @@ A realizar:
 - Agregar nuevas preguntas surgidas del análisis exploratorio de datos.
 - Responder preguntas.
 - Agregar comentarios.
+- Cambiar a Series de tiempo: Grafico de barras apilado:rol por año, proporcion de la jurisdiccion, frecuencia absoluta por mes
+- Mosaico rol segun vehiculo: Agregar "Otros" y Reorder por conductores.
+- Mosaico de jurisdiccion segun tipo de siniestro: Reorder
+- Cambiar relacion entre vehiculos involucrados por barras apiladas al 100%.
+- Grafico de mapas a ggplotly y ver escala de color.
