@@ -407,13 +407,12 @@ ggplotly(
     guides(  fill = guide_legend( title = "Otro vehículo")) +
     scale_fill_manual(
       values = c("darkseagreen4","tan2","indianred",
-                 "khaki3", "thistle4", "lightsteelblue","tan4")) +
+                 "khaki3", "thistle4", "lightsteelblue","grey80")) +
     theme( 
       panel.background = element_rect(
         fill="white"),
-      plot.title = element_text(
-        colour = "gray37",
-        size = 16)) )
+      axis.title  = element_text(
+        colour = "gray37")) )
 ```
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
