@@ -342,14 +342,15 @@ En tanto autos representan una distribución aproximadamente constante desde los
 ```{r,echo=F,warning=FALSE,fig.cap="Gráfico de mosaico: proporción de fallecidos para cada rol según vehículo"}
 
 
-# reorder datos %>% dplyr::count(vehi, rol) %>% filter(vehi!="PEATON") %>%    mutate( vehi= ifelse ( n<70, "OTROS", vehi ))%>% group_by(vehi) %>% mutate(prop=n/sum(n)) %>%filter(rol=="CONDUCTOR") 
 
 ggplotly(
   datos %>% dplyr::count(vehi, rol) %>% filter(vehi!="PEATON") %>%
-    mutate( vehi= ifelse ( n<70, "OTROS", vehi )) %>% ggplot() +
+    group_by( vehi= ifelse ( n<70,"OTROS", vehi ),rol) %>%
+    summarise(n=sum(n))%>% mutate(prop=n/sum(n))%>%
+    ggplot() +
     geom_mosaic(aes(
       weight = n,
-      x = product(reorder(abbreviate(vehi, 4),+n)),
+      x = product( reorder(abbreviate(vehi, 4),+prop)),
       fill = abbreviate(rol, 1))) +
     labs(
       x = "Vehículo",
@@ -362,7 +363,7 @@ ggplotly(
                        colour = "aquamarine4"),
       axis.text.x =
         element_text(
-          angle = 40,
+          angle = 0,
           size = 9)) +
       scale_fill_brewer(palette = "Dark2")
   ) %>% 
@@ -386,25 +387,27 @@ Por supuesto, además de filtrar con la finalidad de no sobrecargar el gráfico,
 Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
 
-```{r}
+```{r,fig.cap="Gráfico de mosaico: relación entre vehículo involucrado según vehículo del fallecido"}
 
-# Gráfico de mosaico: relación entre los vehículos involucrados
 ggplotly(
-  datos %>% dplyr::count(vehi, otro.vehi) %>% filter(n >= 50) %>%
-   mutate(otro.vehi = ifelse( otro.vehi == ""," NADA",otro.vehi)) %>% 
-    arrange(desc(n)) %>%
+  datos %>% dplyr::count(vehi, otro.vehi)  %>%
+   mutate(otro.vehi = ifelse( otro.vehi == ""," NADA",otro.vehi), 
+          vehi = ifelse(n<50,"OTROS",vehi),
+          otro.vehi = ifelse(n<50,"OTROS",otro.vehi)) %>% 
+    group_by(vehi,otro.vehi)%>% 
+    summarise(n=sum(n)) %>% arrange(desc(n)) %>%
     ggplot() + 
     geom_mosaic(aes( 
       weight = n,
-      x = product(vehi),
+      x = product(abbreviate(vehi,5)),
       fill = otro.vehi)) +
     labs(
       x = "Vehículo",
-      y = "Proporción de otro vehículo",
-      title = "Gráfico de mosaico: relación entre los vehículos involucrados") +
+      y = "Proporción de otro vehículo") +
     guides(  fill = guide_legend( title = "Otro vehículo")) +
     scale_fill_manual(
-      values = c("darkseagreen4","tan2","indianred","khaki3", "thistle4", "lightsteelblue")) +
+      values = c("darkseagreen4","tan2","indianred",
+                 "khaki3", "thistle4", "lightsteelblue","tan4")) +
     theme( 
       panel.background = element_rect(
         fill="white"),
@@ -431,7 +434,7 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
       fill=jur,
       colour=jur)) +
   geom_point() +
-  geom_line() +
+  geom_line(cex=1.1) +
   labs(
     x = "Jurisdicción",
     y = "Frecuencia absoluta", 
@@ -515,10 +518,9 @@ Salvo despistes y atropellos de animales, los restantes tipos de siniestros pred
 
 
 ### Días de supervivencia
-```{r}
+```{r,fig.cap="Gráfico de barras: proporción de días de supervivencia luego del accidente"}
 
 
-# Gráfico de barras: proporción de días de supervivencia
 ggplotly( 
   ggplot() +   
     geom_bar(
@@ -532,9 +534,7 @@ ggplotly(
       colour="green4") +
    labs(
      x = "Días de supervivencia luego del accidente" ,
-     y = "Proporción" ,
-     title =
- "Gráfico de barras: proporción de días de supervivencia") + 
+     y = "Proporción") + 
    theme_get()+
    theme(
      plot.title = element_text(
