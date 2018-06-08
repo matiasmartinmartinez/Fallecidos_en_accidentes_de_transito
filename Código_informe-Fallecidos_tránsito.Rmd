@@ -342,7 +342,7 @@ En tanto autos representan una distribución aproximadamente constante desde los
 ```{r,echo=F,warning=FALSE,fig.cap=" Gráfico de mosaico: proporción de fallecidos para cada rol según vehículo"}
 
 ggplotly(
-  datos %>% dplyr::count(vehi, rol) %>% filter(rol!="PEATON", n >= 5) %>% ggplot() +
+  datos %>% dplyr::count(vehi, rol) %>% filter(vehi!="PEATON") %>% mutate(vehi=ifelse(n<70,"OTROS",vehi)) %>% ggplot() +
     geom_mosaic(aes(
       weight = n,
       x = product(abbreviate(vehi, 4)),
