@@ -207,22 +207,24 @@ datos %>% ggplot(aes(edad)) +
 
  Se percibe una fuerte concentración en edades cercanas a los 25 años, la cual es inalterable al paso de los años para el período dado. Sin embargo, la distribución para aproximadamente de 30 a 70 años varía cosiderablemente: de poseer una meseta en el 2013, luego poseer una brusca y cosiderable pendiente decreciente en el año 2014, a retomar lentamente su meseta pero más expandida, llegando a los 70 años con proporciones superiores al 10%.
  
-```{r}
-# Diagrama de caja: edad según sexo
+```{r,fig.cap="Diagrama de caja: edad del fallecido según sexo"}
+
+
 ggplotly(
   datos %>% ggplot(aes(sexo, edad)) + 
     geom_boxplot(
-      aes(fill = sexo),
+      aes(fill=sexo),
+      alpha=0.6,
       show.legend = F) + 
     labs(
       x =  "Sexo",
-      y = "Edad en años",
-      title = "Diagrama de caja: edad según sexo") +   theme_bw()+
+      y = "Edad en años") + 
+    theme_bw()+
     theme(plot.title =
             element_text(
               size = 16,
               colour = "grey19")) +
-    scale_fill_manual(values =c("yellow3", "springgreen3")) ) 
+    scale_fill_manual(values = c("yellow2", "springgreen2")) ) 
 
 
 
@@ -289,10 +291,9 @@ Para este período trabajado no parece variar significativamente las proporcione
 
 
 ### Vehículo
-```{r,echo=F}
+```{r,echo=F,fig.cap="Gráfico de barras: proporción de fallecidos por vehículo"}
 
 
-# Gráfico de barras: proporción por vehículo 
 datos %>% dplyr::count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
   ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
   geom_bar(stat ="identity",fill="lightpink4") + 
@@ -338,9 +339,8 @@ Se denota que próximos a adultos menores exite un notable crecimiento de fallec
 En tanto autos representan una distribución aproximadamente constante desde los 25 a los 70 años. Para edades cercanas a 50 años los fallecidos en dicho vehículo comienzan a tener mayores proporciones en contraste con motos.
 
 ### Relación vehículo
-```{r,echo=F,warning=FALSE}
+```{r,echo=F,warning=FALSE,fig.cap=" Gráfico de mosaico: proporción de fallecidos para cada rol según vehículo"}
 
-# Gráfico de mosaico: rol según vehículo
 ggplotly(
   datos %>% dplyr::count(vehi, rol) %>% filter(rol!="PEATON", n >= 5) %>% ggplot() +
     geom_mosaic(aes(
@@ -349,8 +349,7 @@ ggplotly(
       fill = abbreviate(rol, 1))) +
     labs(
       x = "Vehículo",
-      y = "Proporción de fallecidos",
-      title = "Gráfico de mosaico: rol según vehículo") +
+      y = "Proporción de fallecidos") +
       guides(fill = guide_legend(title = "Rol")) +
       theme_minimal() +
       theme(
