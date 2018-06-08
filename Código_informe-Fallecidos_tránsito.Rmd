@@ -438,13 +438,11 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
     x = "Jurisdicción",
     y = "Frecuencia absoluta", 
     title = " ") +
-  scale_fill_manual(values = c("skyblue3", "tan2")) +
+  scale_colour_manual(values = c("orangered", "turquoise4")) +
   theme(
     panel.background = element_rect(fill="white"),
-    plot.title = element_text(
-      size = 17.5,
-      colour = "gray29",
-      hjust = 0.4),
+    axis.title  = element_text(
+      colour = "gray29"),
     legend.position = "bottom") +
   coord_cartesian(y=c(0,400))
 
@@ -453,19 +451,18 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
 
 Existe una disminución de la proporción de fallecimientos en jurisdicciones nacionales hasta el año 2015 y luego se comporta con una pendiete creciente hasta el final del período dado, donde supera el 50% de las defunciones.
 
-```{r}
+```{r,fig.cap="Gráfico de mosaico: proporción en la existencia de otro vehículo involucrado según jurisdicción del accidente"}
 
-
-# Gráfico de mosaico: otro vehículo involucrado según jurisdicción
-datos %>% dplyr::count(involucrado, jur) %>% ggplot() +
+datos %>% dplyr::count(involucrado, jur) %>%
+  ggplot() +
   geom_mosaic(aes(
     weight = n,
     x = product(jur),
-    fill = involucrado)) +
+    fill = involucrado),
+    alpha=0.6) +
   labs(
     x = "Jurisdicción",
-    y = "Proporción involucrado", 
-    title = "Gráfico de mosaico: otro vehículo involucrado según jurisdicción")+
+    y = "Proporción involucrado") +
   theme(
     panel.background = element_rect(
       fill="white"),
@@ -474,39 +471,46 @@ datos %>% dplyr::count(involucrado, jur) %>% ggplot() +
       face = "italic",
       colour = "grey20",
       vjust = -2),
-     axis.title = element_text(
-       size=12,
-       colour="grey20")) + 
-  scale_fill_manual(values = c("yellow3", "mediumpurple"))+
+    axis.title = element_text(
+      size=12,
+      colour="grey20")) + 
+  scale_fill_manual(
+    values = c("orangered", "skyblue4")) +
   guides(
-    fill=guide_legend("Involucrado"))
+    fill= guide_legend("Involucrado"))
+
 ```
 
 Si bien para ambas jurisdicciones existe una alta proporción de accidentes fatales con otro vehículo involucrado (aproximadamente un 60%), sobresale en departamental acercándose a un 75% de los accidentes fatales.
 
-```{r}
+```{r,fig.cap="Gráfico de mosaicos: jurisdicción del accidente de tránsito según tipo de siniestro"}
  
-# Gráfico de mosaicos: jurisdicción según tipo de siniestro
-datos %>% dplyr::count(tipo.sin, jur) %>% mutate(tipo.sin=ifelse(n <= 60,"OTROS",tipo.sin) ) %>% ggplot() + geom_mosaic(aes(
-    weight = n,
-    x = product(abbreviate(tipo.sin, 5)),
-    fill = jur)) +
-    theme(
-    legend.position = "bottom",
-    panel.background = element_rect(
-       fill="white"),
-    plot.title = element_text(
-    hjust = 0.4,
-    size = 17,
-    colour = "gray32")) + 
-    labs(
+
+datos %>% dplyr::count(tipo.sin, jur) %>%
+  mutate(tipo.sin=ifelse(n <= 60,"OTROS",tipo.sin) ) %>% 
+  ggplot() +
+  geom_mosaic(
+    aes(
+      weight = n,
+      x = product( abbreviate(tipo.sin, 5) ),
+      fill = jur),alpha=0.6) +
+  theme(
+      legend.position = "bottom",
+      panel.background = element_rect(
+        fill="white"),
+      plot.title = element_text(
+        hjust = 0.4,
+        size = 17,
+        colour = "gray32")) + 
+  labs(
     x = "Tipo de siniestro",
-    
     y = "Proporción jurisdicción",
-  
     fill = "Jurisdicción") + 
-    
-    scale_fill_manual(values = c("cornflowerblue", "seagreen3")) + theme(axis.title = element_text(colour="grey24"))
+  scale_fill_manual(values = c("orangered", "turquoise4")  ) +
+  theme(
+    axis.title =
+      element_text(
+        colour="grey24"))
 ```
 
 Salvo despistes y atropellos de animales, los restantes tipos de siniestros predominan en jurisdicciones departamentales. El tipo de accidente con mayor proporción de difuntos es la colisión entre vehículos, acompañada de los despiestes y atropellos de peatones respectivamente.
