@@ -487,30 +487,26 @@ Si bien para ambas jurisdicciones existe una alta proporción de accidentes fata
 ```{r}
  
 # Gráfico de mosaicos: jurisdicción según tipo de siniestro
- datos %>% dplyr::count(tipo.sin, jur) %>% filter(n >= 20) %>% ggplot() + geom_mosaic(aes(
-   weight = n,
-   x = product(abbreviate(tipo.sin, 5)),
-   fill = jur)) +
-   theme(
-   legend.position = "bottom",
-   panel.background = element_rect(
-      fill="white"),
-   plot.title = element_text(
-   hjust = 0.4,
-   size = 17,
-   colour = "gray32")) + 
-   labs(
-   x = "Tipo de siniestro",
-   
-   y = "Proporción jurisdicción",
-   
-   title = "Gráfico de mosaicos: jurisdicción según tipo de siniestro",
-   
-   fill = "Jurisdicción",
-   
-   caption = "Solamente se incluyen los tipos de accidente con una frecuencia absoluta mayor o igual a 20.") + 
-   
-   scale_fill_manual(values = c("cornflowerblue", "seagreen3"))
+datos %>% dplyr::count(tipo.sin, jur) %>% mutate(tipo.sin=ifelse(n <= 60,"OTROS",tipo.sin) ) %>% ggplot() + geom_mosaic(aes(
+    weight = n,
+    x = product(abbreviate(tipo.sin, 5)),
+    fill = jur)) +
+    theme(
+    legend.position = "bottom",
+    panel.background = element_rect(
+       fill="white"),
+    plot.title = element_text(
+    hjust = 0.4,
+    size = 17,
+    colour = "gray32")) + 
+    labs(
+    x = "Tipo de siniestro",
+    
+    y = "Proporción jurisdicción",
+  
+    fill = "Jurisdicción") + 
+    
+    scale_fill_manual(values = c("cornflowerblue", "seagreen3")) + theme(axis.title = element_text(colour="grey24"))
 ```
 
 Salvo despistes y atropellos de animales, los restantes tipos de siniestros predominan en jurisdicciones departamentales. El tipo de accidente con mayor proporción de difuntos es la colisión entre vehículos, acompañada de los despiestes y atropellos de peatones respectivamente.
