@@ -169,7 +169,9 @@ ggplotly(
      theme(
        plot.title = element_text(
          size = 14.4,
-         colour = "darkslategrey")) + coord_cartesian(ylim = c(0,500)) )
+         colour = "darkslategrey")) +
+     coord_cartesian(ylim = c(0,500)) +
+     scale_color_manual( values=c("darkolivegreen3","turquoise4") )  )
 
 
 
@@ -180,10 +182,10 @@ ggplotly(
 
 
 ### Edad
-```{r,echo=F}
+```{r,echo=F,fig.cap="Gráfico de densidad: distribución en la edad del fallecido según año"}
 
 
-# Gráfico de densidad: edad del fallecido
+
 datos %>% ggplot(aes(edad)) + 
   geom_density(
     aes(fill=a),
@@ -214,7 +216,7 @@ ggplotly(
   datos %>% ggplot(aes(sexo, edad)) + 
     geom_boxplot(
       aes(fill=sexo),
-      alpha=0.6,
+      alpha=0.9,
       show.legend = F) + 
     labs(
       x =  "Sexo",
@@ -224,7 +226,7 @@ ggplotly(
             element_text(
               size = 16,
               colour = "grey19")) +
-    scale_fill_manual(values = c("yellow2", "springgreen2")) ) 
+    scale_fill_manual(values = c("chartreuse3", "cadetblue3")) ) 
 
 
 
@@ -251,7 +253,8 @@ datos %>% ggplot(aes(edad)) +
     plot.title = (element_text(
       size = 16,
       hjust = 0.33,
-      colour = "darkslategray")))
+      colour = "darkslategray")))+ 
+  scale_fill_manual(values = c("coral1","chartreuse3", "cadetblue3")) 
 ```
 
  La distribución de la densidad en la edad según el rol del fallecido cambia suntuosamente dependiendo si existe la condición de peatón o no: en el caso de existir se observa una fuerte concentración a edades avanzadas, sin embargo en el caso de no serlo su concentración es mayoritariamente en adultos menores (de 20 a 30 años).
@@ -276,7 +279,9 @@ ggplotly(datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
      coord_cartesian(y=c(0,400))+ 
        theme(
          axis.title = element_text(
-           colour="grey30")))
+           colour="grey30")) +
+       scale_colour_manual(values = c("coral1","chartreuse3", "cadetblue3")) 
+     )
 ```
 
 Para este período trabajado no parece variar significativamente las proporciones, tiende a mantenerse en el tiempo observando que tanto peatones como pasajeros representan un 20%, mientras que los fallecidos en rol de conductores se aproximan al 60%.
@@ -365,7 +370,7 @@ ggplotly(
         element_text(
           angle = 0,
           size = 9)) +
-      scale_fill_brewer(palette = "Dark2")
+      scale_fill_manual(values =  c("coral1","chartreuse3", "cadetblue3"))
   ) %>% 
   layout(
   annotations =
@@ -438,7 +443,7 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
     x = "Jurisdicción",
     y = "Frecuencia absoluta", 
     title = " ") +
-  scale_colour_manual(values = c("orangered", "turquoise4")) +
+  scale_colour_manual(values = c("darkolivegreen3","turquoise4")) +
   theme(
     panel.background = element_rect(fill="white"),
     axis.title  = element_text(
