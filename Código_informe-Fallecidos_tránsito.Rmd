@@ -1,7 +1,7 @@
 ---
 title: " Siniestros de tránsito fatales en Uruguay, 2013-2017 "
 author: "Martínez Matías, Zang Bruno"
-date: "9 de junio de 2018"
+date: "7 de junio de 2018"
 output: html_document
 ---
 
@@ -370,7 +370,7 @@ ggplotly(
         element_text(
           angle = 0,
           size = 9)) +
-      scale_fill_manual(values = c("cadetblue3","coral1","chartreuse3"))
+      scale_fill_manual(values = c("turquoise4","coral1","darkolivegreen3"))
   ) %>% 
   layout(
   annotations =
@@ -418,6 +418,7 @@ ggplotly(
         fill="white"),
       axis.title  = element_text(
         colour = "gray37")) )
+
 ```
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
@@ -498,7 +499,8 @@ datos %>% dplyr::count(tipo.sin, jur) %>%
     aes(
       weight = n,
       x = product( abbreviate(tipo.sin, 5) ),
-      fill = jur),alpha=0.8) +
+      fill = jur),
+    alpha=0.9) +
   theme(
       legend.position = "bottom",
       panel.background = element_rect(
@@ -536,7 +538,7 @@ ggplotly(
       aes(f.dias),
       cex=1.09,
       geom = "line",
-      colour="darkolivegreen3") +
+      colour="coral1") +
    labs(
      x = "Días de supervivencia luego del accidente" ,
      y = "Proporción") + 
