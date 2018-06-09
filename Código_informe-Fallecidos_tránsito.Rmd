@@ -1,7 +1,7 @@
 ---
 title: " Siniestros de tránsito fatales en Uruguay, 2013-2017 "
 author: "Martínez Matías, Zang Bruno"
-date: "7 de junio de 2018"
+date: "9 de junio de 2018"
 output: html_document
 ---
 
@@ -296,22 +296,35 @@ Para este período trabajado no parece variar significativamente las proporcione
 
 
 ### Vehículo
-```{r,echo=F,fig.cap="Gráfico de barras: proporción de fallecidos por vehículo"}
+```{r,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos por vehículo para cada año"}
 
 
-datos %>% dplyr::count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)  %>%
-  ggplot(aes(reorder(abbreviate(vehi, 6), -prop), prop)) + 
-  geom_bar(stat ="identity",fill="lightpink4") + 
-  labs(
-    x = "Vehículo",
-    y = "Proporción") +
-  theme_minimal()+
-  theme(plot.title = element_text(
-    size = 17,
-    hjust = 0.35,
-    colour = "lightpink4"))
 
-##agregar categoria otros
+datos %>% dplyr::count(vehi,a) %>% 
+  mutate(vehi=ifelse(n<=50,"OTROS",vehi)) %>%
+  group_by(vehi,a) %>% summarise(n=sum(n))%>%
+  arrange(a)%>%
+   ggplot(
+     aes(
+       a,
+       n,
+       group=vehi,
+       fill=vehi,
+       colour=vehi)) + 
+   geom_line(
+     stat ="identity",
+     show.legend = T) + 
+  geom_point()+
+   labs(
+     x = "Vehículo",
+     y = "Frecuencia absoluta") +
+   theme_minimal()+
+   theme(axis.title = element_text(
+       colour = "grey30"))+
+   scale_fill_manual(
+       values = c("darkseagreen4","tan2","indianred",
+                  "khaki3", "thistle4", "lightsteelblue")) +
+  coord_cartesian(ylim=c(0,310))
 
 ```
 
