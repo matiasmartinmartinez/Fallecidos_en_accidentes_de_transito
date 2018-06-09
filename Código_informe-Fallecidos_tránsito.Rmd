@@ -1,7 +1,7 @@
 ---
 title: " Siniestros de tránsito fatales en Uruguay, 2013-2017 "
 author: "Martínez Matías, Zang Bruno"
-date: "7 de junio de 2018"
+date: "9 de junio de 2018"
 output: html_document
 ---
 
@@ -370,7 +370,7 @@ ggplotly(
         element_text(
           angle = 0,
           size = 9)) +
-      scale_fill_manual(values =  c("coral1","chartreuse3", "cadetblue3"))
+      scale_fill_manual(values = c("cadetblue3","coral1","chartreuse3"))
   ) %>% 
   layout(
   annotations =
@@ -464,7 +464,7 @@ datos %>% dplyr::count(involucrado, jur) %>%
     weight = n,
     x = product(jur),
     fill = involucrado),
-    alpha=0.6) +
+    alpha=0.8) +
   labs(
     x = "Jurisdicción",
     y = "Proporción involucrado") +
@@ -480,7 +480,7 @@ datos %>% dplyr::count(involucrado, jur) %>%
       size=12,
       colour="grey20")) + 
   scale_fill_manual(
-    values = c("orangered", "skyblue4")) +
+    values =  c("darkolivegreen3","cadetblue3")) +
   guides(
     fill= guide_legend("Involucrado"))
 
@@ -498,7 +498,7 @@ datos %>% dplyr::count(tipo.sin, jur) %>%
     aes(
       weight = n,
       x = product( abbreviate(tipo.sin, 5) ),
-      fill = jur),alpha=0.6) +
+      fill = jur),alpha=0.8) +
   theme(
       legend.position = "bottom",
       panel.background = element_rect(
@@ -511,7 +511,7 @@ datos %>% dplyr::count(tipo.sin, jur) %>%
     x = "Tipo de siniestro",
     y = "Proporción jurisdicción",
     fill = "Jurisdicción") + 
-  scale_fill_manual(values = c("orangered", "turquoise4")  ) +
+  scale_fill_manual(values =  c("darkolivegreen3","cadetblue3")  ) +
   theme(
     axis.title =
       element_text(
@@ -534,8 +534,9 @@ ggplotly(
     stat_ecdf(
       data=datos,
       aes(f.dias),
+      cex=1.09,
       geom = "line",
-      colour="green4") +
+      colour="darkolivegreen3") +
    labs(
      x = "Días de supervivencia luego del accidente" ,
      y = "Proporción") + 
@@ -548,6 +549,7 @@ ggplotly(
     axis.title = element_text(
       size=11.6,
       colour="grey20")))
+
 ```
 
 La curva verde corresponde al diagrama de Pareto y representa la densidad acumulada hasta *x* día.
@@ -555,10 +557,10 @@ La curva verde corresponde al diagrama de Pareto y representa la densidad acumul
 Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas.
 
 
-```{r}
+```{r,fig.cap="Gráfico de barras: proporción de fallecidos en muerte súbita según tipo de siniestro"}
 
 
-# Gráfico de barras: proporción de muerte súbita según tipo de siniestro
+
 datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
   mutate(n = n / sum(n)) %>%  ggplot() +
   geom_bar(
@@ -569,11 +571,10 @@ datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
   labs(
     x = "Tipo de Siniestro" ,
     y = "Proporción" ,
-  title = "Gráfico de barras: proporción de muerte súbita según tipo de siniestro",
   caption = "Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") +
   theme(
     plot.title = element_text(size = 15, colour = "grey20"),
-    axis.title = element_text(size=13,colour="grey16")  ) +
+    axis.title = element_text(size=13,colour="grey26")  ) +
   scale_fill_manual(
     values= c("darkseagreen4","tan2","indianred","khaki3",
               "thistle4", "lightsteelblue","grey44"))
