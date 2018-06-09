@@ -304,15 +304,14 @@ datos %>% dplyr::count(vehi, a) %>% mutate(prop = n / sum(n)) %>% filter(n >= 0)
   geom_bar(stat ="identity",fill="lightpink4") + 
   labs(
     x = "Vehículo",
-    y = "Proporción", 
-    title = "Gráfico de barras: proporción por vehículo") +
+    y = "Proporción") +
   theme_minimal()+
   theme(plot.title = element_text(
     size = 17,
     hjust = 0.35,
     colour = "lightpink4"))
 
-
+##agregar categoria otros
 
 ```
 
@@ -585,25 +584,23 @@ datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
 De igual manera que para el total, colisiones entre vehiculos, despistes y atropello de animales son los tres tipos de siniestros que mayor proporción de fallecios en muerte súbita poseen.
 
 ### Departamento
-```{r,echo=F}
+```{r,echo=F,fig.cap="Gráfico de barras: frecuencia acumulada de fallecidos por departamento"}
 
-# Gráfico de barras: frecuencia acumulada por departamento
- ggplot(   (datos %>% count(dep)  ),
-           aes (reorder(abbreviate(dep,4),+n),n)) +
+
+ ggplot( 
+   (datos %>% count(dep)  ),
+   aes (reorder(abbreviate(dep,4),+n),n)) +
   geom_bar(stat="identity") +
   labs(
     x="Departamento",
     y="Frecuencia acumulada",
-    title="Gráfico de barras: frecuencia acumulada por departamento",
     caption="La recta roja corresponde a la media de frecuencia acumulada total del país") +
   coord_flip() + 
   theme_minimal() + 
   theme(
-    plot.title =
+    axis.title  =
       element_text(
-        hjust = 0.4,
-        colour="palevioletred4",
-        size=15,face="bold")) +  
+        colour="grey30")) +  
   geom_hline( 
     yintercept = mean(  (datos %>% count(dep))$n   ),     
     cex=1.2,
@@ -670,15 +667,14 @@ mapeo<-  function(n)
 
 
 
-```{r}
+```{r,fig.cap="Gráfico de mapas: frecuencia absoluta de fallecidos por departamento"}
 
 
 # Gráfico de mapas: cantidad de fallecidos por departamento
 mapeo(n = datos %>% count(dep)) +
   labs(fill = "Cantidad",
   x = NULL,
-  y = NULL,
-  title = "Gráfico de mapas: cantidad de fallecidos por departamento") +
+  y = NULL) +
   scale_fill_gradient2(
     low = "grey2",
     mid = "midnightblue", 
@@ -687,10 +683,9 @@ mapeo(n = datos %>% count(dep)) +
 ```
 
 
-```{r}
+```{r,fig.cap="Gráfico de mapas: frecuencia absoluta de fallecidos en respectivo departamento según año"}
 
 
-# Gráfico de mapas: cantidad de fallecidos en departamento por año
 mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
   labs(
     fill = "Cantidad",
@@ -704,6 +699,7 @@ mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
     high = "blue",
     midpoint = 75) +
   facet_wrap( ~ a)
+
 ```
 
 El punto medio corresponde a 75 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
