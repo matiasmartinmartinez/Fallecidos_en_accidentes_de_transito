@@ -1,7 +1,7 @@
 ---
 title: " Siniestros de tránsito fatales en Uruguay, 2013-2017 "
 author: "Martínez Matías, Zang Bruno"
-date: "9 de junio de 2018"
+date: "10 de junio de 2018"
 output: html_document
 ---
 
@@ -112,7 +112,7 @@ ipack <- function( pkg )
     
     }
 
-paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal","knitr","zoo")
+paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal","knitr","scales")
 
 ipack(paquetes.a.utilizar)
 
@@ -153,7 +153,7 @@ ggplotly(
 
 ```
 
-Desde el año 2013 la frecuencia absoluta de fallecios en tránsito manifestaba un claro descenso. Ésta racha se detuvo en el año 2017 donde sucedieron 24 muertes más que en el año previo. Pese a esto, tal pendiente en la cantidad de fallecidos profiere un correcto desarrollo y accionar en sectores políticos y una alta concientización en los uruguayos para dichos temas.
+Desde el año 2013 la frecuencia absoluta de fallecidos en tránsito manifestaba un claro descenso. Ésta racha se detuvo en el año 2017 donde sucedieron 24 muertes más que en el año previo. Pese a esto, tal pendiente en la cantidad de fallecidos profiere un correcto desarrollo y accionar en sectores políticos y una alta concientización en los uruguayos para dichos temas.
 
 
 ### Sexo
@@ -750,9 +750,10 @@ datos %>% separate(fecha,c("dia","mes")) %>%
   mutate(a.mes=paste(a,"-",mes) ) %>%
   count(a.mes) %>% arrange(desc(a.mes)) %>%
      ggplot(  aes(a.mes,n,group=1,) ) + 
-     geom_point()  + geom_line(stat="identity")+
+     geom_point()  + geom_line(stat="identity")+ 
+  geom_smooth(method = "loess")+
      labs(
-         x = "Mes",
+         x = "Año y mes",
          y = "Frecuencia absoluta") +
      theme_minimal() +
      theme(
@@ -762,8 +763,7 @@ datos %>% separate(fecha,c("dia","mes")) %>%
              face = "bold",
              hjust = 0.4),
          axis.text.x =   element_text(
-             colour = "grey27",angle=90,size=6)) + coord_cartesian(ylim = c(0,75)) 
- 
+             colour = "grey27",angle=90,size=6)) + coord_cartesian(ylim = c(0,75))
 ```
 
  Aunque el mes de diciembre tiene una cantidad de fallecidos mayor, no existe una clara tendencia, salvo el mes de mayo donde los accidentes fatales tienen la frecuencia anbsoluta de menor valor.
