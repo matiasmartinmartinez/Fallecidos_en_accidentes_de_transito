@@ -683,14 +683,13 @@ mapeo<-  function(n)
 ```{r,fig.cap="Gráfico de mapas: frecuencia absoluta de fallecidos por departamento"}
 
 
-# Gráfico de mapas: cantidad de fallecidos por departamento
 mapeo(n = datos %>% count(dep)) +
   labs(fill = "Cantidad",
   x = NULL,
   y = NULL) +
   scale_fill_gradient2(
-    low = "grey2",
-    mid = "midnightblue", 
+    low = "black",
+    mid = "navynlue", 
     high = "white")
 
 ```
@@ -703,19 +702,18 @@ mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
   labs(
     fill = "Cantidad",
     x = NULL,
-    y = NULL,
-    title="Gráfico de mapas: cantidad de fallecidos en departamento por año") +
+    y = NULL) +
   theme( plot.title =  element_text( size = 15 )) +
   scale_fill_gradient2(
-    low = "red",
+    low = "midnightblue",
     mid = "white",
-    high = "blue",
-    midpoint = 75) +
+    high = "red",
+    midpoint = 90) +
   facet_wrap( ~ a)
 
 ```
 
-El punto medio corresponde a 75 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
+El punto medio corresponde a 90 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
 
 
 
