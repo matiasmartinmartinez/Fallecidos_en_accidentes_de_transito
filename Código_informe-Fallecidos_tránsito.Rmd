@@ -764,6 +764,8 @@ datos %>% separate(fecha,c("dia","mes")) %>%
              hjust = 0.4),
          axis.text.x =   element_text(
              colour = "grey27",angle=90,size=6)) + coord_cartesian(ylim = c(0,75))
+
+#problemas con eje x:  scale_x_date(labels = date_format("%m-%Y")) error
 ```
 
  Aunque el mes de diciembre tiene una cantidad de fallecidos mayor, no existe una clara tendencia, salvo el mes de mayo donde los accidentes fatales tienen la frecuencia anbsoluta de menor valor.
