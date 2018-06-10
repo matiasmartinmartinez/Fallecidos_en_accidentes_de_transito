@@ -689,7 +689,7 @@ mapeo(n = datos %>% count(dep)) +
   y = NULL) +
   scale_fill_gradient2(
     low = "black",
-    mid = "navynlue", 
+    mid = "navyblue", 
     high = "white")
 
 ```
