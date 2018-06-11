@@ -610,7 +610,7 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
 
 ### Departamento
 
-```{r,echo=F,fig.cap="Gráfico de barras: frecuencia acumulada de fallecidos por departamento"}
+ ```{r,echo=F,fig.cap="Gráfico de barras: frecuencia absoluta de fallecidos por departamento"}
 
 
  ggplot( 
@@ -619,8 +619,8 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
   geom_bar(stat="identity") +
   labs(
     x="Departamento",
-    y="Frecuencia acumulada",
-    caption="La recta roja corresponde a la media de frecuencia acumulada total del país") +
+    y="Frecuencia absoluta de fallecidos",
+    caption="La recta roja corresponde a la media de frecuencia absoluta total del país") +
   coord_flip() + 
   theme_minimal() + 
   theme(
@@ -633,6 +633,8 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
     colour="coral3") 
 
 
+
+```
 
 ```
 
