@@ -614,13 +614,14 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
 censo<-c(73378,520187,84698,123203,57088,25050,67048,58815,164300,1319108,113124,54765,103493,68088,124878,108309,82595,90053,48134)
 
 # Tasa de fallecidos cada 100.000 habitantes.
-cbind((datos %>% count(a,dep) %>% arrange(a)),censo=rep(censo))%>% mutate(tasa=(n/censo)*100000) %>% ggplot(
+pob.dep<-cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
+
+pob.dep %>% ggplot(
    aes (reorder(abbreviate(dep,4),+tasa),tasa)) +
   geom_bar(stat="identity") +
   labs(
     x="Departamento",
-    y="Frecuencia absoluta de fallecidos",
-    caption="La recta roja corresponde al promedio de tasa de fallecidos cada 100 mil para el total del país") +
+    y="Tasa de fallecidos cada 10 mil habitantes") +
   coord_flip() + 
   theme_minimal() + 
   theme(
@@ -628,9 +629,9 @@ cbind((datos %>% count(a,dep) %>% arrange(a)),censo=rep(censo))%>% mutate(tasa=(
       element_text(
         colour="grey30")) +  
   geom_hline( 
-    yintercept = mean(  (datos %>% count(dep))$n   ),     
+    yintercept = mean(  pob.dep$tasa   ),     
     cex=1.2,
-    colour="coral3") +facet_wrap(~a)
+    colour="coral3")
 
 
 
@@ -638,9 +639,24 @@ cbind((datos %>% count(a,dep) %>% arrange(a)),censo=rep(censo))%>% mutate(tasa=(
 ```
 
 
+La recta roja corresponde a la media de tasas de fallecidos por deparatamento cada 10 mil habitantes para el período designado.
 
 
-El área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José superan la media de fallecidos en el país, lo que implica una clara concentracíon de los accidentes fatales en la zona sur del territorio nacional.
+```{r}
+mapeo(cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(n=(n/censo)*10000)) +
+  labs(fill = "Cantidad",
+  x = NULL,
+  y = NULL) +
+  scale_fill_gradient2(
+  low = "midnightblue",
+    mid = "white",
+    high = "red",
+    midpoint = mean(pob.dep$tasa))
+
+```
+
+
+
 
 
 ```{r,warning=FALSE,echo=FALSE}
