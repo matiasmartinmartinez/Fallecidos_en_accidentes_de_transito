@@ -328,7 +328,9 @@ datos %>% dplyr::count(vehi,a) %>%
 
 ```
 
-Existe una clara hegemonía por parte de las motos como vehículo del fallecido, poseyendo aproximadamente un 50% de los mismos. También se visualiza una alta proporción de peatones, cercana a las proporción de fallecios en autos. Luego se aprecian valores poco considerables para vehículos menos frecuentes en el trásito del día a día.
+
+
+Existe un claro decenso de las motos como vehículo del fallecido y se puede visualizar una clara continuidad en la frecuencia absoluta para los auto, peaton y otros; cabe resaltar que  autos y motos precentaban un decenso a exepcion del año 2017 donde ocurrio un aumento de fallecidos.
 
 
 ```{r}
