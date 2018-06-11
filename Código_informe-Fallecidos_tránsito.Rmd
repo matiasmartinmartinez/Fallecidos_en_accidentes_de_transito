@@ -608,18 +608,19 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
 
 
 ### Departamento
+```{r,echo=F,fig.cap="Gráfico de barras: frecuencia absoluta de fallecidos por departamento"}
 
- ```{r,echo=F,fig.cap="Gráfico de barras: frecuencia absoluta de fallecidos por departamento"}
+#Censo 2011, fuente: INE.
+censo<-c(73378,520187,84698,123203,57088,25050,67048,58815,164300,1319108,113124,54765,103493,68088,124878,108309,82595,90053,48134)
 
-
- ggplot( 
-   (datos %>% count(dep)  ),
-   aes (reorder(abbreviate(dep,4),+n),n)) +
+# Tasa de fallecidos cada 100.000 habitantes.
+cbind((datos %>% count(a,dep) %>% arrange(a)),censo=rep(censo))%>% mutate(tasa=(n/censo)*100000) %>% ggplot(
+   aes (reorder(abbreviate(dep,4),+tasa),tasa)) +
   geom_bar(stat="identity") +
   labs(
     x="Departamento",
     y="Frecuencia absoluta de fallecidos",
-    caption="La recta roja corresponde a la media de frecuencia absoluta total del país") +
+    caption="La recta roja corresponde al promedio de tasa de fallecidos cada 100 mil para el total del país") +
   coord_flip() + 
   theme_minimal() + 
   theme(
@@ -629,13 +630,15 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
   geom_hline( 
     yintercept = mean(  (datos %>% count(dep))$n   ),     
     cex=1.2,
-    colour="coral3") 
+    colour="coral3") +facet_wrap(~a)
+
 
 
 
 ```
 
-```
+
+
 
 El área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José superan la media de fallecidos en el país, lo que implica una clara concentracíon de los accidentes fatales en la zona sur del territorio nacional.
 
