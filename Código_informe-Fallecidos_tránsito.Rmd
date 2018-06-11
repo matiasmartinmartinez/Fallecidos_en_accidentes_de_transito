@@ -321,8 +321,10 @@ datos %>% dplyr::count(vehi,a) %>%
        colour=vehi)) + 
    geom_line(
      stat ="identity",
-     show.legend = T) + 
-  geom_point()+
+     show.legend = T,
+     cex=1.4 ) + 
+  geom_point(
+    cex=1.4 )+
    labs(
      x = "Vehículo",
      y = "Frecuencia absoluta") +
@@ -378,7 +380,8 @@ ggplotly(
     geom_mosaic(aes(
       weight = n,
       x = product( reorder(abbreviate(vehi, 4),+prop)),
-      fill = abbreviate(rol, 1))) +
+      fill = abbreviate(rol, 1)),
+      alpha=0.8) +
     labs(
       x = "Vehículo",
       y = "Proporción de fallecidos") +
@@ -560,7 +563,7 @@ ggplotly(
       aes(f.dias),
       cex=1.09,
       geom = "line",
-      colour="coral1") +
+      colour="turquoise4") +
    labs(
      x = "Días de supervivencia luego del accidente" ,
      y = "Proporción") + 
@@ -576,7 +579,7 @@ ggplotly(
 
 ```
 
-La curva roja corresponde al diagrama de Pareto y representa la densidad acumulada hasta *x* día.
+La curva azul corresponde al diagrama de Pareto y representa la densidad acumulada hasta *x* día.
 
 Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas.
 
@@ -733,7 +736,7 @@ ggplotly(
 
 
 mapeo(n= (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>% 
-          mutate(n=(n/censo)*10000))    ) +
+          mutate(n=(n/censo)*10000))  ) +
   labs(
     fill = "Tasa",
     x = NULL,
@@ -742,7 +745,9 @@ mapeo(n= (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>%
     low = "midnightblue",
     mid = "white",
     high = "red",
-    midpoint = 1.77) +
+    midpoint = mean(
+      (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>%
+                       mutate(n=(n/censo)*10000))$n )) +
   facet_wrap( ~ a)
 
 ```
@@ -781,9 +786,13 @@ f<-data.frame(fecha,n.dia)
 datos %>% separate(fecha,c("dia","mes")) %>% 
   mutate(a.mes=paste(a,mes,sep="-") ) %>%
   count(a.mes) %>% arrange(desc(a.mes)) %>%
-     ggplot(  aes(a.mes,n,group=1,) ) + 
-     geom_point()  + geom_line(stat="identity")+ 
-  geom_smooth(method = "loess")+
+     ggplot( 
+       aes(a.mes,n,group=1) ) + 
+     geom_point()  + 
+  geom_line(
+    stat="identity")+ 
+  geom_smooth(
+    method = "loess")+
      labs(
          x = "Año y mes",
          y = "Frecuencia absoluta") +
@@ -795,7 +804,8 @@ datos %>% separate(fecha,c("dia","mes")) %>%
              face = "bold",
              hjust = 0.4),
          axis.text.x =   element_text(
-             colour = "grey27",angle=90,size=6)) + coord_cartesian(ylim = c(0,75))
+             colour = "grey27",angle=90,size=6)) +
+  coord_cartesian(ylim = c(0,75))
 
 #problemas con eje x:  scale_x_date(labels = date_format("%m-%Y")) error
 ```
@@ -804,22 +814,27 @@ datos %>% separate(fecha,c("dia","mes")) %>%
 Existe un valor que si bien no llega a ser un dato atípico posee un gran desvío con repecto a la regresión lineal.
 
 
-```{r}
-# Diagrama térmico: día según hora
+```{r,fig.cap="Diagrama térmico: frecuencia absoluta de fallecidos según día y hora"}
+
 f %>% count(n.dia, hrs) %>%
   ggplot(aes(hrs, ordered(
     n.dia,
-    levels = c( "lunes",  "martes",  "miércoles",  "jueves",  "viernes","sábado", "domingo" )))) +
+    levels = c( "lunes",  "martes",  "miércoles", 
+                "jueves",  "viernes","sábado", "domingo" )))) +
   geom_tile(aes(fill = n)) + scale_fill_gradient2(low = "red2", high = "red2", mid = "yellow") +
   labs(
     x = "Hora",
     y = "Día",
-    title = "Diagrama térmico: día según hora ") +
-  theme(plot.title = element_text(
-  size = 17,
-  colour = "grey30",
-  face = "bold",
-  hjust = 0.4))
+    fill="Fallecidos") +
+  theme( 
+    axis.title = element_text(
+      size=13,
+      colour="grey34",
+      face="bold"),
+    axis.text = element_text(
+      size=10.4),
+    panel.background = element_rect(
+      colour="white"))
 
 ```
 
