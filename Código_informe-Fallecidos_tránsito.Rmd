@@ -411,14 +411,13 @@ ggplotly(
 
 Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
-
 ```{r,fig.cap="Gráfico de mosaico: relación entre vehículo involucrado según vehículo del fallecido"}
 
 ggplotly(
   datos %>% dplyr::count(vehi, otro.vehi)  %>%
    mutate(otro.vehi = ifelse( otro.vehi == ""," NADA",otro.vehi), 
-          vehi = ifelse(n<50,"OTROS",vehi),
-          otro.vehi = ifelse(n<50,"OTROS",otro.vehi)) %>% 
+          vehi = ifelse(vehi!="AUTO" & vehi!="MOTO" & vehi!="PEATON" & vehi!="BICICLETA"  & vehi!="CAMIONETA","OTROS",vehi),
+          otro.vehi = ifelse(n<30,"OTROS",otro.vehi)) %>% 
     group_by(vehi,otro.vehi)%>% 
     summarise(n=sum(n)) %>% arrange(desc(n)) %>%
     ggplot() + 
@@ -441,7 +440,7 @@ ggplotly(
 
 ```
 
-Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 50 fallecidos.
+Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 30 fallecidos.
 
 La mayor proporción de los accidentes desde el punto de vista del fallecido no involucran otro vehículo. El medio de transporte que más involcrado estuvo en los accidentes fue el auto. 
 Es de apreciar que la distribución varía considerablemente dependiendo del vehículo en cuestión.
