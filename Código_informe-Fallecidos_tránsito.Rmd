@@ -566,7 +566,7 @@ ggplotly(
 
 ```
 
-La curva verde corresponde al diagrama de Pareto y representa la densidad acumulada hasta *x* día.
+La curva roja corresponde al diagrama de Pareto y representa la densidad acumulada hasta *x* día.
 
 Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas.
 
