@@ -766,7 +766,7 @@ datos %>% separate(fecha,c("dia","mes")) %>%
 #problemas con eje x:  scale_x_date(labels = date_format("%m-%Y")) error
 ```
 
- Aunque el mes de diciembre tiene una cantidad de fallecidos mayor, no existe una clara tendencia, salvo el mes de mayo donde los accidentes fatales tienen la frecuencia anbsoluta de menor valor.
+ Aunque el mes de diciembre tiene una cantidad de fallecidos mayor, no existe una clara tendencia, salvo el mes de mayo donde los accidentes fatales tienen la frecuencia absoluta de menor valor.
 
 ```{r}
 # Diagrama térmico: día según hora
