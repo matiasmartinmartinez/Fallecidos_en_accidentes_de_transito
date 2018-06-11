@@ -594,7 +594,7 @@ datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
               "thistle4", "lightsteelblue","grey44"))
 ```
 
-De igual manera que para el total, colisiones entre vehiculos, despistes y atropello de animales son los tres tipos de siniestros que mayor proporción de fallecios en muerte súbita poseen.
+De igual manera que para el total, colisiones entre vehiculos, despistes y atropello de peaton son los tres tipos de siniestros que mayor proporción de fallecios en muerte súbita poseen.
 
 ### Departamento
 ```{r,echo=F,fig.cap="Gráfico de barras: frecuencia acumulada de fallecidos por departamento"}
