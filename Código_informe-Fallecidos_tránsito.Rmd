@@ -402,7 +402,7 @@ ggplotly(
 ```
 
 
-Por supuesto, además de filtrar con la finalidad de no sobrecargar el gráfico, se eliminó el rol peatón, ya que no poseé vehículo como tal.
+
 Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
 
