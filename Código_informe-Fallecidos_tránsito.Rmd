@@ -10,17 +10,18 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, fig.pos = 'hbpt', out.extra = '', message = FALSE, warning = FALSE)
 ```
 
+
 ## Introducción:
 
 El presente estudio surge de la curiosidad por conocer el comportamiento de los siniestros de tránsitos en Uruguay y posee como objetivo madre una profunda aplicación de los conocimientos adquiridos en la asignatura "Nuevas técnicas para el análisis de datos", marcando énfasis en un correcto análisis exploratorio y la generación de adecuadas visualizaciones de los datos.
 Se analizara tanto los datos del fallecido como lo del suceso.
 
 
-
-
 ### Antecedentes
+
 En su programa de Sistema de Información Nacional de Tránsito (SINATRÁN), donde se extrajo los datos, la Unidad Nacional de Seguridad Vial (UNASEV), genera un informe anual sobre la Siniestralidad Vial en Uruguay para el periodo dado desde 2009 a la actualidad.
 Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.gub.uy/inicio/sinatran/informes_siniestralidad_vial_uruguay/
+
 
 ## Datos obtenidos
 
@@ -28,7 +29,9 @@ Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), co
 
 Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
 
+
 ### Población:
+
 Corresponde a los 2527 fallecidos en accidentes de tránsito dentro del territorio uruguayo para el período antes señalado.
 
 ### Descripción de las variables:
@@ -50,6 +53,7 @@ Se poseen 15 variables identificadas de la siguiente manera:
 - **dir:** Lugar del accidente.
 - **x:** Latitud.
 - **y:** Longitud.
+
 
 ## Modelos y herramientas:
 
@@ -133,9 +137,8 @@ str(datos)
 ```
 
 
-
-
 ### Fallecidos por año
+
 ```{r,warning=FALSE,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos"}
 
 ggplotly(
@@ -157,6 +160,7 @@ Desde el año 2013 la frecuencia absoluta de fallecidos en tránsito manifestaba
 
 
 ### Sexo
+
 ```{r,echo=F,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos por sexo"}
 
 ggplotly(
@@ -180,8 +184,8 @@ ggplotly(
  Para el sexo masculino se puede ver un decenso significativo de fallecidos para este período trabajado, en cambio el sexo femenino se percibe una continiudad en la frecuencia absoluta que no varía significativamente en los tiempos transcurridos.
 
 
-
 ### Edad
+
 ```{r,echo=F,fig.cap="Gráfico de densidad: distribución en la edad del fallecido según año"}
 
 
@@ -209,6 +213,7 @@ datos %>% ggplot(aes(edad)) +
 
  Se percibe una fuerte concentración en edades cercanas a los 25 años, la cual es inalterable al paso de los años para el período dado. Sin embargo, la distribución para aproximadamente de 30 a 70 años varía cosiderablemente: de poseer una meseta en el 2013, luego poseer una brusca y cosiderable pendiente decreciente en el año 2014, a retomar lentamente su meseta pero más expandida, llegando a los 70 años con proporciones superiores al 10%.
  
+ 
 ```{r,fig.cap="Diagrama de caja: edad del fallecido según sexo"}
 
 
@@ -233,6 +238,7 @@ ggplotly(
 ```
  
   Para el sexo femenino existe una amplia variación de los datos, ya que pese a corresponder a aproximadamente un 25% de los fallecidos logra poseer un rango intercuartílico mayor al masculino. Los hombres en tanto se concentran a edades menores, con una mediana 6 años menor que la femínea.
+  
   
 ### Rol
 
@@ -286,6 +292,7 @@ ggplotly(datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
 
 Para este período trabajado no parece variar significativamente las frecuencias absolutas de peaton y pasajero, tiende a mantenerse en el tiempo observando que solamente representan 80 casos al año, mientras que los fallecidos en rol de conductores se puede notar un breve decenso ya que en 2017 obvieron mas fallecidos que el año sucesor.
 
+
 ### Peatones
 
 ```{r}
@@ -296,6 +303,7 @@ Para este período trabajado no parece variar significativamente las frecuencias
 
 
 ### Vehículo
+
 ```{r,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos por vehículo para cada año"}
 
 
@@ -328,8 +336,6 @@ datos %>% dplyr::count(vehi,a) %>%
 
 ```
 
-
-
 Existe un claro decenso de las motos como vehículo del fallecido y se puede visualizar una clara continuidad en la frecuencia absoluta para los auto, peaton y otros; cabe resaltar que  autos y motos precentaban un decenso a exepcion del año 2017 donde ocurrio un aumento de fallecidos.
 
 
@@ -357,7 +363,9 @@ Existe un claro decenso de las motos como vehículo del fallecido y se puede vis
 Se denota que próximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino decenso.
 En tanto autos representan una distribución aproximadamente constante desde los 25 a los 70 años. Para edades cercanas a 50 años los fallecidos en dicho vehículo comienzan a tener mayores proporciones en contraste con motos.
 
+
 ### Relación vehículo
+
 ```{r,echo=F,warning=FALSE,fig.cap="Gráfico de mosaico: proporción de fallecidos para cada rol según vehículo"}
 
 
@@ -401,8 +409,6 @@ ggplotly(
 
 ```
 
-
-
 Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
 
@@ -441,8 +447,8 @@ La mayor proporción de los accidentes desde el punto de vista del fallecido no 
 Es de apreciar que la distribución varía considerablemente dependiendo del vehículo en cuestión.
 
 
-
 ### Jurisdicción
+
 ```{r,echo=F, fig.cap="Gráfica de serie de tiempo: frecuencia absoluta de fallecidos por jurisdicción"}
 
 datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
@@ -470,6 +476,7 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
 ```
 
 Existe una disminución de la proporción de fallecimientos en jurisdicciones nacionales hasta el año 2015 y luego se comporta con una pendiete creciente hasta el final del período dado, donde supera a los fallecidos en departamentales en el año 2017.
+
 
 ```{r,fig.cap="Gráfico de mosaico: proporción en la existencia de otro vehículo involucrado según jurisdicción del accidente"}
 
@@ -502,6 +509,7 @@ datos %>% dplyr::count(involucrado, jur) %>%
 ```
 
 Si bien para ambas jurisdicciones existe una alta proporción de accidentes fatales con otro vehículo involucrado (aproximadamente un 60%), sobresale en departamental acercándose a un 75% de los accidentes fatales.
+
 
 ```{r,fig.cap="Gráfico de mosaicos: jurisdicción del accidente de tránsito según tipo de siniestro"}
  
@@ -538,6 +546,7 @@ Salvo despistes y atropellos de animales, los restantes tipos de siniestros pred
 
 
 ### Días de supervivencia
+
 ```{r,fig.cap="Gráfico de barras: proporción de días de supervivencia luego del accidente"}
 
 
@@ -598,7 +607,9 @@ datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
 
 De igual manera que para el total, colisiones entre vehiculos, despistes y atropello de peaton son los tres tipos de siniestros que mayor proporción de fallecios en muerte súbita poseen.
 
+
 ### Departamento
+
 ```{r,echo=F,fig.cap="Gráfico de barras: frecuencia acumulada de fallecidos por departamento"}
 
 
@@ -626,7 +637,6 @@ De igual manera que para el total, colisiones entre vehiculos, despistes y atrop
 ```
 
 El área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José superan la media de fallecidos en el país, lo que implica una clara concentracíon de los accidentes fatales en la zona sur del territorio nacional.
-
 
 
 ```{r,warning=FALSE,echo=FALSE}
@@ -718,8 +728,6 @@ mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
 El punto medio corresponde a 90 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
 
 
-
-
 ### Fecha y hora
 
 ```{r,warning=FALSE,echo=F}
@@ -770,6 +778,7 @@ datos %>% separate(fecha,c("dia","mes")) %>%
 
  Aunque el mes de diciembre tiene una cantidad de fallecidos mayor, no existe una clara tendencia, salvo el mes de mayo donde los accidentes fatales tienen la frecuencia absoluta de menor valor.
 
+
 ```{r}
 # Diagrama térmico: día según hora
 f %>% count(n.dia, hrs) %>%
@@ -788,7 +797,6 @@ f %>% count(n.dia, hrs) %>%
   hjust = 0.4))
 
 ```
-
 
 Los accidentes se concentran de 16:00 a 20:00 horas, aumentabdo paulativamente a medida se acercan los días correspondientes al fin de semana.
 
