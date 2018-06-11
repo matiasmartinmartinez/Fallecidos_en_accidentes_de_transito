@@ -290,7 +290,7 @@ ggplotly(datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
      )
 ```
 
-Para este período trabajado no parece variar significativamente las frecuencias absolutas de peaton y pasajero, tiende a mantenerse en el tiempo observando que solamente representan 80 casos al año, mientras que los fallecidos en rol de conductores se puede notar un breve decenso ya que en 2017 obvieron mas fallecidos que el año sucesor.
+Para este período trabajado no parece variar significativamente las frecuencias absolutas de los peatones y pasajeros. La misma tiende a mantenerse en el tiempo con aproximadamente 80 casos al año en ambos, mientras que en fallecidos en rol de conductores denotan un ligero descenso hasta el año 2016.
 
 
 ### Peatones
