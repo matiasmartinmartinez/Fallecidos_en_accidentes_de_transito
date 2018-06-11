@@ -1,7 +1,7 @@
 ---
 title: " Siniestros de tránsito fatales en Uruguay, 2013-2017 "
 author: "Martínez Matías, Zang Bruno"
-date: "10 de junio de 2018"
+date: "11 de junio de 2018"
 output: html_document
 ---
 
@@ -116,7 +116,7 @@ ipack <- function( pkg )
     
     }
 
-paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal","knitr","scales")
+paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal","knitr","scales","lubridate")
 
 ipack(paquetes.a.utilizar)
 
@@ -181,7 +181,7 @@ ggplotly(
 
 ```
 
- Para el sexo masculino se puede ver un decenso significativo de fallecidos para este período trabajado, en cambio el sexo femenino se percibe una continiudad en la frecuencia absoluta que no varía significativamente en los tiempos transcurridos.
+ Para el sexo masculino se puede ver un decenso significativo de fallecidos para este período trabajado. En cambio, el sexo femenino percibe una continiudad en la frecuencia absoluta que no varía significativamente en los tiempos transcurridos.
 
 
 ### Edad
@@ -755,7 +755,7 @@ f<-data.frame(fecha,n.dia)
 
 
 datos %>% separate(fecha,c("dia","mes")) %>% 
-  mutate(a.mes=paste(a,"-",mes) ) %>%
+  mutate(a.mes=paste(a,mes,sep="-") ) %>%
   count(a.mes) %>% arrange(desc(a.mes)) %>%
      ggplot(  aes(a.mes,n,group=1,) ) + 
      geom_point()  + geom_line(stat="identity")+ 
