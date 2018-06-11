@@ -469,7 +469,7 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
  
 ```
 
-Existe una disminución de la proporción de fallecimientos en jurisdicciones nacionales hasta el año 2015 y luego se comporta con una pendiete creciente hasta el final del período dado, donde supera el 50% de las defunciones.
+Existe una disminución de la proporción de fallecimientos en jurisdicciones nacionales hasta el año 2015 y luego se comporta con una pendiete creciente hasta el final del período dado, donde supera a los fallecidos en departamentales en el año 2017.
 
 ```{r,fig.cap="Gráfico de mosaico: proporción en la existencia de otro vehículo involucrado según jurisdicción del accidente"}
 
