@@ -177,7 +177,7 @@ ggplotly(
 
 ```
 
- Existe una continuidad en la proporciones para el período denotado, tales carecen de amplio desvío y se ubican muy próximas al 75% para fallecidos de sexo masculino.
+ Para el sexo masculino se puede ver un decenso significativo de fallecidos para este período trabajado, en cambio el sexo femenino se percibe una continiudad en la frecuencia absoluta que no varía significativamente en los tiempos transcurridos.
 
 
 
