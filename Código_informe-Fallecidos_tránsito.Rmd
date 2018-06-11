@@ -284,7 +284,7 @@ ggplotly(datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
      )
 ```
 
-Para este período trabajado no parece variar significativamente las proporciones, tiende a mantenerse en el tiempo observando que tanto peatones como pasajeros representan un 20%, mientras que los fallecidos en rol de conductores se aproximan al 60%.
+Para este período trabajado no parece variar significativamente las frecuencias absolutas de peaton y pasajero, tiende a mantenerse en el tiempo observando que solamente representan 80 casos al año, mientras que los fallecidos en rol de conductores se puede notar un breve decenso ya que en 2017 obvieron mas fallecidos que el año sucesor.
 
 ### Peatones
 
