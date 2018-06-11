@@ -666,28 +666,25 @@ mapeo<-  function(n)
 
 ```{r,echo=F,fig.cap="Gráfico de barras: frecuencia absoluta de fallecidos por departamento"}
 
-#Censo 2011, fuente: INE.
-censo<-c(73378,520187,84698,123203,57088,25050,67048,58815,164300,1319108,113124,54765,103493,68088,124878,108309,82595,90053,48134)
 
-# Tasa de fallecidos cada 100.000 habitantes.
-pob.dep<-cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
+ggplot( 
+  (datos %>% count(dep)  ),
+  aes (reorder(abbreviate(dep,4),+n),n)) +
+ geom_bar(stat="identity") +
+ labs(
+   x="Departamento",
+   y="Frecuencia absoluta de fallecidos") +
+ coord_flip() + 
+ theme_minimal() + 
+ theme(
+   axis.title  =
+     element_text(
+       colour="grey30")) +  
+ geom_hline( 
+   yintercept = mean(  (datos %>% count(dep))$n   ),     
+   cex=1.2,
+   colour="coral3") 
 
-pob.dep %>% ggplot(
-   aes (reorder(abbreviate(dep,4),+tasa),tasa)) +
-  geom_bar(stat="identity") +
-  labs(
-    x="Departamento",
-    y="Tasa de fallecidos cada 10 mil habitantes") +
-  coord_flip() + 
-  theme_minimal() + 
-  theme(
-    axis.title  =
-      element_text(
-        colour="grey30")) +  
-  geom_hline( 
-    yintercept = mean(  pob.dep$tasa   ),     
-    cex=1.2,
-    colour="coral3")
 
 
 
@@ -695,34 +692,39 @@ pob.dep %>% ggplot(
 ```
 
 
-La recta roja corresponde a la media de tasas de fallecidos por deparatamento cada 10 mil habitantes para el período designado.
+La recta roja corresponde a la media  de fallecidos por deparatamento para todo el período designado.
+
+El área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José superan la media de fallecidos en el país, lo que implica una clara concentracíon de los accidentes fatales en la zona sur del territorio nacional.
+
+```{r}
+
+# Censo 2011, fuente: INE.
+censo<- c(73378,520187,84698,123203,57088,
+          25050,67048,58815,164300,1319108,
+          113124,54765,103493,68088,124878,
+          108309,82595,90053,48134)
+
+# Tasa de fallecidos cada 10.000 habitantes.
+pob.dep<-cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
+
+```
+
 
 
 ```{r,echo=F,fig.cap="Grafico de mapas: tasa de fallecidos cada 10 mil habitante por departamento"}
-mapeo(cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(n=(n/censo)*10000)) +
-  labs(fill = "Cantidad",
+
+
+ggplotly(
+  mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
+          mutate(n=(n/censo)*10000)    ) +
+  labs(fill = "Tasa",
   x = NULL,
   y = NULL) +
   scale_fill_gradient2(
   low = "midnightblue",
     mid = "white",
     high = "red",
-    midpoint = mean(pob.dep$tasa))
-
-```
-
-
-```{r,fig.cap="Gráfico de mapas: frecuencia absoluta de fallecidos por departamento"}
-
-
-mapeo(n = datos %>% count(dep)) +
-  labs(fill = "Cantidad",
-  x = NULL,
-  y = NULL) +
-  scale_fill_gradient2(
-    low = "black",
-    mid = "navyblue", 
-    high = "white")
+    midpoint = mean(pob.dep$tasa)))
 
 ```
 
@@ -730,17 +732,17 @@ mapeo(n = datos %>% count(dep)) +
 ```{r,fig.cap="Gráfico de mapas: frecuencia absoluta de fallecidos en respectivo departamento según año"}
 
 
-mapeo(n = datos %>% count(dep, a) %>% arrange(a)) +
+mapeo(n= (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>% 
+          mutate(n=(n/censo)*10000))    ) +
   labs(
-    fill = "Cantidad",
+    fill = "Tasa",
     x = NULL,
     y = NULL) +
-  theme( plot.title =  element_text( size = 15 )) +
   scale_fill_gradient2(
     low = "midnightblue",
     mid = "white",
     high = "red",
-    midpoint = 90) +
+    midpoint = 1.77) +
   facet_wrap( ~ a)
 
 ```
@@ -768,6 +770,8 @@ f<-data.frame(fecha,n.dia)
 
 
 ```
+
+
 
 ```{r,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos según mes"}
 
