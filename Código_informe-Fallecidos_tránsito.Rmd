@@ -776,7 +776,8 @@ datos %>% separate(fecha,c("dia","mes")) %>%
 #problemas con eje x:  scale_x_date(labels = date_format("%m-%Y")) error
 ```
 
- Aunque el mes de diciembre tiene una cantidad de fallecidos mayor, no existe una clara tendencia, salvo el mes de mayo donde los accidentes fatales tienen la frecuencia absoluta de menor valor.
+ Se nota una leve tendencia en la frecuencia absoluta de fallecidos por mes, siendo decreciente hasta el año 2016 y luego retomando lentamente el crecimieto en 2017.
+Existe un valor que si bien no llega a ser un dato atípico posee un gran desvío con repecto a la regresión lineal.
 
 
 ```{r}
