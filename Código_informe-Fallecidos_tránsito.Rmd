@@ -11,13 +11,13 @@ knitr::opts_chunk$set(echo = FALSE, fig.pos = 'hbpt', out.extra = '', message = 
 ```
 
 
-## Introducción:
+## Introducción
 
 El presente estudio surge de la curiosidad por conocer el comportamiento de los siniestros de tránsitos en Uruguay y posee como objetivo madre una profunda aplicación de los conocimientos adquiridos en la asignatura "Nuevas técnicas para el análisis de datos", marcando énfasis en un correcto análisis exploratorio y la generación de adecuadas visualizaciones de los datos.
 Se analizara tanto los datos del fallecido como lo del suceso.
 
 
-### Antecedentes
+### Antecedentes:
 
 En su programa de Sistema de Información Nacional de Tránsito (SINATRÁN), donde se extrajo los datos, la Unidad Nacional de Seguridad Vial (UNASEV), genera un informe anual sobre la Siniestralidad Vial en Uruguay para el periodo dado desde 2009 a la actualidad.
 Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.gub.uy/inicio/sinatran/informes_siniestralidad_vial_uruguay/
@@ -55,7 +55,7 @@ Se poseen 15 variables identificadas de la siguiente manera:
 - **y:** Longitud.
 
 
-## Modelos y herramientas:
+## Modelos y herramientas
 
 Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico R, con la puntual aplicación de paquete "tidyverse", que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
 Con el fin de crear visualizaciónes oportunas se gestará su formación con la librería "ggplot2", perteneciente a tidyverse, la cual al trabajar mediante acumulación de capas (layers) posee una mayor flexibilidad y permite generar gráficos que representen correctamente los datos, sin generar interpretaciones confusas. Toma como referencia una metodología de visualización de datos llamada the Grammar of Graphics (Wilkinson, 2005), que consiste en especificar de manera independiente las componentes del gráfico como si fuesen bloques y luego combinarlas.
@@ -127,7 +127,7 @@ colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
            "khaki3", "thistle4", "lightsteelblue","grey80")
 ```
 
-# Análisis Exploratorio de Datos
+## Análisis Exploratorio de Datos
 
 
 ```{r}
@@ -254,7 +254,7 @@ ggplotly(
 datos %>% ggplot(aes(edad)) +
   geom_density(
     aes(fill = rol), 
-    alpha = 0.7, 
+    alpha = 0.4, 
     show.legend = T) +
   labs(
     x =  "Edad", 
@@ -268,6 +268,8 @@ datos %>% ggplot(aes(edad)) +
       hjust = 0.33,
       colour = "darkslategray")))+ 
   scale_fill_manual(values = colores[(c(4,1,2))]) 
+
+
 ```
 
  La distribución de la densidad en la edad según el rol del fallecido cambia suntuosamente dependiendo si existe la condición de peatón o no: en el caso de existir se observa una fuerte concentración a edades avanzadas, sin embargo en el caso de no serlo su concentración es mayoritariamente en adultos menores (de 20 a 30 años).
@@ -348,7 +350,7 @@ datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>%
   ggplot(aes(edad)) +
    geom_density(
      aes(fill = vehi), 
-     alpha = 0.4, 
+     alpha = 0.5, 
      show.legend = T) +
    labs(
      x =  "Edad", 
@@ -360,7 +362,8 @@ datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>%
      axis.title  = (element_text(
        size = 12,
        colour = "darkslategray"))) + 
-  scale_fill_manual (values=c("limegreen","slateblue"))
+  scale_fill_manual (values=colores[c(3,2)])
+
 ```
 
 Se denota que próximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino decenso.
@@ -667,7 +670,7 @@ ggplot(
  geom_hline( 
    yintercept = mean(  (datos %>% count(dep))$n   ),     
    cex=1.2,
-   colour=colores[4]) 
+   colour="#d8b960") 
 
 
 
@@ -676,7 +679,7 @@ ggplot(
 ```
 
 
-La recta roja corresponde a la media  de fallecidos por deparatamento para todo el período designado.
+La recta de color mostaza corresponde a la media  de fallecidos por deparatamento para todo el período designado.
 
 El área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José superan la media de fallecidos en el país, lo que implica una clara concentracíon de los accidentes fatales en la zona sur del territorio nacional.
 
@@ -704,9 +707,9 @@ pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n
   x = NULL,
   y = NULL) +
   scale_fill_gradient2(
-  low = "royalblue2",
+  low = "#d8b365",
     mid = "white",
-    high = "orangered2",
+    high = "#5ab4ac",
     midpoint = mean(pob.dep$tasa))
 
 ```
@@ -722,9 +725,9 @@ mapeo(n= (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>%
     x = NULL,
     y = NULL) +
   scale_fill_gradient2(
-    low = "royalblue2",
+    low = "#d8b365",
     mid = "white",
-    high = "orangered",
+    high = "#5ab4ac",
     midpoint = mean(
       (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>%
                        mutate(n=(n/censo)*10000))$n )) +
