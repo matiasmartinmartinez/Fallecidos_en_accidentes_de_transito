@@ -1,7 +1,7 @@
 ---
 title: " Siniestros de tránsito fatales en Uruguay, 2013-2017 "
 author: "Martínez Matías, Zang Bruno"
-date: "11 de junio de 2018"
+date: "12 de junio de 2018"
 output: html_document
 ---
 
@@ -123,7 +123,8 @@ ipack(paquetes.a.utilizar)
 
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 
-
+colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
+           "khaki3", "thistle4", "lightsteelblue","grey80")
 ```
 
 # Análisis Exploratorio de Datos
@@ -165,7 +166,13 @@ Desde el año 2013 la frecuencia absoluta de fallecidos en tránsito manifestaba
 ```{r,echo=F,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos por sexo"}
 
 ggplotly(
-   datos %>% dplyr::count(a, sexo) %>% ggplot(aes(a,n,colour=sexo)) + geom_point()+
+   datos %>% dplyr::count(a, sexo) %>% 
+     ggplot(
+       aes(
+         a,
+         n,
+         colour=sexo)) +
+     geom_point()+
      geom_line(cex=1) +
      theme_minimal() +
      labs(
@@ -176,7 +183,7 @@ ggplotly(
          size = 14.4,
          colour = "darkslategrey")) +
      coord_cartesian(ylim = c(0,500)) +
-     scale_color_manual( values=c("darkolivegreen3","turquoise4") )  )
+     scale_color_manual( values=colores)  )
 
 
 
@@ -205,7 +212,7 @@ datos %>% ggplot(aes(edad)) +
       size=11.5,
       colour="grey20"),
     panel.background = element_rect(
-      fill="gray94"))+
+      fill="gray96"))+
    facet_wrap(~a)
 
 ```
@@ -217,17 +224,20 @@ datos %>% ggplot(aes(edad)) +
 
 
 ggplotly(
-  datos %>% ggplot(aes(sexo, edad)) + 
+  datos %>% 
+    ggplot(    aes( sexo, edad, fill=sexo )   ) + 
     geom_boxplot(
+      alpha=0.4,
       show.legend = F) + 
     labs(
       x =  "Sexo",
       y = "Edad en años") + 
     theme_bw()+
-    theme(plot.title =
+    theme(axis.title = 
             element_text(
-              size = 16,
-              colour = "grey19"))  ) 
+              size = 12.6,
+              colour = "grey27")) +
+    scale_fill_manual(values=colores) ) 
 
 
 
@@ -243,7 +253,7 @@ ggplotly(
 datos %>% ggplot(aes(edad)) +
   geom_density(
     aes(fill = rol), 
-    alpha = 0.6, 
+    alpha = 0.7, 
     show.legend = T) +
   labs(
     x =  "Edad", 
@@ -256,7 +266,7 @@ datos %>% ggplot(aes(edad)) +
       size = 16,
       hjust = 0.33,
       colour = "darkslategray")))+ 
-  scale_fill_manual(values = c("coral1","chartreuse3", "cadetblue3")) 
+  scale_fill_manual(values = colores[(c(4,1,2))]) 
 ```
 
  La distribución de la densidad en la edad según el rol del fallecido cambia suntuosamente dependiendo si existe la condición de peatón o no: en el caso de existir se observa una fuerte concentración a edades avanzadas, sin embargo en el caso de no serlo su concentración es mayoritariamente en adultos menores (de 20 a 30 años).
@@ -265,7 +275,8 @@ datos %>% ggplot(aes(edad)) +
 
 ```{r,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos según rol"}
 
-ggplotly(datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
+ggplotly(
+  datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
      ggplot(
          aes(a,n,
              fill=rol,
@@ -282,7 +293,7 @@ ggplotly(datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
        theme(
          axis.title = element_text(
            colour="grey30")) +
-       scale_colour_manual(values = c("coral1","chartreuse3", "cadetblue3")) 
+       scale_colour_manual(values =  colores[(c(4,1,2))]) 
      )
 ```
 
@@ -327,9 +338,8 @@ datos %>% dplyr::count(vehi,a) %>%
    theme_minimal()+
    theme(axis.title = element_text(
        colour = "grey30"))+
-   scale_fill_manual(
-       values = c("darkseagreen4","tan2","indianred",
-                  "khaki3", "thistle4", "lightsteelblue")) +
+   scale_colour_manual(
+     values = colores) +
   coord_cartesian(ylim=c(0,310))
 
 ```
@@ -337,25 +347,25 @@ datos %>% dplyr::count(vehi,a) %>%
 Existe un claro decenso de las motos como vehículo del fallecido y se puede visualizar una clara continuidad en la frecuencia absoluta para los auto, peaton y otros; cabe resaltar que  autos y motos precentaban un decenso a exepcion del año 2017 donde ocurrio un aumento de fallecidos.
 
 
-```{r}
-# Gráfico de densidad: distribución de la edad de fallecidos en moto u auto
- datos %>% filter(vehi==c("AUTO" , "MOTO")) %>% ggplot(aes(edad)) +
+```{r,fig.cap=" Gráfico de densidad: distribución de la edad de fallecidos en moto u auto"}
+
+datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>% 
+  ggplot(aes(edad)) +
    geom_density(
      aes(fill = vehi), 
      alpha = 0.4, 
      show.legend = T) +
    labs(
      x =  "Edad", 
-     y = "Densidad", 
-     title = "Gráfico de densidad: edad de fallecidos en moto u auto")  + 
+     y = "Densidad")  + 
    theme_minimal() + 
    guides(fill = guide_legend(title = "Vehículo:")) +
    theme(
      legend.position = "bottom", 
-     plot.title = (element_text(
-       size = 16,
-       hjust = 0.33,
-       colour = "darkslategray"))) + scale_fill_manual(values=c("limegreen","slateblue"))
+     axis.title  = (element_text(
+       size = 12,
+       colour = "darkslategray"))) + 
+  scale_fill_manual (values=c("limegreen","slateblue"))
 ```
 
 Se denota que próximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino decenso.
