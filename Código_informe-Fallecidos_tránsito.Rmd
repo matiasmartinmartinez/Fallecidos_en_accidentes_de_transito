@@ -177,7 +177,8 @@ ggplotly(
      theme_minimal() +
      labs(
        x = "Año", 
-       y = "Proporción según sexo") + 
+       y = "Frecuencia absoluta de fallecidos") + 
+     guides(colour=guide_legend(title="Sexo:")) +
      theme(
        plot.title = element_text(
          size = 14.4,
@@ -284,9 +285,10 @@ ggplotly(
      geom_point(cex=1.2) +
      theme_minimal()  +
      labs(
-         x="Rol",
-         y="Frecuencia absoluta") + 
+         x="Año",
+         y="Frecuencia absoluta de fallecidos") + 
      theme_minimal() +
+    guides(colour= guide_legend(title="Rol:"))+
      coord_cartesian(y=c(0,400))+ 
        theme(
          axis.title = element_text(
@@ -323,12 +325,12 @@ datos %>% dplyr::count(vehi,a) %>%
    geom_line(
      stat ="identity",
      show.legend = T,
-     cex=1.4 ) +
+     cex=1.1 ) +
   geom_point()+
    labs(
-     x = "Vehículo",
-     y = "Frecuencia absoluta") +
-   theme_minimal()+
+     x = "Año",
+     y = "Frecuencia absoluta de fallecidos") +
+   theme_minimal()+ guides(colour=guide_legend(title="Vehículo:"))+
    theme(axis.title = element_text(
        colour = "grey30"))+
    scale_colour_manual(
@@ -448,7 +450,7 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
   labs(
     x = "Jurisdicción",
     y = "Frecuencia absoluta") + 
-  guides(fill = guide_legend(title = "Jurisdicción"))+
+  guides(colour = guide_legend(title = "Jurisdicción:"))+
   scale_colour_manual( values = colores) +
   theme(
     panel.background = element_rect(fill="white"),
@@ -471,7 +473,7 @@ datos %>% dplyr::count(involucrado, jur) %>%
     weight = n,
     x = product(jur),
     fill = involucrado),
-    alpha=0.8) +
+    alpha=0.5) +
   labs(
     x = "Jurisdicción",
     y = "Proporción involucrado") +
@@ -487,7 +489,7 @@ datos %>% dplyr::count(involucrado, jur) %>%
       size=12,
       colour="grey20")) + 
   scale_fill_manual(
-    values =  c("darkolivegreen3","cadetblue3")) +
+    values = colores) +
   guides(
     fill= guide_legend("Involucrado"))
 
@@ -507,24 +509,22 @@ datos %>% dplyr::count(tipo.sin, jur) %>%
       weight = n,
       x = product( abbreviate(tipo.sin, 5) ),
       fill = jur),
-    alpha=0.9) +
+    alpha=0.5) +
   theme(
       legend.position = "bottom",
       panel.background = element_rect(
         fill="white"),
-      plot.title = element_text(
-        hjust = 0.4,
-        size = 17,
-        colour = "gray32")) + 
+          axis.title =
+      element_text(
+        colour="grey24")) + 
   labs(
     x = "Tipo de siniestro",
     y = "Proporción jurisdicción",
     fill = "Jurisdicción") + 
-  scale_fill_manual(values =  c("darkolivegreen3","cadetblue3")  ) +
-  theme(
-    axis.title =
-      element_text(
-        colour="grey24"))
+  scale_fill_manual(
+    values =  colores ) 
+
+
 ```
 
 Salvo despistes y atropellos de animales, los restantes tipos de siniestros predominan en jurisdicciones departamentales. El tipo de accidente con mayor proporción de difuntos es la colisión entre vehículos, acompañada de los despiestes y atropellos de peatones respectivamente.
@@ -546,10 +546,10 @@ ggplotly(
       aes(f.dias),
       cex=1.09,
       geom = "line",
-      colour="turquoise4") +
+      colour=colores[2]) +
    labs(
      x = "Días de supervivencia luego del accidente" ,
-     y = "Proporción") + 
+     y = "Proporción de fallecidos") + 
    theme_get()+
    theme(
      plot.title = element_text(
@@ -574,19 +574,16 @@ Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar
 datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
   mutate(n = n / sum(n)) %>%  ggplot() +
   geom_bar(
-  aes(reorder(abbreviate(tipo.sin, 6),-n), n,
-      fill= tipo.sin),
+  aes(reorder(abbreviate(tipo.sin, 6),-n), n),
   stat = "identity",
   show.legend = F) + theme_minimal() +
   labs(
     x = "Tipo de Siniestro" ,
-    y = "Proporción") +
+    y = "Proporción de fallecidos") +
   theme(
-    plot.title = element_text(size = 15, colour = "grey20"),
-    axis.title = element_text(size=13,colour="grey26")  ) +
-  scale_fill_manual(
-    values= c("darkseagreen4","tan2","indianred","khaki3",
-              "thistle4", "lightsteelblue","grey44"))
+    axis.title = element_text(
+      size=13,
+      colour="grey26")  )
 ```
 
 Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.
@@ -670,7 +667,7 @@ ggplot(
  geom_hline( 
    yintercept = mean(  (datos %>% count(dep))$n   ),     
    cex=1.2,
-   colour="tomato") 
+   colour=colores[4]) 
 
 
 
