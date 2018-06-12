@@ -151,7 +151,8 @@ ggplotly(
        y = " Frecuencia relativa de fallecidos") +
      theme(plot.title = element_text(
        size =16, 
-       colour = "grey16"))+ coord_cartesian(ylim=c(0,600)) ) 
+       colour = "grey16"))+ 
+     coord_cartesian(ylim=c(0,600)) ) 
 
 
 ```
@@ -197,17 +198,15 @@ datos %>% ggplot(aes(edad)) +
     colour="grey10",
     show.legend = F) + 
   labs(
-    x="Edad",
-    y="Densidad",
-    title="Gráfico de densidad: edad del fallecido") +
-  facet_wrap(~a) +
-  theme( 
-    plot.title =
-      element_text(
-        size=16,
-        face="bold",
-        hjust=0.4,
-        colour="darkslategray"))
+    x="Edad del fallecido",
+    y="Densidad") +
+  theme(
+    axis.title = element_text(
+      size=11.5,
+      colour="grey20"),
+    panel.background = element_rect(
+      fill="gray94"))+
+   facet_wrap(~a)
 
 ```
 
@@ -220,8 +219,6 @@ datos %>% ggplot(aes(edad)) +
 ggplotly(
   datos %>% ggplot(aes(sexo, edad)) + 
     geom_boxplot(
-      aes(fill=sexo),
-      alpha=0.9,
       show.legend = F) + 
     labs(
       x =  "Sexo",
@@ -230,8 +227,7 @@ ggplotly(
     theme(plot.title =
             element_text(
               size = 16,
-              colour = "grey19")) +
-    scale_fill_manual(values = c("chartreuse3", "cadetblue3")) ) 
+              colour = "grey19"))  ) 
 
 
 
@@ -381,16 +377,13 @@ ggplotly(
       weight = n,
       x = product( reorder(abbreviate(vehi, 4),+prop)),
       fill = abbreviate(rol, 1)),
-      alpha=0.8) +
+      alpha=0.64) +
     labs(
       x = "Vehículo",
       y = "Proporción de fallecidos") +
       guides(fill = guide_legend(title = "Rol")) +
       theme_minimal() +
       theme(
-        plot.title =
-          element_text(size = 18,
-                       colour = "aquamarine4"),
       axis.text.x =
         element_text(
           angle = 0,
@@ -597,8 +590,7 @@ datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
   show.legend = F) + theme_minimal() +
   labs(
     x = "Tipo de Siniestro" ,
-    y = "Proporción" ,
-  caption = "Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.") +
+    y = "Proporción") +
   theme(
     plot.title = element_text(size = 15, colour = "grey20"),
     axis.title = element_text(size=13,colour="grey26")  ) +
@@ -606,6 +598,8 @@ datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
     values= c("darkseagreen4","tan2","indianred","khaki3",
               "thistle4", "lightsteelblue","grey44"))
 ```
+
+Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.
 
 De igual manera que para el total, colisiones entre vehiculos, despistes y atropello de peaton son los tres tipos de siniestros que mayor proporción de fallecios en muerte súbita poseen.
 
@@ -686,7 +680,7 @@ ggplot(
  geom_hline( 
    yintercept = mean(  (datos %>% count(dep))$n   ),     
    cex=1.2,
-   colour="coral3") 
+   colour="tomato") 
 
 
 
@@ -708,7 +702,7 @@ censo<- c(73378,520187,84698,123203,57088,
           108309,82595,90053,48134)
 
 # Tasa de fallecidos cada 10.000 habitantes.
-pob.dep<-cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
+pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
 
 ```
 
@@ -717,17 +711,16 @@ pob.dep<-cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/
 ```{r,echo=F,fig.cap="Grafico de mapas: tasa de fallecidos cada 10 mil habitante por departamento"}
 
 
-ggplotly(
   mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
           mutate(n=(n/censo)*10000)    ) +
   labs(fill = "Tasa",
   x = NULL,
   y = NULL) +
   scale_fill_gradient2(
-  low = "midnightblue",
+  low = "royalblue2",
     mid = "white",
-    high = "red",
-    midpoint = mean(pob.dep$tasa)))
+    high = "orangered2",
+    midpoint = mean(pob.dep$tasa))
 
 ```
 
@@ -742,9 +735,9 @@ mapeo(n= (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>%
     x = NULL,
     y = NULL) +
   scale_fill_gradient2(
-    low = "midnightblue",
+    low = "royalblue2",
     mid = "white",
-    high = "red",
+    high = "orangered",
     midpoint = mean(
       (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>%
                        mutate(n=(n/censo)*10000))$n )) +
@@ -821,7 +814,12 @@ f %>% count(n.dia, hrs) %>%
     n.dia,
     levels = c( "lunes",  "martes",  "miércoles", 
                 "jueves",  "viernes","sábado", "domingo" )))) +
-  geom_tile(aes(fill = n)) + scale_fill_gradient2(low = "red2", high = "red2", mid = "yellow") +
+  geom_tile(aes(fill = n)) + 
+  scale_fill_gradient2(
+    low = "white",
+    high = "midnightblue",
+    mid = "turquoise",
+    midpoint = mean((f %>% count(n.dia, hrs))$n)) +
   labs(
     x = "Hora",
     y = "Día",
