@@ -279,11 +279,9 @@ ggplotly(
   datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
      ggplot(
          aes(a,n,
-             fill=rol,
              colour=rol)) + 
-     geom_line(
-         alpha=0.8)  + 
-     geom_point() +
+     geom_line(cex=1)  + 
+     geom_point(cex=1.2) +
      theme_minimal()  +
      labs(
          x="Rol",
@@ -313,25 +311,20 @@ Para este período trabajado no parece variar significativamente las frecuencias
 
 ```{r,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos por vehículo para cada año"}
 
-
-
+ggplotly(
 datos %>% dplyr::count(vehi,a) %>% 
   mutate(vehi=ifelse(n<=50,"OTROS",vehi)) %>%
   group_by(vehi,a) %>% summarise(n=sum(n))%>%
-  arrange(a)%>%
    ggplot(
      aes(
        a,
        n,
-       group=vehi,
-       fill=vehi,
        colour=vehi)) + 
    geom_line(
      stat ="identity",
      show.legend = T,
-     cex=1.4 ) + 
-  geom_point(
-    cex=1.4 )+
+     cex=1.4 ) +
+  geom_point()+
    labs(
      x = "Vehículo",
      y = "Frecuencia absoluta") +
@@ -340,7 +333,7 @@ datos %>% dplyr::count(vehi,a) %>%
        colour = "grey30"))+
    scale_colour_manual(
      values = colores) +
-  coord_cartesian(ylim=c(0,310))
+  coord_cartesian(ylim=c(0,310)))
 
 ```
 
@@ -379,39 +372,27 @@ En tanto autos representan una distribución aproximadamente constante desde los
 
 
 ggplotly(
-  datos %>% dplyr::count(vehi, rol) %>% filter(vehi!="PEATON") %>%
-    group_by( vehi= ifelse ( n<70,"OTROS", vehi ),rol) %>%
-    summarise(n=sum(n))%>% mutate(prop=n/sum(n))%>%
-    ggplot() +
+ datos  %>%  dplyr::count(vehi, rol) %>% filter(vehi!="PEATON")  %>%
+    group_by( vehi= ifelse ( 
+      (vehi!="BICICLETA" & vehi!="MOTO" & vehi!="AUTO" & vehi!="BICICLETA" & 
+         vehi!="CAMIONETA"),"OTROS", vehi ),rol)  %>%
+    summarise(n=sum(n))  %>%
+    ggplot()  +
     geom_mosaic(aes(
       weight = n,
-      x = product( reorder(abbreviate(vehi, 4),+prop)),
-      fill = abbreviate(rol, 1)),
-      alpha=0.64) +
+      x = product(  reorder(abbreviate(vehi, 4),-n)  ),
+      fill = abbreviate( rol, 1) ),
+      alpha=0.64)  +
     labs(
-      x = "Vehículo",
+      x = "Vehículo del fallecido",
       y = "Proporción de fallecidos") +
       guides(fill = guide_legend(title = "Rol")) +
       theme_minimal() +
       theme(
-      axis.text.x =
+      axis.title =
         element_text(
-          angle = 0,
-          size = 9)) +
-      scale_fill_manual(values = c("turquoise4","coral1","darkolivegreen3"))
-  ) %>% 
-  layout(
-  annotations =
-    list(
-      text = "Únicamente fueron tomadas las relaciones con frecuencia absoluta mayor o igual a 5 fallecidos",
-      x = 1,
-      y = -0.201,
-      showarrow = F,
-      xref = 'paper',
-      yref = 'paper',
-      xanchor = 'right',
-      font = list(size = 11)))
-
+          size = 12,colour="grey30")) +
+      scale_fill_manual(  values = colores[c(2,3,1)]))
 
 ```
 
@@ -436,8 +417,7 @@ ggplotly(
       y = "Proporción de otro vehículo") +
     guides(  fill = guide_legend( title = "Otro vehículo")) +
     scale_fill_manual(
-      values = c("darkseagreen4","tan2","indianred",
-                 "khaki3", "thistle4", "lightsteelblue","grey80")) +
+      values = c("darkseagreen4",colores[3:8])) +
     theme( 
       panel.background = element_rect(
         fill="white"),
@@ -456,27 +436,27 @@ Es de apreciar que la distribución varía considerablemente dependiendo del veh
 
 ```{r,echo=F, fig.cap="Gráfica de serie de tiempo: frecuencia absoluta de fallecidos por jurisdicción"}
 
+ggplotly(
 datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
   ggplot(
     aes(
       x=a,
       y=n,
-      fill=jur,
       colour=jur)) +
   geom_point() +
   geom_line(cex=1.1) +
   labs(
     x = "Jurisdicción",
-    y = "Frecuencia absoluta", 
-    title = " ") +
-  scale_colour_manual(values = c("darkolivegreen3","turquoise4")) +
+    y = "Frecuencia absoluta") + 
+  guides(fill = guide_legend(title = "Jurisdicción"))+
+  scale_colour_manual( values = colores) +
   theme(
     panel.background = element_rect(fill="white"),
     axis.title  = element_text(
       colour = "gray29"),
-    legend.position = "bottom") +
+    legend.position = "bottom") + 
   coord_cartesian(y=c(0,400))
-
+)
  
 ```
 
