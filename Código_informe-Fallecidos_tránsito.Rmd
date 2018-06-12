@@ -775,7 +775,8 @@ datos %>% separate(fecha,c("dia","mes")) %>%
   geom_line(
     stat="identity")+ 
   geom_smooth(
-    method = "loess")+
+    method = "loess",
+    colour=colores[2])+
      labs(
          x = "Año y mes",
          y = "Frecuencia absoluta") +
@@ -788,7 +789,7 @@ datos %>% separate(fecha,c("dia","mes")) %>%
              hjust = 0.4),
          axis.text.x =   element_text(
              colour = "grey27",angle=90,size=6)) +
-  coord_cartesian(ylim = c(0,75))
+  coord_cartesian( ylim = c(0,75)  )
 
 #problemas con eje x:  scale_x_date(labels = date_format("%m-%Y")) error
 ```
