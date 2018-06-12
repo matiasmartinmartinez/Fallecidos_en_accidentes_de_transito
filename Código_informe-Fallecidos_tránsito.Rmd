@@ -140,7 +140,7 @@ str(datos)
 
 ### Fallecidos por año
 
-```{r,warning=FALSE,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos"}
+```{r,warning=FALSE,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos por año."}
 
 ggplotly(
    datos %>% dplyr::count(a)  %>% 
@@ -163,7 +163,7 @@ Desde el año 2013 la frecuencia absoluta de fallecidos en tránsito manifestaba
 
 ### Sexo
 
-```{r,echo=F,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos por sexo"}
+```{r,echo=F,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos por sexo medido en años."}
 
 ggplotly(
    datos %>% dplyr::count(a, sexo) %>% 
@@ -195,7 +195,7 @@ ggplotly(
 
 ### Edad
 
-```{r,echo=F,fig.cap="Gráfico de densidad: distribución en la edad del fallecido según año"}
+```{r,echo=F,fig.cap="Gráfico de densidad: distribución en la edad del fallecido según año."}
 
 
 
@@ -221,7 +221,7 @@ datos %>% ggplot(aes(edad)) +
  Se percibe una fuerte concentración en edades cercanas a los 25 años, la cual es inalterable al paso de los años para el período dado. Sin embargo, la distribución para aproximadamente de 30 a 70 años varía cosiderablemente: de poseer una meseta en el 2013, luego poseer una brusca y cosiderable pendiente decreciente en el año 2014, a retomar lentamente su meseta pero más expandida, llegando a los 70 años con proporciones superiores al 10%.
  
  
-```{r,fig.cap="Diagrama de caja: edad del fallecido según sexo"}
+```{r,fig.cap="Diagrama de caja: edad del fallecido según sexo."}
 
 
 ggplotly(
@@ -249,7 +249,7 @@ ggplotly(
   
 ### Rol
 
-```{r,fig.cap="Gráfico de densidad: proporción en la edad del fallecido según rol"}
+```{r,fig.cap="Gráfico de densidad: distribución de la edad del fallecido según rol del mismo."}
 
 datos %>% ggplot(aes(edad)) +
   geom_density(
@@ -276,7 +276,7 @@ datos %>% ggplot(aes(edad)) +
  Los conductores por su parte predominan sobre los pasajeros desde los 17 a los 72 años, fuera de este período la densidad de pasajeros crece debido a que a ciertas edades la persona no está apta para conducir o simplemente decide no hacerlo.
 
 
-```{r,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos según rol"}
+```{r,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos según rol para el período dado."}
 
 ggplotly(
   datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
@@ -313,7 +313,7 @@ Para este período trabajado no parece variar significativamente las frecuencias
 
 ### Vehículo
 
-```{r,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos por vehículo para cada año"}
+```{r,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de difuntos por vehículo para cada año."}
 
 ggplotly(
 datos %>% dplyr::count(vehi,a) %>% 
@@ -344,7 +344,7 @@ datos %>% dplyr::count(vehi,a) %>%
 Existe un claro decenso de las motos como vehículo del fallecido y se puede visualizar una clara continuidad en la frecuencia absoluta para los auto, peaton y otros; cabe resaltar que  autos y motos precentaban un decenso a exepcion del año 2017 donde ocurrio un aumento de fallecidos.
 
 
-```{r,fig.cap=" Gráfico de densidad: distribución de la edad de fallecidos en moto u auto"}
+```{r,fig.cap=" Gráfico de densidad: distribución de la edad de fallecidos en auto o moto."}
 
 datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>% 
   ggplot(aes(edad)) +
@@ -372,7 +372,7 @@ En tanto autos representan una distribución aproximadamente constante desde los
 
 ### Relación vehículo
 
-```{r,echo=F,warning=FALSE,fig.cap="Gráfico de mosaico: proporción de fallecidos para cada rol según vehículo"}
+```{r,echo=F,warning=FALSE,fig.cap="Gráfico de mosaico: proporción de fallecidos en cada rol según vehículo."}
 
 
 
@@ -400,10 +400,12 @@ ggplotly(
       scale_fill_manual(  values = colores[c(2,3,1)]))
 
 ```
+Se filtraron los datos de manera tal que se removieron las observaciones correspondientes con vehiculos igual a "PEATON", considerando que las mismas poseen como rol el de peaton y esto no aportaba mayor información al gráfico.
+Además con la finalidad de una mejor visualización designamos una nueva categoría llamada "OTROS" en los cuales colocamos los niveles de vehículos con pocas obvservaciones.
 
 Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
-```{r,fig.cap="Gráfico de mosaico: relación entre vehículo involucrado según vehículo del fallecido"}
+```{r,fig.cap="Gráfico de mosaico: proporción de otro posible vehículo involucrado según el vehículo del fallecido."}
 
 ggplotly(
   datos %>% dplyr::count(vehi, otro.vehi)  %>%
@@ -418,7 +420,7 @@ ggplotly(
       x = product(abbreviate(vehi,5)),
       fill = otro.vehi)) +
     labs(
-      x = "Vehículo",
+      x = "Vehículo del fallecido",
       y = "Proporción de otro vehículo") +
     guides(  fill = guide_legend( title = "Otro vehículo")) +
     scale_fill_manual(
@@ -439,7 +441,7 @@ Es de apreciar que la distribución varía considerablemente dependiendo del veh
 
 ### Jurisdicción
 
-```{r,echo=F, fig.cap="Gráfica de serie de tiempo: frecuencia absoluta de fallecidos por jurisdicción"}
+```{r,echo=F, fig.cap="Gráfica de serie de tiempo: frecuencia absoluta de fallecidos por jurisdicción."}
 
 ggplotly(
 datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
@@ -468,7 +470,7 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
 Existe una disminución de la proporción de fallecimientos en jurisdicciones nacionales hasta el año 2015 y luego se comporta con una pendiete creciente hasta el final del período dado, donde supera a los fallecidos en departamentales en el año 2017.
 
 
-```{r,fig.cap="Gráfico de mosaico: proporción en la existencia de otro vehículo involucrado según jurisdicción del accidente"}
+```{r,fig.cap="Gráfico de mosaico: proporción en la existencia o no de otro vehículo involucrado según la jurisdicción en la que ocurrió el accidente."}
 
 datos %>% dplyr::count(involucrado, jur) %>%
   ggplot() +
@@ -501,7 +503,7 @@ datos %>% dplyr::count(involucrado, jur) %>%
 Si bien para ambas jurisdicciones existe una alta proporción de accidentes fatales con otro vehículo involucrado (aproximadamente un 60%), sobresale en departamental acercándose a un 75% de los accidentes fatales.
 
 
-```{r,fig.cap="Gráfico de mosaicos: jurisdicción del accidente de tránsito según tipo de siniestro"}
+```{r,fig.cap="Gráfico de mosaicos: jurisdicción del accidente de tránsito según tipo de siniestro."}
  
 
 datos %>% dplyr::count(tipo.sin, jur) %>%
@@ -535,7 +537,7 @@ Salvo despistes y atropellos de animales, los restantes tipos de siniestros pred
 
 ### Días de supervivencia
 
-```{r,fig.cap="Gráfico de barras: proporción de días de supervivencia luego del accidente"}
+```{r,fig.cap="Gráfico de barras y Pareto: proporción de fallecidos según los días de supervivencia luego del accidente, acompañado de la frecuencia relativa acumulada para los mismos."}
 
 
 ggplotly( 
@@ -565,12 +567,12 @@ ggplotly(
 
 ```
 
-La curva azul corresponde al diagrama de Pareto y representa la densidad acumulada hasta *x* día.
+La curva azul corresponde al diagrama de Pareto y representa la frecuencia relativa acumulada hasta *x* día.
 
 Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas.
 
 
-```{r,fig.cap="Gráfico de barras: proporción de fallecidos en muerte súbita según tipo de siniestro"}
+```{r,fig.cap="Gráfico de barras: proporción de fallecidos en muerte súbita según tipo de siniestro."}
 
 
 
@@ -651,7 +653,7 @@ mapeo<-  function(n)
 
 
 
-```{r,echo=F,fig.cap="Gráfico de barras: frecuencia absoluta de fallecidos por departamento"}
+```{r,echo=F,fig.cap="Gráfico de barras: frecuencia absoluta de fallecidos por departamento."}
 
 
 ggplot( 
@@ -698,7 +700,7 @@ pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n
 
 
 
-```{r,echo=F,fig.cap="Grafico de mapas: tasa de fallecidos cada 10 mil habitante por departamento"}
+```{r,echo=F,fig.cap="Grafico de mapas: tasa de fallecidos en accidentes de tránsito cada 10 mil habitantes por departamento."}
 
 
   mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
@@ -715,7 +717,7 @@ pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n
 ```
 
 
-```{r,fig.cap="Gráfico de mapas: frecuencia absoluta de fallecidos en respectivo departamento según año"}
+```{r,fig.cap="Gráfico de mapas: tasa de fallecidos en accidentes de tránsito cada 10 mil habitantes por departamento, faceteado por año."}
 
 
 mapeo(n= (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>% 
@@ -761,7 +763,7 @@ f<-data.frame(fecha,n.dia)
 
 
 
-```{r,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos según mes"}
+```{r,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos según año y mes."}
 
 
 
@@ -798,7 +800,7 @@ datos %>% separate(fecha,c("dia","mes")) %>%
 Existe un valor que si bien no llega a ser un dato atípico posee un gran desvío con repecto a la regresión lineal.
 
 
-```{r,fig.cap="Diagrama térmico: frecuencia absoluta de fallecidos según día y hora"}
+```{r,fig.cap="Diagrama térmico: frecuencia absoluta de fallecidos según día y hora del accidente."}
 
 f %>% count(n.dia, hrs) %>%
   ggplot(aes(hrs, ordered(
