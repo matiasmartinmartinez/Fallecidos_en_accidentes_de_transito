@@ -756,7 +756,7 @@ n.dia <-  weekdays(
       unite(sep ="-") %>%
       unlist()))
 
-f<-data.frame(fecha,n.dia)
+f<- data.frame(fecha,n.dia)
 
 
 ```
@@ -766,11 +766,10 @@ f<-data.frame(fecha,n.dia)
 ```{r,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos según año y mes."}
 
 
-
-
-datos %>% separate(fecha,c("dia","mes")) %>% 
-  mutate(a.mes=paste(a,mes,sep="-") ) %>%
-  count(a.mes) %>% arrange(desc(a.mes)) %>%
+datos %>% separate(  fecha,c("dia","mes")  ) %>% 
+  mutate( a.mes=   paste(a,mes,dia,sep="-")    ) %>%
+  mutate( a.mes=   as_date( a.mes,format="%Y-%m-%d",tz="GMT")   ) %>%
+  count(  a.mes=    floor_date(a.mes, "1 month"))  %>%
      ggplot( 
        aes(a.mes,n,group=1) ) + 
      geom_point()  + 
@@ -780,53 +779,22 @@ datos %>% separate(fecha,c("dia","mes")) %>%
     method = "loess",
     colour=colores[2])+
      labs(
-         x = "Año y mes",
-         y = "Frecuencia absoluta") +
+         x = "Año",
+         y = "Frecuencia absoluta de fallecidos") +
      theme_minimal() +
      theme(
-         plot.title = element_text(
-             size = 19,
-             colour = "grey39",
-             face = "bold",
-             hjust = 0.4),
-         axis.text.x =   element_text(
-             colour = "grey27",angle=90,size=6)) +
-  coord_cartesian( ylim = c(0,75)  )
-
-#############################  ERROR
-
-#problemas con eje x:  scale_x_date(labels = date_format("%m-%Y")) error
-
-##################################
-# Posible solución:
-
-
-datos %>% separate(fecha,c("dia","mes")) %>% 
-  mutate(a.mes=paste(a,mes,sep="-") ) %>%
-  count(a.mes) %>% arrange(desc(a.mes)) %>%mutate(  a.mes=as_date(as.POSIXct(a.mes,"%Y%m"),"%Y%m")  )  %>%
-
-     ggplot( 
-       aes(a.mes,n,group=1) ) + 
-     geom_point()  + 
-  geom_line(
-    stat="identity")+ 
-  geom_smooth(
-    method = "loess",
-    colour=colores[2])+
-     labs(
-         x = "Año y mes",
-         y = "Frecuencia absoluta") +
-     theme_minimal() +
-     theme(
-         plot.title = element_text(
-             size = 19,
-             colour = "grey39",
-             face = "bold",
-             hjust = 0.4),
-         axis.text.x =   element_text(
-             colour = "grey27",angle=90,size=6)) +
+       axis.title = element_text(
+         colour="grey30", 
+         size=12),
+       axis.text =element_text(
+            colour = "grey27",
+            size=9)       ) +
   coord_cartesian( ylim = c(0,75)  ) +
-  scale_x_date( date_labels =("%Y%-m") ) 
+ scale_x_date( 
+   date_labels =("%Y"),
+   date_breaks = "1 year" ) 
+   
+   
 ```
 
  Se nota una leve tendencia en la frecuencia absoluta de fallecidos por mes, siendo decreciente hasta el año 2016 y luego retomando lentamente el crecimieto en 2017.
