@@ -1,7 +1,7 @@
 ---
 title: " Siniestros de tránsito fatales en Uruguay, 2013-2017 "
 author: "Martínez Matías, Zang Bruno"
-date: "12 de junio de 2018"
+date: "21 de junio de 2018"
 output: html_document
 ---
 
@@ -793,7 +793,40 @@ datos %>% separate(fecha,c("dia","mes")) %>%
              colour = "grey27",angle=90,size=6)) +
   coord_cartesian( ylim = c(0,75)  )
 
+#############################  ERROR
+
 #problemas con eje x:  scale_x_date(labels = date_format("%m-%Y")) error
+
+##################################
+# Posible solución:
+
+
+datos %>% separate(fecha,c("dia","mes")) %>% 
+  mutate(a.mes=paste(a,mes,sep="-") ) %>%
+  count(a.mes) %>% arrange(desc(a.mes)) %>%mutate(  a.mes=as_date(as.POSIXct(a.mes,"%Y%m"),"%Y%m")  )  %>%
+
+     ggplot( 
+       aes(a.mes,n,group=1) ) + 
+     geom_point()  + 
+  geom_line(
+    stat="identity")+ 
+  geom_smooth(
+    method = "loess",
+    colour=colores[2])+
+     labs(
+         x = "Año y mes",
+         y = "Frecuencia absoluta") +
+     theme_minimal() +
+     theme(
+         plot.title = element_text(
+             size = 19,
+             colour = "grey39",
+             face = "bold",
+             hjust = 0.4),
+         axis.text.x =   element_text(
+             colour = "grey27",angle=90,size=6)) +
+  coord_cartesian( ylim = c(0,75)  ) +
+  scale_x_date( date_labels =("%Y%-m") ) 
 ```
 
  Se nota una leve tendencia en la frecuencia absoluta de fallecidos por mes, siendo decreciente hasta el año 2016 y luego retomando lentamente el crecimieto en 2017.
