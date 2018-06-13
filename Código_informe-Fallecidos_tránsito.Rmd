@@ -751,7 +751,7 @@ fecha<-    datos %>% separate(  fecha,c("dia","mes")  ) %>%
 
 n.dia <-  weekdays(       as.Date(  as.vector(t (fecha[1])  )    ) )
 
-f<- data.frame(fecha,n.dia))
+f<- data.frame(fecha,n.dia)
 
 
 ```
@@ -796,7 +796,9 @@ Existe un valor que si bien no llega a ser un dato atípico posee un gran desví
 
 ```{r,fig.cap="Diagrama térmico: frecuencia absoluta de fallecidos según día y hora del accidente."}
 
-f %>% count(n.dia, hrs) %>%
+
+
+f %>% count(n.dia, hrs= format(f.h,"%H")) %>% 
   ggplot(aes(hrs, ordered(
     n.dia,
     levels = c( "lunes",  "martes",  "miércoles", 
@@ -806,7 +808,8 @@ f %>% count(n.dia, hrs) %>%
     low = "white",
     high = "midnightblue",
     mid = "turquoise",
-    midpoint = mean((f %>% count(n.dia, hrs))$n)) +
+    midpoint = mean( 
+      (f %>% count(n.dia, hrs=format(f.h,"%H")))$n  )) +
   labs(
     x = "Hora",
     y = "Día",
@@ -820,6 +823,7 @@ f %>% count(n.dia, hrs) %>%
       size=10.4),
     panel.background = element_rect(
       colour="white"))
+
 
 ```
 
