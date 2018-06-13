@@ -744,17 +744,13 @@ El punto medio corresponde a 90 fallecidos. Este valor es elegido arbitrariament
 
 ```{r,warning=FALSE,echo=F}
 
-fecha<-datos %>% 
-  separate(hora,c("hrs","min",sep=":")) %>% 
-  separate(fecha,c("dia","mes")) %>%
-  dplyr::select(1:5)
+fecha<-    datos %>% separate(  fecha,c("dia","mes")  ) %>% 
+    mutate( f.h=  paste( paste(a,mes,dia,sep="-") ,  hora )  ) %>%
+    mutate( f.h=  as_date(f.h, format="%Y-%m-%d  %H:%M:%S",tz="GMT"))%>%
+    dplyr::select(f.h)
 
-n.dia <-  weekdays(
-  as.Date( 
-    datos %>% separate(fecha, c("dia", "mes")) %>% 
-      dplyr::select(a, mes, dia) %>% 
-      unite(sep ="-") %>%
-      unlist()))
+
+n.dia <-  weekdays(       as.Date(  as.vector(t (fecha[1])  )    ) )
 
 f<- data.frame(fecha,n.dia)
 
@@ -766,10 +762,8 @@ f<- data.frame(fecha,n.dia)
 ```{r,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos según año y mes."}
 
 
-datos %>% separate(  fecha,c("dia","mes")  ) %>% 
-  mutate( a.mes=   paste(a,mes,dia,sep="-")    ) %>%
-  mutate( a.mes=   as_date( a.mes,format="%Y-%m-%d",tz="GMT")   ) %>%
-  count(  a.mes=    floor_date(a.mes, "1 month"))  %>%
+f %>%
+  count(  a.mes=    floor_date(f.h, "1 month"))  %>%
      ggplot( 
        aes(a.mes,n,group=1) ) + 
      geom_point()  + 
