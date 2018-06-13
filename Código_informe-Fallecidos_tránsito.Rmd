@@ -743,16 +743,15 @@ El punto medio corresponde a 90 fallecidos. Este valor es elegido arbitrariament
 ### Fecha y hora
 
 ```{r,warning=FALSE,echo=F}
-
 fecha<-    datos %>% separate(  fecha,c("dia","mes")  ) %>% 
     mutate( f.h=  paste( paste(a,mes,dia,sep="-") ,  hora )  ) %>%
-    mutate( f.h=  as_date(f.h, format="%Y-%m-%d  %H:%M:%S",tz="GMT"))%>%
+    mutate( f.h=  as.POSIXct(f.h, format="%Y-%m-%d  %H:%M:%S",tz="GMT"))%>%
     dplyr::select(f.h)
 
 
 n.dia <-  weekdays(       as.Date(  as.vector(t (fecha[1])  )    ) )
 
-f<- data.frame(fecha,n.dia)
+f<- data.frame(fecha,n.dia))
 
 
 ```
@@ -765,7 +764,7 @@ f<- data.frame(fecha,n.dia)
 f %>%
   count(  a.mes=    floor_date(f.h, "1 month"))  %>%
      ggplot( 
-       aes(a.mes,n,group=1) ) + 
+       aes(as_date(a.mes),n,group=1) ) + 
      geom_point()  + 
   geom_line(
     stat="identity")+ 
