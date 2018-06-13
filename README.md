@@ -7,6 +7,5 @@ A realizar:
 
 - Siendo la jurisdicción departamental, ¿qué vehículo ocasiona mayores fallecimientos de transeúntes?
 - Shiny
-- as_date()
-- paleta colores
-- probar:
+- Generalizar fecha
+- Correcciones antes de conclusiones
