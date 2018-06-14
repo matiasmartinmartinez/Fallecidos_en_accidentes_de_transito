@@ -730,7 +730,7 @@ pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n
 
 
 
-```{r,echo=F,fig.cap="Grafico de mapas: tasa de fallecidos en accidentes de tránsito cada 10 mil habitantes por departamento."}
+```{r,echo=F,fig.cap="Gráfico de mapas: tasa de fallecidos en accidentes de tránsito cada 10 mil habitantes por departamento."}
 
 
   mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
@@ -857,6 +857,6 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 
 ```
 
-Los accidentes se concentran de 16:00 a 20:00 horas, aumentabdo paulativamente a medida se acercan los días correspondientes al fin de semana.
+Los accidentes se concentran de 16:00 a 20:00 horas, aumentando paulativamente a medida se acercan los días correspondientes al fin de semana.
 
 
