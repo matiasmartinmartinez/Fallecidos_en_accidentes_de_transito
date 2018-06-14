@@ -5,9 +5,9 @@ Datos de siniestros de tránsito fatales ocurridos en Uruguay desde 2013 a 2017.
 
 A realizar:
 
-- Siendo la jurisdicción departamental, ¿qué vehículo ocasiona mayores fallecimientos de transeúntes?
+
 - Shiny
 - Generalizar fecha
 - Correcciones antes de conclusiones
-
--¿Cuáles vehículos ocacionan mayor frecuencia de fallecimientos para los peatones?
+- Gráfico a arreglar: peatones 
+-Consultar a la profesora problema tasa en la de peatones.
