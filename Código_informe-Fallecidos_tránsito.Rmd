@@ -305,9 +305,39 @@ Para este período trabajado no parece variar significativamente las frecuencias
 ### Peatones
 
 ```{r}
+datos %>% filter(vehi=="PEATON")  %>%
+  mutate(otro.vehi=ifelse(otro.vehi!="BICICLETA" &
+                      otro.vehi!="MOTO" & 
+                      otro.vehi!="AUTO"  &                                          otro.vehi!= " NADA","OTROS", otro.vehi) ) %>%
+  count(a,otro.vehi,sexo) %>% 
+   ggplot(
+     aes(
+       a,
+       n,
+       colour=otro.vehi)) + 
+   geom_line(alpha=0.6,
+     stat ="identity",
+     show.legend = T,
+     cex=1.1 ) +
+  geom_point()+ theme_minimal()+facet_wrap(~sexo)
+
 
 ```
 
+```{r}
+datos %>% filter(vehi=="PEATON")  %>%
+  count(a,sexo,dep) %>% 
+   ggplot(
+     aes(
+       a,
+       n,
+       fill=sexo)) + 
+   geom_line(alpha=0.7,
+     stat ="identity",
+     show.legend = T,
+     cex=1.1 ) +
+  geom_point()+ theme_minimal()+facet_wrap(~dep)
+```
 
 
 
@@ -408,7 +438,7 @@ Es de destacar que quienes sufren la mayor proporción de muertes por accidentes
 ```{r,fig.cap="Gráfico de mosaico: proporción de otro posible vehículo involucrado según el vehículo del fallecido."}
 
 ggplotly(
-  datos %>% dplyr::count(vehi, otro.vehi)  %>%
+  datos %>% dplyr::count(vehi, otro.vehi)  %>% filter(vehi!="PEATON")%>%
    mutate(otro.vehi = ifelse( otro.vehi == ""," NADA",otro.vehi), 
           vehi = ifelse(vehi!="AUTO" & vehi!="MOTO" & vehi!="PEATON" & vehi!="BICICLETA"  & vehi!="CAMIONETA","OTROS",vehi),
           otro.vehi = ifelse(n<30,"OTROS",otro.vehi)) %>% 
