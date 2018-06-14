@@ -58,7 +58,7 @@ Se poseen 15 variables identificadas de la siguiente manera:
 ## Modelos y herramientas
 
 Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico R, con la puntual aplicación de paquete "tidyverse", que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
-Con el fin de crear visualizaciónes oportunas se gestará su formación con la librería "ggplot2", perteneciente a tidyverse, la cual al trabajar mediante acumulación de capas (layers) posee una mayor flexibilidad y permite generar gráficos que representen correctamente los datos, sin generar interpretaciones confusas. Toma como referencia una metodología de visualización de datos llamada the Grammar of Graphics (Wilkinson, 2005), que consiste en especificar de manera independiente las componentes del gráfico como si fuesen bloques y luego combinarlas.
+Con el fin de crear visualizaciónes oportunas se gestará su formación con la librería "ggplot2", perteneciente a tidyverse, la cual al trabajar mediante acumulación de capas (layers) posee una mayor flexibilidad y permite generar gráficos que representen correctamente los datos, sin generar interpretaciones confusas. Toma como referencia una metodología de visualización de datos llamada the Grammar of Graphics (Wilkinson, 2005), que consiste en especificar de manera independiente las componentes del gráfico como si fuesen bloques y luego combinarlas. Además, con ánimos de compartir una visualizacion interactiva en la cual el usuario pueda manipular los gráficos de acuerdo a sus interés, se proveerá del paquete "shiny" que además de tales visualizaciones permite una rápida divulgacion de los estudios y un alto nivel de personalización.
 
 
 ## Preguntas a responder
@@ -199,7 +199,7 @@ ggplotly(
 
 ```
 
- Para el sexo masculino se puede ver un decenso significativo de fallecidos para este período trabajado. En cambio, el sexo femenino percibe una continiudad en la frecuencia absoluta que no varía significativamente en los tiempos transcurridos.
+ Para el sexo masculino se puede ver un descenso significativo de fallecidos para el período trabajado. En cambio, el sexo femenino percibe una continiudad en la frecuencia absoluta que no varía significativamente en los tiempos transcurridos.
 
 
 ### Edad
@@ -227,7 +227,7 @@ datos %>% ggplot(aes(edad)) +
 
 ```
 
- Se percibe una fuerte concentración en edades cercanas a los 25 años, la cual es inalterable al paso de los años para el período dado. Sin embargo, la distribución para aproximadamente de 30 a 70 años varía cosiderablemente: de poseer una meseta en el 2013, luego poseer una brusca y cosiderable pendiente decreciente en el año 2014, a retomar lentamente su meseta pero más expandida, llegando a los 70 años con proporciones superiores al 10%.
+ Se percibe una fuerte concentración en edades cercanas a los 25 años, la cual es inalterable al paso de los años para el período dado. Sin embargo, la distribución para aproximadamente de 30 a 70 años varía cosiderablemente: de poseer una meseta en el 2013, luego a una brusca y cosiderable pendiente decreciente en el año 2014, a retomar lentamente su meseta pero más expandida, llegando a los 70 años con proporciones superiores al 10%.
  
  
 ```{r,fig.cap="Diagrama de caja: edad del fallecido según sexo."}
@@ -312,45 +312,64 @@ ggplotly(
      )
 ```
 
-Para este período trabajado no parece variar significativamente las frecuencias absolutas de los peatones y pasajeros. La misma tiende a mantenerse en el tiempo con aproximadamente 80 casos al año en ambos, mientras que en fallecidos en rol de conductores denotan un ligero descenso hasta el año 2016.
+Para este período trabajado no parece variar significativamente las frecuencias absolutas de los peatones y pasajeros, mientras que en fallecidos en rol de conductores denotan un ligero descenso hasta el año 2016 y un aumento leve para el 2017.
 
 
 ### Peatones
 
 ```{r}
-datos %>% filter(vehi=="PEATON")  %>%
+
+a<-ggplotly(datos %>% filter(vehi=="PEATON")  %>%
   mutate(otro.vehi=ifelse(otro.vehi!="BICICLETA" &
                       otro.vehi!="MOTO" & 
                       otro.vehi!="AUTO"  & 
                       otro.vehi!= " NADA","OTROS", otro.vehi) ) %>%
-  count(a,otro.vehi,sexo) %>% 
+  count(a,otro.vehi) %>% 
    ggplot(
      aes(
        a,
        n,
        colour=otro.vehi)) + 
-   geom_line(alpha=0.6,
+   geom_line(alpha=0.9,
      stat ="identity",
      show.legend = T,
      cex=1.1 ) +
-  geom_point()+ theme_minimal()+facet_wrap(~sexo)
+  geom_point()+ theme_minimal() + labs(x="Año",y="Frecuencia absoluta",colour="Involucrado:")+scale_colour_manual(values=colores) +theme(axis.title = element_text(colour="grey30")))
+
+
+b<-ggplotly(datos %>% filter(vehi=="PEATON")  %>%
+  filter(otro.vehi!="AUTO" & otro.vehi!="MOTO" & otro.vehi!="")  %>%
+  count(a,otro.vehi) %>% 
+   ggplot(
+     aes(
+       a,
+       n,colour=otro.vehi)) + 
+   geom_line(alpha=0.9,
+     stat ="identity",
+     show.legend = T,
+     cex=1.1 )+geom_point() + theme_minimal() + labs(x="Año",y="Frecuencia absoluta",colour="Involucrado:")+scale_colour_manual(values=colores) +theme(axis.title = element_text(colour="grey30")))
+
+subplot(a,b)
 
 
 ```
 
 ```{r}
-datos %>% filter(vehi=="PEATON")  %>%
-  count(a,sexo,dep) %>% 
-   ggplot(
-     aes(
-       a,
-       n,
-       fill=sexo)) + 
-   geom_line(alpha=0.7,
-     stat ="identity",
-     show.legend = T,
-     cex=1.1 ) +
-  geom_point()+ theme_minimal()+facet_wrap(~dep)
+
+datos %>% filter(vehi=="PEATON") %>%
+count(a,sexo,dep) %>%
+ggplot(
+aes(
+a,
+n,
+colour=sexo)) +
+geom_line(alpha=0.7,
+stat ="identity",
+show.legend = T,
+cex=1.1 ) +
+geom_point()+ theme_minimal()+facet_wrap(~dep)
+
+
 ```
 
 
@@ -385,7 +404,7 @@ datos %>% dplyr::count(vehi,a) %>%
 
 ```
 
-Existe un claro decenso de las motos como vehículo del fallecido y se puede visualizar una clara continuidad en la frecuencia absoluta para los auto, peaton y otros; cabe resaltar que  autos y motos precentaban un decenso a exepcion del año 2017 donde ocurrio un aumento de fallecidos.
+Existe un claro descenso de las motos como vehículo del fallecido y se puede visualizar una clara continuidad en la frecuencia absoluta para auto, peatón y otros. Pese a esto, las mismas continúan representando la mayoria de los difuntos en accidentes.
 
 
 ```{r,fig.cap=" Gráfico de densidad: distribución de la edad de fallecidos en auto o moto."}
@@ -410,8 +429,8 @@ datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>%
 
 ```
 
-Se denota que próximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino decenso.
-En tanto autos representan una distribución aproximadamente constante desde los 25 a los 70 años. Para edades cercanas a 50 años los fallecidos en dicho vehículo comienzan a tener mayores proporciones en contraste con motos.
+Se denota que próximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino descenso.
+En tanto los autos representan una distribución aproximadamente constante desde los 25 a los 70 años. Para edades cercanas a 50 años los fallecidos en dicho vehículo comienzan a tener mayores proporciones en contraste con motos.
 
 
 ### Relación vehículo
@@ -447,8 +466,12 @@ ggplotly(
       scale_fill_manual(  values = colores[c(2,3,1)]))
 
 ```
+
 Se filtraron los datos de manera tal que se removieron las observaciones correspondientes con vehiculos igual a "PEATON", considerando que las mismas poseen como rol el de peaton y esto no aportaba mayor información al gráfico.
+
 Además con la finalidad de una mejor visualización designamos una nueva categoría llamada "OTROS" en los cuales colocamos los niveles de vehículos con pocas obvservaciones.
+
+
 
 Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
@@ -486,7 +509,8 @@ ggplotly(
 
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 30 fallecidos.
 
-La mayor proporción de los accidentes desde el punto de vista del fallecido no involucran otro vehículo. El medio de transporte que más involcrado estuvo en los accidentes fue el auto. 
+
+La mayor proporción de los accidentes desde el punto de vista del fallecido no involucran otro vehículo. 
 Es de apreciar que la distribución varía considerablemente dependiendo del vehículo en cuestión.
 
 
@@ -583,7 +607,10 @@ datos %>% dplyr::count(tipo.sin, jur) %>%
 
 ```
 
-Salvo despistes y atropellos de animales, los restantes tipos de siniestros predominan en jurisdicciones departamentales. El tipo de accidente con mayor proporción de difuntos es la colisión entre vehículos, acompañada de los despiestes y atropellos de peatones respectivamente.
+"OTROS" corresponde a los tipo de siniestros menos de 60 fallecidos para el período completo.
+
+
+Salvo despistes y otros, los restantes tipos de siniestros predominan en jurisdicciones departamentales. El tipo de accidente con mayor proporción de difuntos es la colisión entre vehículos, acompañada de los despistes y atropellos de peatones respectivamente.
 
 
 ### Días de supervivencia
@@ -618,7 +645,7 @@ ggplotly(
 
 ```
 
-La curva azul corresponde al diagrama de Pareto y representa la frecuencia relativa acumulada hasta *x* día.
+La curva azul corresponde al diagrama de Pareto y representa la frecuencia relativa acumulada hasta **x** día.
 
 Existe una probabilidad cercana a un 60% de fallecer en el instante o no superar las 24 horas.
 
@@ -642,9 +669,9 @@ datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
       colour="grey26")  )
 ```
 
-Muerte súbita hace alución a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.
+Muerte súbita hace alusión a la persona que falleció en el acto o en menos de 24 horas luego de ocurrido el accidente.
 
-De igual manera que para el total, colisiones entre vehiculos, despistes y atropello de peaton son los tres tipos de siniestros que mayor proporción de fallecios en muerte súbita poseen.
+Colisiones entre vehículos, despistes y atropello de peatón son,respectivamente. los tres tipos de siniestros que mayor proporción de fallecios en muerte súbita poseen.
 
 
 ### Departamento
@@ -767,6 +794,10 @@ pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n
 
 ```
 
+El punto medio en la escala de color corresponde a la media de tasas de fallecidos cada 10 mil habitantes en el país. 
+
+
+San José presenta la mayor tasa de fallecidos cada 10 mil habitantes para el período dado, lo siguen Rocha y Florida respectivamente. En tanto Rivera posee la menor tasa del país.
 
 ```{r,fig.cap="Gráfico de mapas: tasa de fallecidos en accidentes de tránsito cada 10 mil habitantes por departamento, faceteado por año."}
 
@@ -788,8 +819,9 @@ mapeo(n= (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>%
 
 ```
 
-El punto medio corresponde a 90 fallecidos. Este valor es elegido arbitrariamente con el fin de mejorar la visualizacion, debido a que la tanto la media como mediana poseen la mayoría de los departamentos a frecuencias absolutas muy disipersas.
+El punto medio en la escala de color corresponde a la media de tasas de fallecidos cada 10 mil habitantes en el país para cada año. 
 
+Se registra una descenso en la tonalidad de los departamentos a medida que transcurre los años, sin embargo, no es una tendencia firme en todos los departamentos.
 
 ### Fecha y hora
 
@@ -841,7 +873,8 @@ f %>%
 ```
 
  Se nota una leve tendencia en la frecuencia absoluta de fallecidos por mes, siendo decreciente hasta el año 2016 y luego retomando lentamente el crecimieto en 2017.
-Existe un valor que si bien no llega a ser un dato atípico posee un gran desvío con repecto a la regresión lineal.
+ 
+Existe un valor que si bien no llega a ser un dato atípico posee un gran desvío con repecto a la regresión lineal, dicho valor corresponde a la frecuencia de fallecidos para el mes de diciembre del año 2017.
 
 
 ```{r,fig.cap="Diagrama térmico: frecuencia absoluta de fallecidos según día y hora del accidente."}
@@ -877,7 +910,4 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 
 ```
 
-Los accidentes se concentran de 16:00 a 20:00 horas, aumentando paulativamente a medida se acercan los días correspondientes al fin de semana.
-
-
-.
+Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando paulativamente a medida se acercan los días correspondientes al fin de semana.
