@@ -9,3 +9,5 @@ A realizar:
 - Shiny
 - Generalizar fecha
 - Correcciones antes de conclusiones
+
+-¿Cuáles vehículos ocacionan una mayor frecuencia de fallecimientos para los peatones?
