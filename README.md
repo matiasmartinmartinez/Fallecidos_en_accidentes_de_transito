@@ -10,4 +10,4 @@ A realizar:
 - Generalizar fecha
 - Correcciones antes de conclusiones
 
--¿Cuáles vehículos ocacionan una mayor frecuencia de fallecimientos para los peatones?
+-¿Cuáles vehículos ocacionan mayor frecuencia de fallecimientos para los peatones?
