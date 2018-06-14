@@ -63,30 +63,45 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 
 ## Preguntas a responder
 
- - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad del fallecido en el período dado?
 
- - ¿Cuál es la densidad de fallecidos por departamento?
+1 - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad del fallecido en el período dado?
+
+2 - ¿Existe relación entre el rol del fallecido tanto con la edad, como con el vehículo del difunto?
  
- - ¿Existe relación entre el vehículo del fallecido y su rol en el mismo?
+3 -  Para observaciones de vehículo igual a peatón:
+¿cuál es la tasa de fallecidos para cada sexo según el departamento en donde ocurrió el accidente? y además,
+¿qué vehículo involucrado en fallecimientos de los mismos posee mayor frecuencia acumulada?
  
- - ¿Cuál es la frecuencia relativa según el tipo de siniestro para cada año?
+4 - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
+
+
+- ¿Cuál es la frecuencia relativa según el tipo de siniestro para cada año?
  
  - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?
+
  
- - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
+- ¿Cuál es la distribución de los días de supervivencia luego del accidente?
  
- - ¿Cuál es la media de días de supervivencia luego del accidente?
  
- - ¿Qué fechas y horarios poseen mayor frecuencia acumulada de fallecidos?
+- ¿Cuál es la tasa de fallecidos por departamento?
+ 
+ - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de fallecidos?
 
 
 ## Hipótesis
 
-- Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25, ya que se acompaña de poca experiencia al volante y pocas responsabilidades en comparación a mayores edades. Por ende, con respecto a la variable sexo, se preevé una mayor proporción de difuntos para las personas de sexo masculino.
+1 - Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25, ya que se acompaña de poca experiencia al volante y pocas responsabilidades en comparación a mayores edades. Por ende, con respecto a la variable sexo, se preevé una mayor proporción de difuntos para las personas de sexo masculino.
 
-- Debido a la concentración en zonas metropolitanas tanto en sectores productores, educativos, turísticos, ect; se provocán altos porcentajes de accidentes de tráficos y esto tendra como consecuencias que dichos departamentos indiquen las mayores proporciones de fallecidos en el país. 
+2 -  En relación con la edad, y retomando el punto anterior asumimos una mayor proporción de fallecidos peatones a altas edades, al contrario que en conductores. Los pasajeros poseeran una densidad equilibrada para todas las edades. 
+    Por cuestiones de seguridad es de esperar frecuencias absolutas mayores para vehículos más débiles en su ensamblaje como motos, bicicletas, autos pequeños, etc. Dicho esto, se considera mayor mortalidad para conductores de los mismos y para los consiguentes vehículos la mortalidad estará dada principalmente en pasajeros, ya que su estructura protege mayormente al conductor.
 
-- Por cuestiones de seguridad es de esperar frecuencias absolutas mayores para vehículos más débiles en su ensamblaje como motos, bicicletas, autos pequeños, etc. Dicho esto, se considera mayor mortalidad para conductores de los mismos y para los consiguentes vehículos la mortalidad estará dada principalmente en pasajeros, ya que su estructura protege mayormente al conductor.
+3 - Las tasas de atropellos a peatones se comportan de manera similar tanto para hombres como  mujeres en la mayoría del territorio uruguayo; salvo para Montevideo y Canelones, donde la población es tal que provoca una disminución en su tasa de peatones fallecidos.
+
+Considerando la concentración de autos en el país y el tamaño promedio del mismo, un impacto contra el mismo generaría mayor daño en el transehúnte en comparación con otro vehículo de igual presencia en el tránsito. Por lo tanto se espera una alta probabilidad de fallecer en  condición de peatón siendo impactado por dicho vehículo.
+
+ 
+
+
 
 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos. Esta hipótesis surge en la brusquedad identificada para dichos accidentes.
 
@@ -95,6 +110,9 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 - Colisiones entre un vehiculo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipotesis de una fuerte relacion en fallecimientos en vehiculos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
 
 - Consiguiente a anteriores menciones, tales impactos generían una muerte instantánea o de poca supervivencia para el individuo. Si valoramos posibles traslados desde carretera o largas distancias a un centro de atención médica de calidad (los cuales en mayor grado se encuentran en la capital nacional) las probabilidades de salir con vida de dicho accidente se reducen drasticamente.
+
+- Debido a la concentración en zonas metropolitanas tanto en sectores productores, educativos, turísticos, ect; se provocán altos valores de accidentes de tráficos y esto tendrá como consecuencias que, pese a su alta población, dichos departamentos indiquen las mayores tasas de fallecidos en el país. 
+
 
 - En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
 
@@ -116,7 +134,9 @@ ipack <- function( pkg )
     
     }
 
-paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly", "ggmap", "raster", "rgdal","knitr","scales","lubridate")
+paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly",
+                        "ggmap", "raster", "rgdal","knitr",
+                        "scales","lubridate")
 
 ipack(paquetes.a.utilizar)
 
@@ -144,7 +164,7 @@ str(datos)
 
 ggplotly(
    datos %>% dplyr::count(a)  %>% 
-     ggplot(   aes(a, n)) + 
+     ggplot(aes( a, n)) + 
      geom_point() + geom_line()+
      theme_minimal()+
      labs(
@@ -226,7 +246,9 @@ datos %>% ggplot(aes(edad)) +
 
 ggplotly(
   datos %>% 
-    ggplot(    aes( sexo, edad, fill=sexo )   ) + 
+    ggplot(aes( sexo,
+    edad,
+    fill=sexo )   ) + 
     geom_boxplot(
       alpha=0.4,
       show.legend = F) + 
@@ -281,8 +303,10 @@ datos %>% ggplot(aes(edad)) +
 ggplotly(
   datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
      ggplot(
-         aes(a,n,
-             colour=rol)) + 
+         aes(
+         a,
+         n,
+         colour=rol)) + 
      geom_line(cex=1)  + 
      geom_point(cex=1.2) +
      theme_minimal()  +
@@ -308,7 +332,8 @@ Para este período trabajado no parece variar significativamente las frecuencias
 datos %>% filter(vehi=="PEATON")  %>%
   mutate(otro.vehi=ifelse(otro.vehi!="BICICLETA" &
                       otro.vehi!="MOTO" & 
-                      otro.vehi!="AUTO"  &                                          otro.vehi!= " NADA","OTROS", otro.vehi) ) %>%
+                      otro.vehi!="AUTO"  & 
+                      otro.vehi!= " NADA","OTROS", otro.vehi) ) %>%
   count(a,otro.vehi,sexo) %>% 
    ggplot(
      aes(
@@ -409,8 +434,11 @@ En tanto autos representan una distribución aproximadamente constante desde los
 ggplotly(
  datos  %>%  dplyr::count(vehi, rol) %>% filter(vehi!="PEATON")  %>%
     group_by( vehi= ifelse ( 
-      (vehi!="BICICLETA" & vehi!="MOTO" & vehi!="AUTO" & vehi!="BICICLETA" & 
-         vehi!="CAMIONETA"),"OTROS", vehi ),rol)  %>%
+     (vehi!="BICICLETA" &
+      vehi!="MOTO" & 
+      vehi!="AUTO" & 
+      vehi!="BICICLETA" & 
+      vehi!="CAMIONETA"),"OTROS", vehi ),rol)  %>%
     summarise(n=sum(n))  %>%
     ggplot()  +
     geom_mosaic(aes(
@@ -440,7 +468,11 @@ Es de destacar que quienes sufren la mayor proporción de muertes por accidentes
 ggplotly(
   datos %>% dplyr::count(vehi, otro.vehi)  %>% filter(vehi!="PEATON")%>%
    mutate(otro.vehi = ifelse( otro.vehi == ""," NADA",otro.vehi), 
-          vehi = ifelse(vehi!="AUTO" & vehi!="MOTO" & vehi!="PEATON" & vehi!="BICICLETA"  & vehi!="CAMIONETA","OTROS",vehi),
+          vehi = ifelse(vehi!="AUTO" &
+          vehi!="MOTO" &
+          vehi!="PEATON" &
+          vehi!="BICICLETA"  &
+          vehi!="CAMIONETA","OTROS",vehi),
           otro.vehi = ifelse(n<30,"OTROS",otro.vehi)) %>% 
     group_by(vehi,otro.vehi)%>% 
     summarise(n=sum(n)) %>% arrange(desc(n)) %>%
@@ -477,8 +509,8 @@ ggplotly(
 datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
   ggplot(
     aes(
-      x=a,
-      y=n,
+      a,
+      n,
       colour=jur)) +
   geom_point() +
   geom_line(cex=1.1) +
@@ -800,7 +832,7 @@ f %>%
     stat="identity")+ 
   geom_smooth(
     method = "loess",
-    colour=colores[2])+
+    colour=colores[2],cex=1.4)+
      labs(
          x = "Año",
          y = "Frecuencia absoluta de fallecidos") +
@@ -811,8 +843,7 @@ f %>%
          size=12),
        axis.text =element_text(
             colour = "grey27",
-            size=9)       ) +
-  coord_cartesian( ylim = c(0,75)  ) +
+            size=9)       )  +
  scale_x_date( 
    date_labels =("%Y"),
    date_breaks = "1 year" ) 
@@ -858,5 +889,3 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 ```
 
 Los accidentes se concentran de 16:00 a 20:00 horas, aumentando paulativamente a medida se acercan los días correspondientes al fin de semana.
-
-
