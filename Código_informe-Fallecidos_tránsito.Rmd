@@ -74,18 +74,13 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
  
 4 - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
 
+5 - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?
 
-- ¿Cuál es la frecuencia relativa según el tipo de siniestro para cada año?
+6 - ¿Cuál es la distribución de los días de supervivencia luego del accidente y qué proporción ocupa cada tipo de siniestro en caso de muerte súbita?
  
- - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?
-
+7 - ¿Cuál es la tasa de fallecidos por departamento?
  
-- ¿Cuál es la distribución de los días de supervivencia luego del accidente?
- 
- 
-- ¿Cuál es la tasa de fallecidos por departamento?
- 
- - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de fallecidos?
+8 - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de difuntos?
 
 
 ## Hipótesis
@@ -99,22 +94,16 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 
 Considerando la concentración de autos en el país y el tamaño promedio del mismo, un impacto contra el mismo generaría mayor daño en el transehúnte en comparación con otro vehículo de igual presencia en el tránsito. Por lo tanto se espera una alta probabilidad de fallecer en  condición de peatón siendo impactado por dicho vehículo.
 
+4 - Colisiones entre un vehiculo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipotesis de una fuerte relacion en fallecimientos en vehiculos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
  
+5 - Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base principalmente a la práctica de altas velocidades. Tanto despistes como colisiones tendrán mayor propoción de fallecidos en rutas no departamentales, sin embargo he de excluirse atropello de peatones de dicha jurisdicción debido a su nula circulación en las mismas.
 
+6 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos. Esta hipótesis surge en la brusquedad identificada para dichos accidentes.
+  Consiguiente a anteriores menciones, tales impactos generían una muerte instantánea o de poca supervivencia para el individuo. Si valoramos posibles traslados desde carretera o largas distancias a un centro de atención médica de calidad (los cuales en mayor grado se encuentran en la capital nacional) las probabilidades de salir con vida de dicho accidente se reducen drasticamente.
 
+7 - Debido a la concentración en zonas metropolitanas tanto en sectores productores, educativos, turísticos, ect; se provocán altos valores de accidentes de tráficos y esto tendrá como consecuencias que, pese a su alta población, dichos departamentos indiquen las mayores tasas de fallecidos en el país. 
 
-- Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos. Esta hipótesis surge en la brusquedad identificada para dichos accidentes.
-
-- Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base principalmente a la práctica de altas velocidades. Tanto despistes como colisiones tendrán mayor propoción de fallecidos en rutas no departamentales, sin embargo he de excluirse atropello de peatones de dicha jurisdicción debido a su nula circulación en las mismas.
-
-- Colisiones entre un vehiculo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipotesis de una fuerte relacion en fallecimientos en vehiculos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
-
-- Consiguiente a anteriores menciones, tales impactos generían una muerte instantánea o de poca supervivencia para el individuo. Si valoramos posibles traslados desde carretera o largas distancias a un centro de atención médica de calidad (los cuales en mayor grado se encuentran en la capital nacional) las probabilidades de salir con vida de dicho accidente se reducen drasticamente.
-
-- Debido a la concentración en zonas metropolitanas tanto en sectores productores, educativos, turísticos, ect; se provocán altos valores de accidentes de tráficos y esto tendrá como consecuencias que, pese a su alta población, dichos departamentos indiquen las mayores tasas de fallecidos en el país. 
-
-
-- En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
+8- En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
 
 
 ## 
@@ -889,3 +878,6 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 ```
 
 Los accidentes se concentran de 16:00 a 20:00 horas, aumentando paulativamente a medida se acercan los días correspondientes al fin de semana.
+
+
+.
