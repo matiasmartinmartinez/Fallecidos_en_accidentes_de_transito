@@ -22,43 +22,7 @@ Se analizara tanto los datos del fallecido como lo del suceso.
 En su programa de Sistema de Información Nacional de Tránsito (SINATRÁN), donde se extrajo los datos, la Unidad Nacional de Seguridad Vial (UNASEV), genera un informe anual sobre la Siniestralidad Vial en Uruguay para el periodo dado desde 2009 a la actualidad.
 Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.gub.uy/inicio/sinatran/informes_siniestralidad_vial_uruguay/
 
-
-## Datos obtenidos
-
-Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), correspondientes al período comprendido entre 2013 y 2017. Originalmennte los datos correspondían al año 2017, sin embargo se identificó apropiada la utilización de una serie de tiempo por lo cual se mecharon bases desde el año 2013, esto provocó ciertos inconvenientes en cuanto a nombres de variables debido a la utilizacion de tildes o el aumento de variables para ciertos años pero finalmente fueron solucionados y concluimos en una base de datos apta y abarcativa.
-
-Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
-
-
-### Población:
-
-Corresponde a los 2527 fallecidos en accidentes de tránsito dentro del territorio uruguayo para el período antes señalado.
-
-### Descripción de las variables:
-
-Se poseen 15 variables identificadas de la siguiente manera:
-
-- **a:** Año. 
-- **fecha:** Dia y Mes. 
-- **hora:** Hora.
-- **dep:** Departamento.
-- **jur:** Jurisdicción.
-- **tipo.sin:** Tipo de Siniestro.
-- **vehi:** Vehiculo.
-- **rol:** Rol que cumplía.
-- **edad:** Edad al fallecer.
-- **Sexo:** Sexo de la persona.
-- **f.dias:** Dia de supervivencia.
-- **otro.vehi:** Otro vehiculo involucrado.
-- **dir:** Lugar del accidente.
-- **x:** Latitud.
-- **y:** Longitud.
-
-
-## Modelos y herramientas
-
-Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico R, con la puntual aplicación de paquete "tidyverse", que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
-Con el fin de crear visualizaciónes oportunas se gestará su formación con la librería "ggplot2", perteneciente a tidyverse, la cual al trabajar mediante acumulación de capas (layers) posee una mayor flexibilidad y permite generar gráficos que representen correctamente los datos, sin generar interpretaciones confusas. Toma como referencia una metodología de visualización de datos llamada the Grammar of Graphics (Wilkinson, 2005), que consiste en especificar de manera independiente las componentes del gráfico como si fuesen bloques y luego combinarlas. Además, con ánimos de compartir una visualizacion interactiva en la cual el usuario pueda manipular los gráficos de acuerdo a sus interés, se proveerá del paquete "shiny" que además de tales visualizaciones permite una rápida divulgacion de los estudios y un alto nivel de personalización.
+### Justificación
 
 
 ## Preguntas a responder
@@ -106,6 +70,65 @@ Considerando la concentración de autos en el país y el tamaño promedio del mi
 8- En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
 
 
+## Marco Teórico
+
+
+### Fuente de datos
+
+Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), correspondientes al período comprendido entre 2013 y 2017. Originalmennte los datos correspondían al año 2017, sin embargo se identificó apropiada la utilización de una serie de tiempo por lo cual se mecharon bases desde el año 2013, esto provocó ciertos inconvenientes en cuanto a nombres de variables debido a la utilizacion de tildes o el aumento de variables para ciertos años pero finalmente fueron solucionados y concluimos en una base de datos apta y abarcativa.
+
+Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
+
+
+### Nomenclatura Estadística
+
+Población: Llamado también Universo, es el conjunto de elementos que poseenuna o más características en común. En este caso nuestra  población corresponde a los 2527 fallecidos en accidentes de tránsito dentro del territorio uruguayo para el período antes señalado.
+
+Frecuencias: Facilitan la exposición ordenada de un conjunto de observaciones. Las frecuencias absolutas indican el número de observaciones que existen para cierto valor o nivel de una variable, en tanto que las relativas son la razón entre la frecuencia absoluta de un determinado valor o nivel en cuestión y el número total de datos. 
+
+Proporción: La proporción es una razón en la cual los elementos del numerador están incluidos en el denominador. Se utiliza como estimación de la probabilidad de un evento. El rango es de 0 a 1, o de 0 a 100%.
+
+Razón: La Razón es el cociente entre dos números, en el que ninguno o sólo algunos elementos del numerador están incluidos en el denominador. El rango es de 0 a infinito.
+
+Tasa: La tasa es un coeficiente que expresa la relación entre la cantidad y la frecuencia de un fenómeno o un grupo de números. Se utiliza para indicar la presencia de una situación que no puede ser medida en forma directa. Los componentes de una tasa son el numerador, el denominador, el tiempo específico en el que el hecho ocurre, y usualmente un multiplicador, potencia de 10, que convierte una fracción o decimal en un número entero
+
+Mediana: Valor central de todos los datos cuando éstos están ordenados de menor a mayor.
+
+Media aritmética: número obtenido de sumar todos los valores y dividirlos por el número total de observaciones. Representa que valor correspondería en caso de todas las observaciones tener el mismo valor, o sea, en condiciones de desvío estándar igual a cero.
+
+Varianza: es una medida de dispersión definida como la esperanza del cuadrado de la desviación de dicha variable respecto a su media.
+
+Desviación estándar: Raíz cuadrada de la varianza de la variable.
+
+Gráfico: Representación de datos, generalmente numéricos, mediante líneas, superficies o símbolos, con la finalidad de visualizar una posible relación que guarden entre sí.
+
+### Descripción de variables:
+
+Se poseen 15 variables identificadas de la siguiente manera:
+
+- **a:** Año. 
+- **fecha:** Dia y Mes. 
+- **hora:** Hora.
+- **dep:** Departamento.
+- **jur:** Jurisdicción.
+- **tipo.sin:** Tipo de Siniestro.
+- **vehi:** Vehiculo.
+- **rol:** Rol que cumplía.
+- **edad:** Edad al fallecer.
+- **Sexo:** Sexo de la persona.
+- **f.dias:** Dia de supervivencia.
+- **otro.vehi:** Otro vehiculo involucrado.
+- **dir:** Lugar del accidente.
+- **x:** Latitud.
+- **y:** Longitud.
+
+
+## Modelos y herramientas
+
+Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico R, con la puntual aplicación de paquete "tidyverse", que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
+Con el fin de crear visualizaciónes oportunas se gestará su formación con la librería "ggplot2", perteneciente a tidyverse, la cual al trabajar mediante acumulación de capas (layers) posee una mayor flexibilidad y permite generar gráficos que representen correctamente los datos, sin generar interpretaciones confusas. Toma como referencia una metodología de visualización de datos llamada the Grammar of Graphics (Wilkinson, 2005), que consiste en especificar de manera independiente las componentes del gráfico como si fuesen bloques y luego combinarlas. Además, con ánimos de compartir una visualizacion interactiva en la cual el usuario pueda manipular los gráficos de acuerdo a sus interés, se proveerá del paquete "shiny" que además de tales visualizaciones permite una rápida divulgacion de los estudios y un alto nivel de personalización.
+
+
 ## 
 
 ```{r,echo=F,warning=FALSE,error=FALSE}
@@ -136,7 +159,7 @@ colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
            "khaki3", "thistle4", "lightsteelblue","grey80")
 ```
 
-## Análisis Exploratorio de Datos
+## Análisis de Datos
 
 
 ```{r}
@@ -433,7 +456,7 @@ Se denota que próximos a adultos menores exite un notable crecimiento de fallec
 En tanto los autos representan una distribución aproximadamente constante desde los 25 a los 70 años. Para edades cercanas a 50 años los fallecidos en dicho vehículo comienzan a tener mayores proporciones en contraste con motos.
 
 
-### Relación vehículo
+### Relación vehículo con otras variables
 
 ```{r,echo=F,warning=FALSE,fig.cap="Gráfico de mosaico: proporción de fallecidos en cada rol según vehículo."}
 
@@ -613,7 +636,7 @@ datos %>% dplyr::count(tipo.sin, jur) %>%
 Salvo despistes y otros, los restantes tipos de siniestros predominan en jurisdicciones departamentales. El tipo de accidente con mayor proporción de difuntos es la colisión entre vehículos, acompañada de los despistes y atropellos de peatones respectivamente.
 
 
-### Días de supervivencia
+### Días de supervivencia 
 
 ```{r,fig.cap="Gráfico de barras y Pareto: proporción de fallecidos según los días de supervivencia luego del accidente, acompañado de la frecuencia relativa acumulada para los mismos."}
 
@@ -911,3 +934,19 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 ```
 
 Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando paulativamente a medida se acercan los días correspondientes al fin de semana.
+
+
+
+### Inconvenientes
+
+## Conclusiones
+
+Luego de la etapa analítica de los datos, con la utilización de diferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
+
+
+
+## Interpretación
+
+
+## Anexo
+
