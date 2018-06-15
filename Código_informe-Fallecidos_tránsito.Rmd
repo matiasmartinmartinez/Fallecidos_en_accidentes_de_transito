@@ -25,7 +25,7 @@ Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.
 ### Justificación
 
 
-## Preguntas a responder
+### Preguntas a responder
 
 
 1 - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad del fallecido en el período dado?
@@ -47,7 +47,7 @@ Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.
 8 - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de difuntos?
 
 
-## Hipótesis
+### Hipótesis
 
 1 - Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25, ya que se acompaña de poca experiencia al volante y pocas responsabilidades en comparación a mayores edades. Por ende, con respecto a la variable sexo, se preevé una mayor proporción de difuntos para las personas de sexo masculino.
 
@@ -80,6 +80,26 @@ Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), co
 Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
 
 
+### Descripción de variables:
+
+Se poseen 15 variables identificadas de la siguiente manera:
+
+- **a:** Año. 
+- **fecha:** Dia y Mes. 
+- **hora:** Hora.
+- **dep:** Departamento.
+- **jur:** Jurisdicción.
+- **tipo.sin:** Tipo de Siniestro.
+- **vehi:** Vehiculo.
+- **rol:** Rol que cumplía.
+- **edad:** Edad al fallecer.
+- **Sexo:** Sexo de la persona.
+- **f.dias:** Dia de supervivencia.
+- **otro.vehi:** Otro vehiculo involucrado.
+- **dir:** Lugar del accidente.
+- **x:** Latitud.
+- **y:** Longitud.
+
 ### Nomenclatura Estadística
 
 Población: Llamado también Universo, es el conjunto de elementos que poseenuna o más características en común. En este caso nuestra  población corresponde a los 2527 fallecidos en accidentes de tránsito dentro del territorio uruguayo para el período antes señalado.
@@ -102,28 +122,9 @@ Desviación estándar: Raíz cuadrada de la varianza de la variable.
 
 Gráfico: Representación de datos, generalmente numéricos, mediante líneas, superficies o símbolos, con la finalidad de visualizar una posible relación que guarden entre sí.
 
-### Descripción de variables:
-
-Se poseen 15 variables identificadas de la siguiente manera:
-
-- **a:** Año. 
-- **fecha:** Dia y Mes. 
-- **hora:** Hora.
-- **dep:** Departamento.
-- **jur:** Jurisdicción.
-- **tipo.sin:** Tipo de Siniestro.
-- **vehi:** Vehiculo.
-- **rol:** Rol que cumplía.
-- **edad:** Edad al fallecer.
-- **Sexo:** Sexo de la persona.
-- **f.dias:** Dia de supervivencia.
-- **otro.vehi:** Otro vehiculo involucrado.
-- **dir:** Lugar del accidente.
-- **x:** Latitud.
-- **y:** Longitud.
 
 
-## Modelos y herramientas
+### Modelos y herramientas
 
 Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico R, con la puntual aplicación de paquete "tidyverse", que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
 Con el fin de crear visualizaciónes oportunas se gestará su formación con la librería "ggplot2", perteneciente a tidyverse, la cual al trabajar mediante acumulación de capas (layers) posee una mayor flexibilidad y permite generar gráficos que representen correctamente los datos, sin generar interpretaciones confusas. Toma como referencia una metodología de visualización de datos llamada the Grammar of Graphics (Wilkinson, 2005), que consiste en especificar de manera independiente las componentes del gráfico como si fuesen bloques y luego combinarlas. Además, con ánimos de compartir una visualizacion interactiva en la cual el usuario pueda manipular los gráficos de acuerdo a sus interés, se proveerá del paquete "shiny" que además de tales visualizaciones permite una rápida divulgacion de los estudios y un alto nivel de personalización.
@@ -161,6 +162,7 @@ colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
 
 ## Análisis de Datos
 
+Inicialmente se llevó a cabo una profunda exploración de datos, la cual permitió además de conocer inconvenienes en la base, formular nuevas preguntas. Posterior a esto, se realizaron visualizaciones acordes con el fin de generar una respuesta clara y acorde a las dudas planeadas. A continuación se planean las mismas:
 
 ```{r}
 
@@ -283,32 +285,6 @@ ggplotly(
   
 ### Rol
 
-```{r,fig.cap="Gráfico de densidad: distribución de la edad del fallecido según rol del mismo."}
-
-datos %>% ggplot(aes(edad)) +
-  geom_density(
-    aes(fill = rol), 
-    alpha = 0.4, 
-    show.legend = T) +
-  labs(
-    x =  "Edad", 
-    y = "Densidad")  + 
-  theme_minimal() + 
-  guides(fill = guide_legend(title = "Rol:")) +
-  theme(
-    legend.position = "bottom", 
-    plot.title = (element_text(
-      size = 16,
-      hjust = 0.33,
-      colour = "darkslategray")))+ 
-  scale_fill_manual(values = colores[(c(4,1,2))]) 
-
-
-```
-
- La distribución de la densidad en la edad según el rol del fallecido cambia suntuosamente dependiendo si existe la condición de peatón o no: en el caso de existir se observa una fuerte concentración a edades avanzadas, sin embargo en el caso de no serlo su concentración es mayoritariamente en adultos menores (de 20 a 30 años).
- Los conductores por su parte predominan sobre los pasajeros desde los 17 a los 72 años, fuera de este período la densidad de pasajeros crece debido a que a ciertas edades la persona no está apta para conducir o simplemente decide no hacerlo.
-
 
 ```{r,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos según rol para el período dado."}
 
@@ -336,6 +312,77 @@ ggplotly(
 ```
 
 Para este período trabajado no parece variar significativamente las frecuencias absolutas de los peatones y pasajeros, mientras que en fallecidos en rol de conductores denotan un ligero descenso hasta el año 2016 y un aumento leve para el 2017.
+
+
+```{r,fig.cap="Gráfico de densidad: distribución de la edad del fallecido según rol del mismo."}
+
+datos %>% ggplot(aes(edad)) +
+  geom_density(
+    aes(fill = rol), 
+    alpha = 0.4, 
+    show.legend = T) +
+  labs(
+    x =  "Edad", 
+    y = "Densidad")  + 
+  theme_minimal() + 
+  guides(fill = guide_legend(title = "Rol:")) +
+  theme(
+    legend.position = "bottom", 
+    plot.title = (element_text(
+      size = 16,
+      hjust = 0.33,
+      colour = "darkslategray")))+ 
+  scale_fill_manual(values = colores[(c(4,1,2))]) 
+
+
+```
+
+ La distribución de la densidad en la edad según el rol del fallecido cambia suntuosamente dependiendo si existe la condición de peatón o no: en el caso de existir se observa una fuerte concentración a edades avanzadas, sin embargo en el caso de no serlo su concentración es mayoritariamente en adultos menores (de 20 a 30 años).
+ Los conductores por su parte predominan sobre los pasajeros desde los 17 a los 72 años, fuera de este período la densidad de pasajeros crece debido a que a ciertas edades la persona no está apta para conducir o simplemente decide no hacerlo.
+
+
+
+
+
+```{r,echo=F,warning=FALSE,fig.cap="Gráfico de mosaico: proporción de fallecidos en cada rol según vehículo."}
+
+
+
+ggplotly(
+ datos  %>%  dplyr::count(vehi, rol) %>% filter(vehi!="PEATON")  %>%
+    group_by( vehi= ifelse ( 
+     (vehi!="BICICLETA" &
+      vehi!="MOTO" & 
+      vehi!="AUTO" & 
+      vehi!="BICICLETA" & 
+      vehi!="CAMIONETA"),"OTROS", vehi ),rol)  %>%
+    summarise(n=sum(n))  %>%
+    ggplot()  +
+    geom_mosaic(aes(
+      weight = n,
+      x = product(  reorder(abbreviate(vehi, 4),-n)  ),
+      fill = abbreviate( rol, 1) ),
+      alpha=0.64)  +
+    labs(
+      x = "Vehículo del fallecido",
+      y = "Proporción de fallecidos") +
+      guides(fill = guide_legend(title = "Rol")) +
+      theme_minimal() +
+      theme(
+      axis.title =
+        element_text(
+          size = 12,colour="grey30")) +
+      scale_fill_manual(  values = colores[c(2,3,1)]))
+
+```
+
+Se filtraron los datos de manera tal que se removieron las observaciones correspondientes con vehiculos igual a "PEATON", considerando que las mismas poseen como rol el de peaton y esto no aportaba mayor información al gráfico.
+
+Además con la finalidad de una mejor visualización designamos una nueva categoría llamada "OTROS" en los cuales colocamos los niveles de vehículos con pocas obvservaciones.
+
+
+
+Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
 
 ### Peatones
@@ -458,45 +505,6 @@ En tanto los autos representan una distribución aproximadamente constante desde
 
 ### Relación vehículo con otras variables
 
-```{r,echo=F,warning=FALSE,fig.cap="Gráfico de mosaico: proporción de fallecidos en cada rol según vehículo."}
-
-
-
-ggplotly(
- datos  %>%  dplyr::count(vehi, rol) %>% filter(vehi!="PEATON")  %>%
-    group_by( vehi= ifelse ( 
-     (vehi!="BICICLETA" &
-      vehi!="MOTO" & 
-      vehi!="AUTO" & 
-      vehi!="BICICLETA" & 
-      vehi!="CAMIONETA"),"OTROS", vehi ),rol)  %>%
-    summarise(n=sum(n))  %>%
-    ggplot()  +
-    geom_mosaic(aes(
-      weight = n,
-      x = product(  reorder(abbreviate(vehi, 4),-n)  ),
-      fill = abbreviate( rol, 1) ),
-      alpha=0.64)  +
-    labs(
-      x = "Vehículo del fallecido",
-      y = "Proporción de fallecidos") +
-      guides(fill = guide_legend(title = "Rol")) +
-      theme_minimal() +
-      theme(
-      axis.title =
-        element_text(
-          size = 12,colour="grey30")) +
-      scale_fill_manual(  values = colores[c(2,3,1)]))
-
-```
-
-Se filtraron los datos de manera tal que se removieron las observaciones correspondientes con vehiculos igual a "PEATON", considerando que las mismas poseen como rol el de peaton y esto no aportaba mayor información al gráfico.
-
-Además con la finalidad de una mejor visualización designamos una nueva categoría llamada "OTROS" en los cuales colocamos los niveles de vehículos con pocas obvservaciones.
-
-
-
-Es de destacar que quienes sufren la mayor proporción de muertes por accidentes de tránsito son los conductores, principalmente quienes conducen autos y motos, siendo estos últimos los poseedores de la mayor probabilidad de fallecer siendo conductores.
 
 ```{r,fig.cap="Gráfico de mosaico: proporción de otro posible vehículo involucrado según el vehículo del fallecido."}
 
@@ -943,9 +951,27 @@ Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando 
 
 Luego de la etapa analítica de los datos, con la utilización de diferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
 
+1- En el estudio de la distribucion relativa por sexo se reveló la exisencia de frecuencias absoluas superiores para los accidentados fatales de sexo masculino, poseyendo aproximadamene tres veces mayor cantidad de fallecidos que las mujeres y manteniendo una tendencia similar en los años dados, pese al notorio decrecimiento para los mismos en el transcurso del período en cuesión. 
+Respecto a la edad se aprecia gran concentración de fallecidos en el intervalo de 20 a 30 años invariable en el tiempo. Posterior a este comienza un clara disminución en dicha proporción de fallecidos, sin embargo,  en el lapso conformado por edades de 30 a 70 años obtiene protagonismo a medida que pasa el tiempo una densidad aproximadamente constante lo que reafirma una meseta en la distribución en el correr de los años.
+Relacionando edad y sexo del fallecido se denota para el sexo femenino una amplia variacion de las edades en constraste con las correspondientes al sexo masculino.
+
+2- Los fallecidos en rol conductor poseen una frecuencia absoluta de entre 280 a 370 aproximadamente, en contraste con las frecuencias registrada en peatones y pasajeros, los cuales presentan valores aproximados a 100 fallecidos por año y con leves  desvíos a medida que pasan los mismos.
+Al analizar el comportamiento de la densidades para cada rol en relación a la edad se concluye que tanto como conductores como pasajeros poseen una figura aproximadamente similares con altas concenraciones para edades menores a 50 años, sin embargo a tempranas edades (niñez y adolescencia), los pasajeros prevalecen ante el rol anteriormente dicho. En tanto los peatones poseen una distribución aproximadamente creciente y constante desde la niñez hasta cercanos los 80 para luego decrecer abruptamente.
+Para la relacion entre el vehiculo del fallecido respecto al rol del mismo se encontro una alta cantidad de fallecidos en conductores de motos y autos, respectivamente. Pero, si observamos la proporcion de fallecimientos en rol de conductor los fallecimientos en bicicleta prevalecen sobre la de motos y autos.
+
+3-
+
+4- Al momento de estudiar la relacion entre vehiculo del fallecido y otro posible vehiculo involucrado en el siniestro se registran, que alta proporcion de los accidentes fatales no involucran otro vehículo o los mismos no fueron registrados apropiadamente. Cercano al 50% de los autos no registran indicios de otro vehiculo involucrado, en tanto, para las motos unicamente corresponde a un 25%.
+
+5- Existe una disminucion de la frecuencia absoluta de fallecidos en jurisdicciones nacionales hasa el año 2015 y luego se comporta con una pendiente creciente hasta el final del periodo dado, donde iguala entre el correr del 2016 la frecuencia absoluta de fallecidos en zonas deparamentales, para superarla a comienzos del 2017.
+Entre un valor cercano a 60% de tales accidentes en jurisdicción nacional ocurren con otro vehículo involucrado, en tanto en juridicciones departamentales este porcentaje crece a un 75%
+Segun el tipo de siniestro sucedido se observó que exeptuando despistes y otros (corresponden a los tipos de siniestros con menos de 60 fallecidos para el período completo), los restantes tipos de siniestros predominan en jurisdicciones departamentales. Adicional a esto las coliciones enre vehiculos atropello de peatones y despistes respectivamente poseen mayor frecuencia absoluta de fallecidos.
+
+6- Existe aproximadamente un 60% de probabilidad de fallecer al insante o no superar las 24 horas en caso de sufrir un accidene fatal.
+Centrandonos en las mueres subitas dadas, mas de un 50% de las mismas son ocacionadas por colisiones entre vehiculos.
 
 
-## Interpretación
+### Interpretación
 
 
 ## Anexo
