@@ -946,13 +946,15 @@ Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando 
 
 
 ### Inconvenientes
- 
- Se presentaron inconvenientes en el uso de las variables latitud y longitud, las cuales corresponden a formato GMS84
+
+
+ La inexistencia de una serie temporal de calidad complejiza llevar a cabo un profundo análisis estádistico. Tales bases de datos corresponden a cada año, por lo que fue necesario unir cada una de las mismas para formar una de mayor extensión y mejor información. Pero al momento de tal procedimiento, nacen obstáculos producto de la desigualdad en los formatos estructurales de los datos elegidos para cada año.
+ Además, se presentaron inconvenientes en el uso de las variables latitud y longitud, las cuales corresponden a formato GMS84 y dificultan convertir las mismas en visualizaciones de calidad. Súmese a las anteriores, una débil descripción de las variables, que dan lugar a diversas interpretaciones en ciertos aspectos, como por ejemplo en la variable otro vehículo no es claro si el nivel " " significa que no existió recolección de los datos o que el accidente fue sin otro vehículo involucrado. Se decide para tal caso interpretarse como la no existencia de otro posible vehículo involucrado en el accidente.
  
  
 ## Conclusiones
 
- Luego de la etapa analítica de los datos, con la utilización de diferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
+ Luego de la etapa analítica de los datos, con la utilización de dieferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
 
 1- En el estudio de la distribucion relativa por sexo se reveló la exisencia de frecuencias absoluas superiores para los accidentados fatales de sexo masculino, poseyendo aproximadamene tres veces mayor cantidad de fallecidos que las mujeres y manteniendo una tendencia similar en los años dados, pese al notorio decrecimiento para los mismos en el transcurso del período en cuesión. 
 Respecto a la edad se aprecia gran concentración de fallecidos en el intervalo de 20 a 30 años invariable en el tiempo. Posterior a este comienza un clara disminución en dicha proporción de fallecidos, sin embargo,  en el lapso conformado por edades de 30 a 70 años obtiene protagonismo a medida que pasa el tiempo una densidad aproximadamente constante lo que reafirma una meseta en la distribución en el correr de los años.
