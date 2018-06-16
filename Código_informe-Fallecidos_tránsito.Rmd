@@ -84,7 +84,7 @@ Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde e
 
 Se poseen 15 variables identificadas de la siguiente manera:
 
-- **a:** Año en el sucede el accidente. 
+- **a:** Año en el que sucede el accidente. 
 - **fecha:** Día y mes del suceso. 
 - **hora:** Hora del mismo, formato horas y minutos.
 - **dep:** Departamento de Uruguay donde sucede el mismo.
