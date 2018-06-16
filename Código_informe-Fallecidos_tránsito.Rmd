@@ -84,21 +84,21 @@ Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde e
 
 Se poseen 15 variables identificadas de la siguiente manera:
 
-- **a:** Año. 
-- **fecha:** Dia y Mes. 
-- **hora:** Hora.
-- **dep:** Departamento.
-- **jur:** Jurisdicción.
-- **tipo.sin:** Tipo de Siniestro.
-- **vehi:** Vehiculo.
-- **rol:** Rol que cumplía.
-- **edad:** Edad al fallecer.
-- **Sexo:** Sexo de la persona.
-- **f.dias:** Dia de supervivencia.
-- **otro.vehi:** Otro vehiculo involucrado.
+- **a:** Año en el sucede el accidente. 
+- **fecha:** Día y mes del suceso. 
+- **hora:** Hora del mismo, formato horas y minutos.
+- **dep:** Departamento de Uruguay donde sucede el mismo.
+- **jur:** Jurisdicción, ya sea en rutas nacionales o dentro del departamento.
+- **tipo.sin:** Tipo de siniestro en cuestión.
+- **vehi:** Vehículo en que se transporta el individuo al momento del siniestro.
+- **rol:** Rol que cumple el fallecido: conductor, pasajero y peatones.
+- **edad:** Edad del fallecido medido en años.
+- **Sexo:** Sexo del difunto: femenino o masculino.
+- **f.dias:** Días de supervivencia luego del accidente, previo a su posterior muerte.
+- **otro.vehi:** Otro posible vehículo involucrado en el accidente.
 - **dir:** Lugar del accidente.
-- **x:** Latitud.
-- **y:** Longitud.
+- **x:** Latitud correspondiente a la ubicación del accidente.
+- **y:** Longitud correspondiente a la ubicación del accidente.
 
 ### Nomenclatura Estadística
 
@@ -946,10 +946,13 @@ Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando 
 
 
 ### Inconvenientes
-
+ 
+ Se presentaron inconvenientes en el uso de las variables latitud y longitud, las cuales corresponden a formato GMS84
+ 
+ 
 ## Conclusiones
 
-Luego de la etapa analítica de los datos, con la utilización de diferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
+ Luego de la etapa analítica de los datos, con la utilización de diferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
 
 1- En el estudio de la distribucion relativa por sexo se reveló la exisencia de frecuencias absoluas superiores para los accidentados fatales de sexo masculino, poseyendo aproximadamene tres veces mayor cantidad de fallecidos que las mujeres y manteniendo una tendencia similar en los años dados, pese al notorio decrecimiento para los mismos en el transcurso del período en cuesión. 
 Respecto a la edad se aprecia gran concentración de fallecidos en el intervalo de 20 a 30 años invariable en el tiempo. Posterior a este comienza un clara disminución en dicha proporción de fallecidos, sin embargo,  en el lapso conformado por edades de 30 a 70 años obtiene protagonismo a medida que pasa el tiempo una densidad aproximadamente constante lo que reafirma una meseta en la distribución en el correr de los años.
