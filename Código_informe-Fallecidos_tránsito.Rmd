@@ -100,6 +100,10 @@ Se poseen 15 variables identificadas de la siguiente manera:
 - **x:** Latitud correspondiente a la ubicación del accidente.
 - **y:** Longitud correspondiente a la ubicación del accidente.
 
+
+
+Adiccional a las mismas y con el objetivo de un análisis con mayor justicia en cuanto a las proporciones de fallecidos por departamento, se adiciona en el transcurso del estudio los valores de la población correspondientes a cada departamento del Uruguay. Los mismos son extraídos del censo  realizado en el año 2011 por el Instituto Nacional de Estadística y pretenden el uso de posteriores tasas que representen con mayor claridad e información que únicamente las frecuencias absolutas por departamento.
+
 ### Nomenclatura Estadística
 
 Población: Llamado también Universo, es el conjunto de elementos que poseenuna o más características en común. En este caso nuestra  población corresponde a los 2527 fallecidos en accidentes de tránsito dentro del territorio uruguayo para el período antes señalado.
@@ -311,7 +315,7 @@ ggplotly(
      )
 ```
 
-Para este período trabajado no parece variar significativamente las frecuencias absolutas de los peatones y pasajeros, mientras que en fallecidos en rol de conductores denotan un ligero descenso hasta el año 2016 y un aumento leve para el 2017.
+Las frecuencias absolutas de fallecidos para los peatones y pasajeros son aproximadamente invariables en el tiempo, mientras que en fallecidos en rol de conductores denotan un ligero descenso hasta el año 2016 y un aumento leve para el 2017.
 
 
 ```{r,fig.cap="Gráfico de densidad: distribución de la edad del fallecido según rol del mismo."}
@@ -499,7 +503,7 @@ datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>%
 
 ```
 
-Se denota que próximos a adultos menores exite un notable crecimiento de fallecidos para las motos, alcanzando su tope a la edad cercana de 25 años para luego presentar un paulatino descenso.
+Se denota que próximos a adultos menores existe un notable crecimiento de fallecidos para las motos, alcanzando su tope en edades cercanas a los 25 años, para luego presentar un paulatino descenso.
 En tanto los autos representan una distribución aproximadamente constante desde los 25 a los 70 años. Para edades cercanas a 50 años los fallecidos en dicho vehículo comienzan a tener mayores proporciones en contraste con motos.
 
 
@@ -541,8 +545,7 @@ ggplotly(
 Únicamente incluye las relaciones con frecuencia absoluta mayores o iguales a 30 fallecidos.
 
 
-La mayor proporción de los accidentes desde el punto de vista del fallecido no involucran otro vehículo. 
-Es de apreciar que la distribución varía considerablemente dependiendo del vehículo en cuestión.
+La mayor proporción de los accidentes desde el punto de vista del fallecido no involucran otro vehículo.  Es de apreciar que la distribución varía considerablemente dependiendo del vehículo en cuestión.
 
 
 ### Jurisdicción
@@ -573,7 +576,7 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
  
 ```
 
-Existe una disminución de la proporción de fallecimientos en jurisdicciones nacionales hasta el año 2015 y luego se comporta con una pendiete creciente hasta el final del período dado, donde supera a los fallecidos en departamentales en el año 2017.
+Existe una disminución de la proporción de fallecimientos en jurisdicciones nacionales hasta el año 2015 y luego se comporta con una pendiente creciente hasta el final del período dado, donde supera a los fallecidos en departamentales en el año 2017.
 
 
 ```{r,fig.cap="Gráfico de mosaico: proporción en la existencia o no de otro vehículo involucrado según la jurisdicción en la que ocurrió el accidente."}
@@ -790,7 +793,7 @@ ggplot(
 ```
 
 
-La recta de color mostaza corresponde a la media  de fallecidos por deparatamento para todo el período designado.
+La recta de color mostaza corresponde a la media de fallecidos por deparatamento para todo el período designado.
 
 El área metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José superan la media de fallecidos en el país, lo que implica una clara concentracíon de los accidentes fatales en la zona sur del territorio nacional.
 
@@ -825,7 +828,7 @@ pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n
 
 ```
 
-El punto medio en la escala de color corresponde a la media de tasas de fallecidos cada 10 mil habitantes en el país. 
+El punto medio en la escala de color corresponde a la media de tasas de fallecidos en siniestros de tránsito cada 10 mil habitantes en el país. 
 
 
 San José presenta la mayor tasa de fallecidos cada 10 mil habitantes para el período dado, lo siguen Rocha y Florida respectivamente. En tanto Rivera posee la menor tasa del país.
@@ -960,9 +963,9 @@ Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando 
 Respecto a la edad se aprecia gran concentración de fallecidos en el intervalo de 20 a 30 años invariable en el tiempo. Posterior a este comienza un clara disminución en dicha proporción de fallecidos, sin embargo,  en el lapso conformado por edades de 30 a 70 años obtiene protagonismo a medida que pasa el tiempo una densidad aproximadamente constante lo que reafirma una meseta en la distribución en el correr de los años.
 Relacionando edad y sexo del fallecido se denota para el sexo femenino una amplia variacion de las edades en constraste con las correspondientes al sexo masculino.
 
-2- Los fallecidos en rol conductor poseen una frecuencia absoluta de entre 280 a 370 aproximadamente, en contraste con las frecuencias registrada en peatones y pasajeros, los cuales presentan valores aproximados a 100 fallecidos por año y con leves  desvíos a medida que pasan los mismos.
-Al analizar el comportamiento de la densidades para cada rol en relación a la edad se concluye que tanto como conductores como pasajeros poseen una figura aproximadamente similares con altas concenraciones para edades menores a 50 años, sin embargo a tempranas edades (niñez y adolescencia), los pasajeros prevalecen ante el rol anteriormente dicho. En tanto los peatones poseen una distribución aproximadamente creciente y constante desde la niñez hasta cercanos los 80 para luego decrecer abruptamente.
-Para la relacion entre el vehiculo del fallecido respecto al rol del mismo se encontro una alta cantidad de fallecidos en conductores de motos y autos, respectivamente. Pero, si observamos la proporcion de fallecimientos en rol de conductor los fallecimientos en bicicleta prevalecen sobre la de motos y autos.
+2- Los fallecidos en rol conductor poseen una frecuencia absoluta de entre 280 a 370 aproximadamente, en contraste con las frecuencias registrada en peatones y pasajeros, los cuales presentan valores aproximados a 100 fallecidos por año con leves desvíos a medida que pasan los mismos.
+Al analizar el comportamiento de la densidades para cada rol en relación a la edad se concluye que tanto como conductores como pasajeros poseen figuras aproximadamente similares con altas concentraciones para edades menores a 50 años, sin embargo, a tempranas edades (niñez y adolescencia) los pasajeros prevalecen ante el rol anteriormente dicho. En tanto los peatones poseen una distribución aproximadamente creciente y constante desde la niñez hasta cercanos los 80 para luego decrecer abruptamente.
+Para la relación entre el vehículo del fallecido respecto al rol del mismo se encontra una alta cantidad de fallecidos en conductores de motos y autos, respectivamente. Pero al momento de observar la proporción de fallecimientos en rol de conductor, los fallecimientos en bicicleta prevalecen sobre la de motos y autos.
 
 3-
 
@@ -978,9 +981,9 @@ Centrandonos en las mueres subitas dadas, mas de un 50% de las mismas son ocacio
 7- En el estudio por departamento se puede notar una gran frecuencia absoluta de fallecidos en la zona metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Estos superan las media de todo el país siendo ellos donde se encuentra la mayor parte de los accidentes.
 Con respecto a las tasas medidas cada 10 mil habitantes  refleja otra realidad teniendo Rivera y Montevideo la tasa mas baja de todo el periodo trabajado, en cambio, San josé presenta la mayor tasa del todo el pais seguido de Rocha y Florida. 
 
-8- Las fechas que poseen las mayores frecuencias absolutas de fallecidos estan conformado por los meses de 2013 hasta 2014 donde luego se presenta un decresimiento de los mismo. En el periodo de 2016 a 2017 hay un incremento de fallecidos a lo largo de los meses siendo el mas notorio Diciembre.
+8- Llegado el análisis de tendencias en las fechas de los accidentes fatales, se percatan frecuencias absolutas superiores en los años 2013 y 2014, para luego decrecer hasta el año 2016 y finalmente retomar su crecimiento en 2017 donde presenta su valor mas alto en el mes de diciembre.
+Existe una clara concentración en las frecuencia absoluta de fallecidos para los horarios de 16:00 a 21:00 horas y aumentando paulatinamente en el transcurso de la semana, presentándose con mayor intensidad los fines de semana.
 
-Segun el día y la hora del accidente se puede ver una clara concentracion de la frecuencia absoluta entre las 16:00 a 21:00 horas y un crecimiento a medida que los dias se acercan al fin de semana.
 
 ### Interpretación
 
