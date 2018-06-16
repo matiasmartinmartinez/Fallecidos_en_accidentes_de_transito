@@ -978,7 +978,9 @@ Centrandonos en las mueres subitas dadas, mas de un 50% de las mismas son ocacio
 7- En el estudio por departamento se puede notar una gran frecuencia absoluta de fallecidos en la zona metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Estos superan las media de todo el país siendo ellos donde se encuentra la mayor parte de los accidentes.
 Con respecto a las tasas medidas cada 10 mil habitantes  refleja otra realidad teniendo Rivera y Montevideo la tasa mas baja de todo el periodo trabajado, en cambio, San josé presenta la mayor tasa del todo el pais seguido de Rocha y Florida. 
 
-8-
+8- Las fechas que poseen las mayores frecuencias absolutas de fallecidos estan conformado por los meses de 2013 hasta 2014 donde luego se presenta un decresimiento de los mismo. En el periodo de 2016 a 2017 hay un incremento de fallecidos a lo largo de los meses siendo el mas notorio Diciembre.
+
+Segun el día y la hora del accidente se puede ver una clara concentracion de la frecuencia absoluta entre las 16:00 a 21:00 horas y un crecimiento a medida que los dias se acercan al fin de semana.
 
 ### Interpretación
 
