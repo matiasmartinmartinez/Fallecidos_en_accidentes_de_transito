@@ -975,6 +975,10 @@ Segun el tipo de siniestro sucedido se observó que exeptuando despistes y otros
 6- Existe aproximadamente un 60% de probabilidad de fallecer al insante o no superar las 24 horas en caso de sufrir un accidene fatal.
 Centrandonos en las mueres subitas dadas, mas de un 50% de las mismas son ocacionadas por colisiones entre vehiculos.
 
+7- En el estudio por departamento se puede notar una gran frecuencia absoluta de fallecidos en la zona metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Estos superan las media de todo el país siendo ellos donde se encuentra la mayor parte de los accidentes.
+Con respecto a las tasas medidas cada 10 mil habitantes  refleja otra realidad teniendo Rivera y Montevideo la tasa mas baja de todo el periodo trabajado, en cambio, San josé presenta la mayor tasa del todo el pais seguido de Rocha y Florida. 
+
+8-
 
 ### Interpretación
 
