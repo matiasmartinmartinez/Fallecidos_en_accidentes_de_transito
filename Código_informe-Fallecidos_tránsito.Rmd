@@ -84,25 +84,25 @@ Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde e
 
 Se poseen 15 variables identificadas de la siguiente manera:
 
-- **a:** Año en el que sucede el accidente. 
-- **fecha:** Día y mes del suceso. 
-- **hora:** Hora del mismo, formato horas y minutos.
-- **dep:** Departamento de Uruguay donde sucede el mismo.
-- **jur:** Jurisdicción, ya sea en rutas nacionales o dentro del departamento.
-- **tipo.sin:** Tipo de siniestro en cuestión.
-- **vehi:** Vehículo en que se transporta el individuo al momento del siniestro.
-- **rol:** Rol que cumple el fallecido: conductor, pasajero y peatones.
-- **edad:** Edad del fallecido medido en años.
-- **Sexo:** Sexo del difunto: femenino o masculino.
-- **f.dias:** Días de supervivencia luego del accidente, previo a su posterior muerte.
-- **otro.vehi:** Otro posible vehículo involucrado en el accidente.
-- **dir:** Lugar del accidente.
-- **x:** Latitud correspondiente a la ubicación del accidente.
-- **y:** Longitud correspondiente a la ubicación del accidente.
+- **a:**  Año en el que sucede el accidente. 
+- **fecha:**  Día y mes del suceso. 
+- **hora:**  Hora del mismo, formato horas y minutos.
+- **dep:**  Departamento de Uruguay donde sucede el mismo.
+- **jur:**  Jurisdicción, ya sea en rutas nacionales o dentro del departamento.
+- **tipo.sin:**  Tipo de siniestro en cuestión.
+- **vehi:**  Vehículo en que se transporta el individuo al momento del siniestro.
+- **rol:**  Rol que cumple el fallecido: conductor, pasajero y peatones.
+- **edad:**  Edad del fallecido medido en años.
+- **Sexo:**  Sexo del difunto: femenino o masculino.
+- **f.dias:**  Días de supervivencia luego del accidente, previo a su posterior muerte.
+- **otro.vehi:**  Otro posible vehículo involucrado en el accidente.
+- **dir:**  Lugar del accidente.
+- **x:**  Latitud correspondiente a la ubicación del accidente.
+- **y:**  Longitud correspondiente a la ubicación del accidente.
 
 
+  Adiccional a las mismas y con el objetivo de un análisis con mayor justicia en cuanto a las proporciones de fallecidos por departamento, se adiciona en el transcurso del estudio los valores de la población correspondientes a cada departamento del Uruguay. Los mismos son extraídos del censo  realizado en el año 2011 por el Instituto Nacional de Estadística en su sección de datos demográficos y pretenden el uso de posteriores tasas que representen con mayor claridad e información que únicamente las frecuencias absolutas por departamento.
 
-Adiccional a las mismas y con el objetivo de un análisis con mayor justicia en cuanto a las proporciones de fallecidos por departamento, se adiciona en el transcurso del estudio los valores de la población correspondientes a cada departamento del Uruguay. Los mismos son extraídos del censo  realizado en el año 2011 por el Instituto Nacional de Estadística y pretenden el uso de posteriores tasas que representen con mayor claridad e información que únicamente las frecuencias absolutas por departamento.
 
 ### Nomenclatura Estadística
 
@@ -975,11 +975,12 @@ Para la relación entre el vehículo del fallecido respecto al rol del mismo se 
 Entre un valor cercano a 60% de tales accidentes en jurisdicción nacional ocurren con otro vehículo involucrado, en tanto en juridicciones departamentales este porcentaje crece a un 75%
 Segun el tipo de siniestro sucedido se observó que exeptuando despistes y otros (corresponden a los tipos de siniestros con menos de 60 fallecidos para el período completo), los restantes tipos de siniestros predominan en jurisdicciones departamentales. Adicional a esto las coliciones enre vehiculos atropello de peatones y despistes respectivamente poseen mayor frecuencia absoluta de fallecidos.
 
-6- Existe aproximadamente un 60% de probabilidad de fallecer al insante o no superar las 24 horas en caso de sufrir un accidene fatal.
-Centrandonos en las mueres subitas dadas, mas de un 50% de las mismas son ocacionadas por colisiones entre vehiculos.
+6- Existe aproximadamente un 60% de probabilidad de fallecer al instante o no superar las 24 horas en caso de sufrir un accidene fatal.
+Centrandonos en las mueres súbitas ocurridas, más de un 50% de las mismas son ocasionadas por colisiones entre vehículos.
 
-7- En el estudio por departamento se puede notar una gran frecuencia absoluta de fallecidos en la zona metropolitana conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Estos superan las media de todo el país siendo ellos donde se encuentra la mayor parte de los accidentes.
-Con respecto a las tasas medidas cada 10 mil habitantes  refleja otra realidad teniendo Rivera y Montevideo la tasa mas baja de todo el periodo trabajado, en cambio, San josé presenta la mayor tasa del todo el pais seguido de Rocha y Florida. 
+7- La mayoría de los fallecimientos en siniestros de tránsito se dan en la zona metropolitana, conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Los mismos son los únicos en superar la media de fallecidos en todo el país y denotan la fuerte conglomeración allí existente.
+Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad completamente diferente, con Rivera y Montevideo presentando las tasas más bajas del país para el período trabajado. San José, en cambio, presenta la mayor tasa del territorio uruguayo, seguido por Rocha y Florida. 
+Si tales tasas se analizan año a año, se ecuentra una fuerte tendencia hacia la homogeneidad para todos los departamentos hasta el año 2016, tendiendo a disminuir y equilibrar sus defunciones. Pero en el año 2017 se retoma un nuevo ascenso de las mismas pese a no ser abrupto.
 
 8- Llegado el análisis de tendencias en las fechas de los accidentes fatales, se percatan frecuencias absolutas superiores en los años 2013 y 2014, para luego decrecer hasta el año 2016 y finalmente retomar su crecimiento en 2017 donde presenta su valor mas alto en el mes de diciembre.
 Existe una clara concentración en las frecuencia absoluta de fallecidos para los horarios de 16:00 a 21:00 horas y aumentando paulatinamente en el transcurso de la semana, presentándose con mayor intensidad los fines de semana.
@@ -988,5 +989,5 @@ Existe una clara concentración en las frecuencia absoluta de fallecidos para lo
 ### Interpretación
 
 
-## Anexo
+### Anexo
 
