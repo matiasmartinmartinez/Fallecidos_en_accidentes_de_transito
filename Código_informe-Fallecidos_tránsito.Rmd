@@ -152,24 +152,21 @@ Con el fin de crear visualizaciónes oportunas se gestará su formación con la 
 #A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitariamente.
 
 #Función que instala y carga paquetes necesarios para correr el código.
-
 ipack <- function( pkg )
   {
-  
 new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
       if ( length(new.pkg) ) 
         install.packages(
           new.pkg, dependencies = TRUE )
     sapply( pkg, require, character.only = TRUE )
+   }
+   
     
-    }
-    
-paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly",
+paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly",
                         "ggmap", "raster", "rgdal","knitr", 
-                        "scales", "lubridate", "patchwork")
+                        "scales", "lubridate", "devtools", "patchwork")
 
 ipack(paquetes.a.utilizar)
-
 
 
 #Datos a utilizar
@@ -826,7 +823,7 @@ censo<- c(73378,520187,84698,123203,57088,
           113124,54765,103493,68088,124878,
           108309,82595,90053,48134)
 
-# Tasa de fallecidos cada 10.000 habitantes.
+# Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
 pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
 
 ```
@@ -972,7 +969,7 @@ Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando 
 ### Inconvenientes
 
 
- La inexistencia de una serie temporal de calidad complejiza llevar a cabo un profundo análisis estádistico. Tales bases de datos corresponden a cada año, por lo que fue necesario unir cada una de las mismas para formar una de mayor extensión y mejor información. Pero al momento de tal procedimiento, nacen obstáculos producto de la desigualdad en los formatos estructurales de los datos elegidos para cada año.
+ La inexistencia de una serie temporal de calidad complejizó llevar a cabo un profundo análisis estádistico. Tales bases de datos corresponden a cada año, por lo que fue necesario unir cada una de las mismas para formar una de mayor extensión y mejor información. Pero al momento de tal procedimiento, nacieron obstáculos producto de la desigualdad en los formatos estructurales de los datos elegidos para cada año.
  Además, se presentaron inconvenientes en el uso de las variables latitud y longitud, las cuales corresponden a formato GMS84 y dificultan convertir las mismas en visualizaciones de calidad. Súmese a las anteriores, una débil descripción de las variables, que dan lugar a diversas interpretaciones en ciertos aspectos, como por ejemplo en la variable otro vehículo no es claro si el nivel " " significa que no existió recolección de los datos o que el accidente fue sin otro vehículo involucrado. Se decide para tal caso interpretarse como la no existencia de otro posible vehículo involucrado en el accidente.
  
  
@@ -980,47 +977,63 @@ Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando 
 
  Luego de la etapa analítica de los datos, con la utilización de dieferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
 
-1- En el estudio de la distribucion relativa por sexo se reveló la exisencia de frecuencias absoluas superiores para los accidentados fatales de sexo masculino, poseyendo aproximadamene tres veces mayor cantidad de fallecidos que las mujeres y manteniendo una tendencia similar en los años dados, pese al notorio decrecimiento para los mismos en el transcurso del período en cuesión. 
+1- El estudio de la distribución relativa por sexo reveló la existencia de frecuencias absolutas superiores para los accidentados fatales de sexo masculino, poseyendo aproximadamene tres veces mayor cantidad de fallecidos que las mujeres y manteniendo una tendencia similar en los años dados, pese al notorio decrecimiento para los mismos en el transcurso del período en cuesión. 
 Respecto a la edad se aprecia gran concentración de fallecidos en el intervalo de 20 a 30 años invariable en el tiempo. Posterior a este comienza un clara disminución en dicha proporción de fallecidos, sin embargo,  en el lapso conformado por edades de 30 a 70 años obtiene protagonismo a medida que pasa el tiempo una densidad aproximadamente constante lo que reafirma una meseta en la distribución en el correr de los años.
-Relacionando edad y sexo del fallecido se denota para el sexo femenino una amplia variacion de las edades en constraste con las correspondientes al sexo masculino.
+Relacionando edad y sexo del fallecido se encontró para el sexo femenino una amplia variacion de las edades en constraste con las correspondientes al sexo masculino.
 
-2- Los fallecidos en rol conductor poseen una frecuencia absoluta de entre 280 a 370 aproximadamente, en contraste con las frecuencias registrada en peatones y pasajeros, los cuales presentan valores aproximados a 100 fallecidos por año con leves desvíos a medida que pasan los mismos.
+2- Los fallecidos en rol conductor poseen una frecuencia absoluta de entre 280 a 370 aproximadamente, en contraste con las frecuencias registrada en peatones y pasajeros, los cuales presentaron valores aproximados a 100 fallecidos por año con leves desvíos a medida que pasan los mismos.
 Al analizar el comportamiento de la densidades para cada rol en relación a la edad se concluye que tanto como conductores como pasajeros poseen figuras aproximadamente similares con altas concentraciones para edades menores a 50 años, sin embargo, a tempranas edades (niñez y adolescencia) los pasajeros prevalecen ante el rol anteriormente dicho. En tanto los peatones poseen una distribución aproximadamente creciente y constante desde la niñez hasta cercanos los 80 para luego decrecer abruptamente.
-Para la relación entre el vehículo del fallecido respecto al rol del mismo se encontra una alta cantidad de fallecidos en conductores de motos y autos, respectivamente. Pero al momento de observar la proporción de fallecimientos en rol de conductor, los fallecimientos en bicicleta prevalecen sobre la de motos y autos.
+En cuanto a la relación entre el vehículo del fallecido respecto al rol del mismo se registró una alta cantidad de fallecidos en conductores de motos y autos, respectivamente. Pero al momento de observar la proporción de fallecimientos en rol de conductor, los fallecimientos en bicicleta prevalecen sobre la de motos y autos.
 
 3-
 
-4- Al momento de estudiar la relacion entre vehiculo del fallecido y otro posible vehiculo involucrado en el siniestro se registran, que alta proporcion de los accidentes fatales no involucran otro vehículo o los mismos no fueron registrados apropiadamente. Cercano al 50% de los autos no registran indicios de otro vehiculo involucrado, en tanto, para las motos unicamente corresponde a un 25%.
+4- Al momento de estudiar la relación entre vehículo del fallecido y otro posible vehículo involucrado en el siniestro se concluyó que alta proporción de los accidentes fatales no involucran otro vehículo o éstos no fueron registrados apropiadamente. Cercano al 50% de los autos no registran indicios de otro vehículo involucrado, en tanto, para las motos unicamente corresponde a un 25%.
 
-5- Existe una disminucion de la frecuencia absoluta de fallecidos en jurisdicciones nacionales hasa el año 2015 y luego se comporta con una pendiente creciente hasta el final del periodo dado, donde iguala entre el correr del 2016 la frecuencia absoluta de fallecidos en zonas deparamentales, para superarla a comienzos del 2017.
+5- Existe una disminución de la frecuencia absoluta de fallecidos en jurisdicciones nacionales hasa el año 2015 y luego se comporta con una pendiente creciente hasta el final del período dado, donde iguala entre el correr del 2016 la frecuencia absoluta de fallecidos en zonas deparamentales, para superarla a comienzos del 2017.
 Entre un valor cercano a 60% de tales accidentes en jurisdicción nacional ocurren con otro vehículo involucrado, en tanto en juridicciones departamentales este porcentaje crece a un 75%
-Segun el tipo de siniestro sucedido se observó que exeptuando despistes y otros (corresponden a los tipos de siniestros con menos de 60 fallecidos para el período completo), los restantes tipos de siniestros predominan en jurisdicciones departamentales. Adicional a esto las coliciones enre vehiculos atropello de peatones y despistes respectivamente poseen mayor frecuencia absoluta de fallecidos.
+Según el tipo de siniestro sucedido se observó que exeptuando despistes y otros (corresponden a los tipos de siniestros con menos de 60 fallecidos para el período completo), los restantes tipos de siniestros predominan en jurisdicciones departamentales. Adicional a esto las coliciones enre vehiculos atropello de peatones y despistes respectivamente poseen mayor frecuencia absoluta de fallecidos.
 
 6- Existe aproximadamente un 60% de probabilidad de fallecer al instante o no superar las 24 horas en caso de sufrir un accidene fatal.
 Centrandonos en las mueres súbitas ocurridas, más de un 50% de las mismas son ocasionadas por colisiones entre vehículos.
 
-7- La mayoría de los fallecimientos en siniestros de tránsito se dan en la zona metropolitana, conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Los mismos son los únicos en superar la media de fallecidos en todo el país y denotan la fuerte conglomeración allí existente.
-Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad completamente diferente, con Rivera y Montevideo presentando las tasas más bajas del país para el período trabajado. San José, en cambio, presenta la mayor tasa del territorio uruguayo, seguido por Rocha y Florida. 
+7- La mayoría de los fallecimientos en siniestros de tránsito ocurren zona metropolitana, conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Los mismos son los únicos en superar la media de fallecidos en todo el país y denotan la fuerte conglomeración allí existente.
+Con respecto a las tasas medidas cada 10 mil habitantes se reflejó una realidad completamente diferente, con Rivera y Montevideo presentando las tasas más bajas del país para el período trabajado. San José, en cambio, presenta la mayor tasa del territorio uruguayo, seguido por Rocha y Florida. 
 Si tales tasas se analizan año a año, se ecuentra una fuerte tendencia hacia la homogeneidad para todos los departamentos hasta el año 2016, tendiendo a disminuir y equilibrar sus defunciones. Pero en el año 2017 se retoma un nuevo ascenso de las mismas pese a no ser abrupto.
 
-8- Llegado el análisis de tendencias en las fechas de los accidentes fatales, se percatan frecuencias absolutas superiores en los años 2013 y 2014, para luego decrecer hasta el año 2016 y finalmente retomar su crecimiento en 2017 donde presenta su valor mas alto en el mes de diciembre.
+8- Llegado el análisis de tendencias en las fechas de los accidentes fatales, se percaron frecuencias absolutas superiores en los años 2013 y 2014, para luego decrecer hasta el año 2016 y finalmente retomar su crecimiento en 2017 donde presenta su valor mas alto en el mes de diciembre.
 Existe una clara concentración en las frecuencia absoluta de fallecidos para los horarios de 16:00 a 21:00 horas y aumentando paulatinamente en el transcurso de la semana, presentándose con mayor intensidad los fines de semana.
 
 
 ### Interpretación
 
+
+
+
+
 ### Bibliografía
 
 
-
- R Core Team. (2017) R: Language and Environment for Statistial Computing,
+ R Core Team. (2013) R: Language and Environment for Statistial Computing,
                     Vienna, Austria. {https://www.R-project.org/}
                     
  Wickham Hadley, Grolemund  Garret. (2016) R for data sciencie: import, tidy, transform, visualize, and Model Data. 
                 1st Edition. O REILLY.
                 
  Wickham Hadley. Tidyverse. RStudio {hhtps://www.tidyverse.org}
+
  
+ Chang Whinston, Cheng Joe y otros. Shiny: Web Application Framework for R. RStudio.
+ 
+ 
+ UNASEV. Datos Abiertos, informes de Siniestralidad Vial en Uruguay.
+ 
+ 
+ Instituto Nacional de Estadística( INE). Datos demográficos: Censo Nacional 2011. Uruguay.
+ 
+ 
+ Nuevas Técnicas para el análisis de datos. (2018) Notas del curso. IESTA, UdelaR.
+
+
 
                    
 ### Anexo
