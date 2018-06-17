@@ -169,7 +169,7 @@ ipack <- function( pkg )
     
 paquetes.a.utilizar<- c("tidyverse", "ggmosaic", "plotly",
                         "ggmap", "raster", "rgdal","knitr",
-                        "scales","lubridate","patchwork)
+                        "scales","lubridate","patchwork")
 
 ipack(paquetes.a.utilizar)
 
