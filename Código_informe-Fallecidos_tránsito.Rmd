@@ -41,7 +41,7 @@ Adicionalmente, motivar la divulgación de distintos estudios estadísticos que 
 
 2 - ¿Existe relación entre el rol del fallecido tanto con la edad, como con el vehículo del difunto?
  
-3 -  Para observaciones de vehículo igual a peatón: ¿cuál es la tasa de fallecidos para cada sexo según el departamento en donde ocurrió el accidente? y además, ¿qué vehículo involucrado en fallecimientos de los mismos posee mayor frecuencia acumulada?
+3 -  Para observaciones de vehículo igual a peatón: ¿qué vehículo estubo involucrado en el fallecimientos de los mismos y cuál posee mayor frecuencia acumulada?
  
 4 - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
 
@@ -60,12 +60,10 @@ Adicionalmente, motivar la divulgación de distintos estudios estadísticos que 
 
 1 - Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25, ya que se acompaña de poca experiencia al volante y pocas responsabilidades en comparación a mayores edades. Por ende, con respecto a la variable sexo, se preevé una mayor proporción de difuntos para las personas de sexo masculino.
 
-2 -  En relación con la edad, y retomando el punto anterior asumimos una mayor proporción de fallecidos peatones a altas edades, al contrario que en conductores. Los pasajeros poseeran una densidad equilibrada para todas las edades. 
+2 -  En relación con la edad y retomando el punto anterior, asumimos una mayor proporción de fallecidos peatones a altas edades, al contrario que en conductores. Los pasajeros poseeran una densidad equilibrada para todas las edades. 
     Por cuestiones de seguridad es de esperar frecuencias absolutas mayores para vehículos más débiles en su ensamblaje como motos, bicicletas, autos pequeños, etc. Dicho esto, se considera mayor mortalidad para conductores de los mismos y para los consiguentes vehículos la mortalidad estará dada principalmente en pasajeros, ya que su estructura protege mayormente al conductor.
 
-3 - Las tasas de atropellos a peatones se comportan de manera similar tanto para hombres como mujeres en la mayoría del territorio uruguayo; salvo para Montevideo y Canelones, donde la población es tal que provoca una disminución en su tasa de peatones fallecidos.
-
-Considerando la concentración de autos en el país y el tamaño promedio del mismo, un impacto contra él generaría mayor daño en el transehúnte en comparación con otro vehículo de igual presencia en el tránsito. Por lo tanto existe una alta probabilidad de fallecer en condición de peatón siendo impactado por dicho vehículo.
+3 - Considerando la concentración de autos en el país y el tamaño promedio del mismo, un impacto contra él generaría mayor daño en el transehúnte en comparación con otro vehículo de igual presencia en el tránsito. Por lo tanto existe una alta probabilidad de fallecer en condición de peatón siendo impactado por dicho vehículo.
 
 4 - Colisiones entre un vehiculo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipotesis de una fuerte relacion en fallecimientos en vehiculos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
  
@@ -418,7 +416,7 @@ p1<-datos %>% filter(vehi=="PEATON")  %>%
        a,
        n,
        colour=otro.vehi)) + 
-   geom_line(alpha=0.9,
+   geom_line(
      stat ="identity",
      show.legend = T,
      cex=1.1 ) +
@@ -436,23 +434,25 @@ p2<-datos %>% filter(vehi=="PEATON")  %>%
                a,    
                n,
                colour=otro.vehi)) + 
-           geom_line(alpha=0.9,  
-                     stat ="identity", 
-                     show.legend = T,   
-                     cex=1.1 )+
+           geom_line(
+             stat ="identity", 
+             show.legend = T, 
+             cex=1.1 )+
            geom_point() +   
            theme_minimal() +    
            labs(
              x="Año",
              y="Frecuencia absoluta",
-             colour="Involucrados cat. Otros")+ 
-           scale_colour_manual(values=c((colores[4:8]),"darkseagreen3","mediumpurple")) +  
+             colour="Involucrados cat. OTROS")+ 
+           scale_colour_manual(values=c((colores[4:7]),"lavenderblush3","darkseagreen3","mediumpurple")) +  
            theme(
              axis.title = element_text(colour="grey30"))
 
 grid.arrange(p1,p2)
 
 ```
+
+No es tal la hegemonía de autos y motos en el atropello de peatones. Si bien los mismos son los vehículos poseedores de las mayores frecuencias absolutas, existe una firme proporción de atropellos ocasionados por otros vehículos, principalmente camionetas, camiones y ómnibus.
 
 
 ### Vehículo
@@ -964,14 +964,14 @@ Los accidentes se concentran aproximadamente de 16:00 a 21:00 horas, aumentando 
  Luego de la etapa analítica de los datos, con la utilización de dieferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
 
 1- El estudio de la distribución relativa por sexo reveló la existencia de frecuencias absolutas superiores para los accidentados fatales de sexo masculino, poseyendo aproximadamene tres veces mayor cantidad de fallecidos que las mujeres y manteniendo una tendencia similar en los años dados, pese al notorio decrecimiento para los mismos en el transcurso del período en cuesión. 
-Respecto a la edad se aprecia gran concentración de fallecidos en el intervalo de 20 a 30 años invariable en el tiempo. Posterior a este comienza un clara disminución en dicha proporción de fallecidos, sin embargo,  en el lapso conformado por edades de 30 a 70 años obtiene protagonismo a medida que pasa el tiempo una densidad aproximadamente constante lo que reafirma una meseta en la distribución en el correr de los años.
+Respecto a la edad se aprecia gran concentración de fallecidos en el interválo de 20 a 30 años invariable en el tiempo. Posterior a este comienza un clara disminución en dicha proporción de fallecidos, sin embargo,  en el lapso conformado por edades de 30 a 70 años obtiene protagonismo a medida que pasa el tiempo una densidad aproximadamente constante lo que reafirma una meseta en la distribución en el correr de los años.
 Relacionando edad y sexo del fallecido se encontró para el sexo femenino una amplia variacion de las edades en constraste con las correspondientes al sexo masculino.
 
 2- Los fallecidos en rol conductor poseen una frecuencia absoluta de entre 280 a 370 aproximadamente, en contraste con las frecuencias registrada en peatones y pasajeros, los cuales presentaron valores aproximados a 100 fallecidos por año con leves desvíos a medida que pasan los mismos.
 Al analizar el comportamiento de la densidades para cada rol en relación a la edad se concluye que tanto como conductores como pasajeros poseen figuras aproximadamente similares con altas concentraciones para edades menores a 50 años, sin embargo, a tempranas edades (niñez y adolescencia) los pasajeros prevalecen ante el rol anteriormente dicho. En tanto los peatones poseen una distribución aproximadamente creciente y constante desde la niñez hasta cercanos los 80 para luego decrecer abruptamente.
 En cuanto a la relación entre el vehículo del fallecido respecto al rol del mismo se registró una alta cantidad de fallecidos en conductores de motos y autos, respectivamente. Pero al momento de observar la proporción de fallecimientos en rol de conductor, los fallecimientos en bicicleta prevalecen sobre la de motos y autos.
 
-3-
+3- Gran parte de los atropellos a peatones fueron ocasionados por autos y motos con aproximadamente 25 fallecidos por año, sin embargo, otros vehículos tienen fuerte protagonismo en dichos sucesos, como camionetas y camiones. Luego se visualizan otros medios de transporte con frecuencias absolutas bajas o cercanas a nulas, como tractores, trenes y maquinaria en general.
 
 4- Al momento de estudiar la relación entre vehículo del fallecido y otro posible vehículo involucrado en el siniestro se concluyó que alta proporción de los accidentes fatales no involucran otro vehículo o éstos no fueron registrados apropiadamente. Cercano al 50% de los autos no registran indicios de otro vehículo involucrado, en tanto, para las motos unicamente corresponde a un 25%.
 
@@ -993,28 +993,57 @@ Existe una clara concentración en las frecuencia absoluta de fallecidos para lo
 ### Interpretación
 
 
+  Las siguientes explicaciones presentan cierto nivel de subjetividad en consecuencia a la limitación propia de los conocimientos adquiridos por los autores del presente informe, por lo cual es posible diferir en las mismas. Ante este caso se solicita al lector la comunicación y divulgación de sus puntos de vistas, críticas, etc; los cuales permitirán generar un estudio con mayor información disponible y con menor grado de sesgadez.
+  
+  
+1-    Como se puede observar en la gráfica 2, la frecuencia absuluta de fallecidos de sexo masculino supera con creces a su correspondientes femeninas, lo cual confirma nuestra hipótesis para la misma. Esto puede ser dado por la culturav patriarcal existente en el territorio, donde el hombre es en mayor proporción el conductor de vehículos. Otra posible razón puede ser una mayor responsabilidad por parte de las mujeres al momento de transporse.
+Citando el gráfico 3 y 4, se encontraron picos de concentración en la densidad de fallecidos para la etapa de 20 a 30 años. Dicho comportamiento forma parte de las hipótesis denotadas, centrándose en la inutilización de medidas de seguridad en el accionar del joven, en la poca experiencia en transporte o en la irresponsabilidad manejada producto quizás de no esperar un posible accidente fatídico a esas edades.
+Sin embargo, no se preveía la formación de una meseta a mayores edades, tomando por sorpresas las hipótesis planteadas.
+
+2-  Retomando el punto anterior, tal concentración de 20 a 30 años fue producto de conductores y pasajeros, los fallecidos a altas edades, fueron en su mayoría peatones. Si bien forma parte de las conjeturas presentadas, era inesperado el comportamiento en la distribución de los pasajeros, los cuales presentaron una figura simetrica a los peatones con eje en apoximadamente los 50 años. Se interpreta en peatones que a mayor edad un accidente tiene probabilidad de un gran daño en el organismo del transehúnte.
+  En cuanto la relación con el vehículo del mismo la mayor proporción de los fallecidos son conductores, principalmente en bicicletas y motos, lo cual se debe( afirmando los supuestos planteados) a que la estructura de dicho vehículo es débil en comparación a camiones, autos y  otros.
+
+3- Si bien el estudio confirma altas frecuencias absolutas para atropellos de peatones en autos, se observa en la gráfica 7 y 8  que tal frecuencia no es aplastante en comparación con otros medios de transporte. Esto es inesperado, se suponian bajos valores para vehículos diferentes a autos.
+
+
+4- 
+
+
 
 
 
 ### Bibliografía
 
 
- R Core Team. (2013) R: Language and Environment for Statistial Computing,
+ R Core Team. (2017) R: Language and Environment for Statistial Computing,
                     Vienna, Austria. {https://www.R-project.org/}
                     
- Wickham Hadley, Grolemund  Garret. (2016) R for data sciencie: import, tidy, transform, visualize, and Model Data. 
-                1st Edition. O REILLY.
+                    
+ Wickham Hadley, Grolemund  Garret. (2016) R for data sciencie: import, tidy,
+                  transform,visualize, and Model Data. 1st Edition. O REILLY.
                 
- Wickham Hadley. Tidyverse. RStudio {hhtps://www.tidyverse.org}
+                
+ Wickham Hadley. Tidyverse: Easily Install and Load the 'Tidyverse'.
+                  Version 1.2.1 {hhtps://www.tidyverse.org}
 
+  
+ JJ Allaire and Yihui Xie y otros.(2018). Rmarkdown: Dynamic Documents for R.
+                  Version 1.10 {https://CRAN.R-project.org/package=rmarkdown}
+                  
+ Chang Whinston, Cheng Joe y otros. Shiny: Web Application Framework for R.
+                  Version 1.0.5. {https://CRAN.R-project.org/package=shiny}
  
- Chang Whinston, Cheng Joe y otros. Shiny: Web Application Framework for R. RStudio.
- 
- 
+
+ Carson Sievert, Chris Parmer y otros. (2017). Plotly: Create Interactive Web Graphics
+                  via 'plotly.js'. Version 4.7.1.{https://CRAN.R-project.org/package=plotly}
+
+
  UNASEV. Datos Abiertos, informes de Siniestralidad Vial en Uruguay.
+                  {http://unasev.gub.uy/inicio/sinatran/informes_siniestralidad_vial_uruguay/}
  
  
- Instituto Nacional de Estadística( INE). Datos demográficos: Censo Nacional 2011. Uruguay.
+ Instituto Nacional de Estadística( INE). Datos demográficos: Censo Nacional 2011. 
+                    Uruguay. {http://www.ine.gub.uy/web/guest/censos-2011}
  
  
  Nuevas Técnicas para el análisis de datos. (2018) Notas del curso. IESTA, UdelaR.
