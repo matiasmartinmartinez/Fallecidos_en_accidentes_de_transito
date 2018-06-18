@@ -165,7 +165,7 @@ new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
     
 paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly",
                         "ggmap", "raster", "rgdal","knitr", 
-                        "scales", "lubridate", "devtools")
+                        "scales", "lubridate", "devtools","grid","gridExtra")
 
 ipack(paquetes.a.utilizar)
 
@@ -407,7 +407,7 @@ Es de destacar que quienes sufren la mayor proporción de muertes por accidentes
 
 ```{r}
 
-peatones1<-ggplotly(datos %>% filter(vehi=="PEATON")  %>%
+p1<-datos %>% filter(vehi=="PEATON")  %>%
   mutate(otro.vehi=ifelse(otro.vehi!="BICICLETA" &
                       otro.vehi!="MOTO" & 
                       otro.vehi!="AUTO"  & 
@@ -423,51 +423,34 @@ peatones1<-ggplotly(datos %>% filter(vehi=="PEATON")  %>%
      show.legend = T,
      cex=1.1 ) +
   geom_point()+ theme_minimal() +
-  labs( x="Año", y="Frecuencia absoluta", colour="Involucrado:")+
+  labs( x="Años", y="Frecuencia absoluta", colour="Involucrado:")+
   scale_colour_manual(values=colores) +
-  theme(axis.title = element_text(  colour= "grey30" ) )    )
+  theme(axis.title = element_text(  colour= "grey30" ) )    
 
 
-peatones2<-ggplotly(datos %>% filter(vehi=="PEATON")  %>%
-  filter(otro.vehi!="AUTO" & otro.vehi!="MOTO" & otro.vehi!="")  %>%
-  count(a,otro.vehi) %>% 
-   ggplot(
-     aes(
-       a,
-       n,colour=otro.vehi)) + 
-   geom_line(alpha=0.9,
-     stat ="identity",
-     show.legend = T,
-     cex=1.1 )+geom_point() + 
-     theme_minimal() +
-     labs(x="Año",y="Frecuencia absoluta",colour="Involucrado:")+
-     scale_colour_manual(values=colores) +
-     theme(axis.title = element_text(colour="grey30")))
+p2<-datos %>% filter(vehi=="PEATON")  %>% 
+           filter(otro.vehi!="AUTO" & otro.vehi!="MOTO" & otro.vehi!="")  %>% 
+           count(a,otro.vehi) %>%   
+           ggplot(     
+             aes(    
+               a,    
+               n,
+               colour=otro.vehi)) + 
+           geom_line(alpha=0.9,  
+                     stat ="identity", 
+                     show.legend = T,   
+                     cex=1.1 )+
+           geom_point() +   
+           theme_minimal() +    
+           labs(
+             x="Año",
+             y="Frecuencia absoluta",
+             colour="Involucrados cat. Otros")+ 
+           scale_colour_manual(values=c((colores[4:8]),"darkseagreen3","mediumpurple")) +  
+           theme(
+             axis.title = element_text(colour="grey30"))
 
-subplot(peatones1,peatones2)
-
-
-
-
-```
-
-
-
-```{r}
-
-datos %>% filter(vehi=="PEATON") %>%
-count(a,sexo,dep) %>%
-ggplot(
-aes(
-a,
-n,
-colour=sexo)) +
-geom_line(alpha=0.7,
-stat ="identity",
-show.legend = T,
-cex=1.1 ) +
-geom_point()+ theme_minimal()+facet_wrap(~dep)
-
+grid.arrange(p1,p2)
 
 ```
 
