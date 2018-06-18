@@ -31,7 +31,8 @@ Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.
 
 ### Justificación
 
-
+Conocer la realidad uruguaya a nivel de tránsito permite no sólo generar conocimiento y concientizar acerca de la importancia en los cuidados y medidas de seguridad apropiadas en el tránsito, sino también tomar decisiones capaces de transformar un posible siniestro fatal en un accidente menor, o en mejor instancia en una posible inexistencia del mismo.
+Adicionalmente, motivar la divulgación de distintos estudios estadísticos que a día de hoy provienen únicamente de entidades gubernamentales, los mismos no solo de ámbitos de seguridad vial sino sociales en general.
 
 ### Preguntas a responder
 
@@ -164,7 +165,7 @@ new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
     
 paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly",
                         "ggmap", "raster", "rgdal","knitr", 
-                        "scales", "lubridate", "devtools", "patchwork")
+                        "scales", "lubridate", "devtools")
 
 ipack(paquetes.a.utilizar)
 
@@ -443,7 +444,9 @@ peatones2<-ggplotly(datos %>% filter(vehi=="PEATON")  %>%
      scale_colour_manual(values=colores) +
      theme(axis.title = element_text(colour="grey30")))
 
-peatones1+peatones2
+subplot(peatones1,peatones2)
+
+
 
 
 ```
