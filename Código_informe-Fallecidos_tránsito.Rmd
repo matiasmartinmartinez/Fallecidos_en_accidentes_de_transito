@@ -1016,9 +1016,10 @@ En cuanto al tipo de siniestro, la hipótesis para tal pregunta no refleja la re
 
 6- Se interpreta la alta proporción de fallecidos que no superan 1 día de supervivencia como reacción a la brusquedad de tales accidentes. Esto se confirma al analizar el tipo de siniestro para caso de muerte súbita donde las colisiones entre vehículos tiene un alto porcentaje de los mismos. La hipótesis falla al momento de adjudicar mayor protagonismo a colisiones con obstaculos los cuales tienen valores menores.
 
-7- Aunque la hipótesis profería las altas frecuencias absolutas en zonas metropolitanas, no presenta la misma distribución al analizarlas mediante tasas.
-Estas ultimas si representan un posible cambio en políticas departamentales y al estudiar dichas tasas por años se aprecía las concecuencias.
+7- Aunque la hipótesis profería las altas frecuencias absolutas en zonas metropolitanas, no presenta la misma distribución al analizarlas mediante tasas. Estas ultimas si representan un posible cambio en políticas departamentales y al estudiar dichas tasas por años se aprecía las concecuencias de políticas implementadas a nivel nacional.
 
+8- Se rechaza la hipótesis en cuanto  cierta tendencia o ciclos para distintos meses, aunque diciembre posee una mayor frecuencia absoluta no existe un claro comportamiento ni en meses de  vacaciones ni en otros.
+Estudiando los fallecidos por día y hora la hipótesis representa parcialmente la realidad dado que si bien existe una concentracion en fines de semanas también se dan altas frecuencias absolutas en tardes de martes a viernes. Tales hecho son productos de acciones políticas llegados meses festivos, vacaciones, ect; y estres laboral, rutinas apresuradas, fiestas con posibles consumisión de alcohol en dias cercanos al fines de semana, comprtamiento adquirido prinicipalmente por jovenes.
 
 
 ### Bibliografía
