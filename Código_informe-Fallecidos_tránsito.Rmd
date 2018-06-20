@@ -973,7 +973,9 @@ En cuanto a la relación entre el vehículo del fallecido respecto al rol del mi
 
 3- Gran parte de los atropellos a peatones fueron ocasionados por autos y motos con aproximadamente 25 fallecidos por año, sin embargo, otros vehículos tienen fuerte protagonismo en dichos sucesos, como camionetas y camiones. Luego se visualizan otros medios de transporte con frecuencias absolutas bajas o cercanas a nulas, como tractores, trenes y maquinaria en general.
 
-4- Al momento de estudiar la relación entre vehículo del fallecido y otro posible vehículo involucrado en el siniestro se concluyó que alta proporción de los accidentes fatales no involucran otro vehículo o éstos no fueron registrados apropiadamente. Cercano al 50% de los autos no registran indicios de otro vehículo involucrado, en tanto, para las motos unicamente corresponde a un 25%.
+4- Si bien disminuye hasta el año 2016, la frecuencia absoluta de fallecidos en motos supera ampliamente a los fallecidos en otros vehículos, superando entre un 200 y 300% dichas cantidades.
+La distibución de la densidad de fallecidos difiere significativamente siendo el vehículo moto o auto, para el primero la distribución se centra a jovenes edades (20 a 30 años) y luego cayendo abruptamente; para el caso de autos su pico comienza entre 25 a 30 años, con valores cercanos al 50%  en el pico de las motos y siendo constantes en el correr de los años.
+Al momento de estudiar la relación entre vehículo del fallecido y otro posible vehículo involucrado en el siniestro se concluyó que alta proporción de los accidentes fatales involucran otro vehículo. Sin embargo se debe tener en cuenta un alto porcentaje accidentado por si mismo o no registrados apropiadamente. Para esta categoría (NADA): cercano al 50% de los autos no registran indicios de otro vehículo involucrado, en tanto, para las motos únicamente corresponde a un 25%.
 
 5- Existe una disminución de la frecuencia absoluta de fallecidos en jurisdicciones nacionales hasa el año 2015 y luego se comporta con una pendiente creciente hasta el final del período dado, donde iguala entre el correr del 2016 la frecuencia absoluta de fallecidos en zonas deparamentales, para superarla a comienzos del 2017.
 Entre un valor cercano a 60% de tales accidentes en jurisdicción nacional ocurren con otro vehículo involucrado, en tanto en juridicciones departamentales este porcentaje crece a un 75%
@@ -1006,9 +1008,16 @@ Sin embargo, no se preveía la formación de una meseta a mayores edades, tomand
 3- Si bien el estudio confirma altas frecuencias absolutas para atropellos de peatones en autos, se observa en la gráfica 7 y 8  que tal frecuencia no es aplastante en comparación con otros medios de transporte. Esto es inesperado, se suponian bajos valores para vehículos diferentes a autos.
 
 
-4- 
+4- Claramente los vehículos de menor tamaño estan expuestos a mayor riesgo de fallecer al momento del siniestro, sin embargo las relaciones entre tales vehículos no son del todo precisas para permitir una clara afirmacion o negacion de nuestra hipotesis, junto a esto se adiciona los inconvenientes con la categoría "NADA" que dificulta una clara interpretación.
 
+5- En el período de 2013 a 2016 se puede negar nuestra hipótesis, pero para el año 2017 la historia cambia producto quizá de la implementacion de políticas en seguridad vial centradas en el transporte urbano.
+Según la jurisdición, existe un plus en la proporción de accidentes con otro vehículo involucrado en zonas departamentales, el mismo puede ser adjudicado a la conglomeración y altas cantidades de vehículos en ciudades, excluyendo como casos exepcionales posible tráfico en zonas interbalnearias que afectan tanto a departamental como nacional.
+En cuanto al tipo de siniestro, la hipótesis para tal pregunta no refleja la realidad por completo, ya que se registran mayor proporción de colisiones entre vehículos en zonas departamentales. Citando como explicación del mismo el punto anteriormente planteado.
 
+6- Se interpreta la alta proporción de fallecidos que no superan 1 día de supervivencia como reacción a la brusquedad de tales accidentes. Esto se confirma al analizar el tipo de siniestro para caso de muerte súbita donde las colisiones entre vehículos tiene un alto porcentaje de los mismos. La hipótesis falla al momento de adjudicar mayor protagonismo a colisiones con obstaculos los cuales tienen valores menores.
+
+7- Aunque la hipótesis profería las altas frecuencias absolutas en zonas metropolitanas, no presenta la misma distribución al analizarlas mediante tasas.
+Estas ultimas si representan un posible cambio en políticas departamentales y al estudiar dichas tasas por años se aprecía las concecuencias.
 
 
 
