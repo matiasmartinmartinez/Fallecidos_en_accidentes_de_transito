@@ -1,26 +1,20 @@
 
 ################################################################################################
-################################################################################################
-
 #A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitariamente.
 
 #Función que instala y carga paquetes necesarios para correr el código.
-ipack <- function( pkg )
-{
+ipack <- function( pkg ) {
   new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
   if ( length(new.pkg) ) 
     install.packages(
       new.pkg, dependencies = TRUE )
-  sapply( pkg, require, character.only = TRUE )
-}
-paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly",
-                         "ggmap", "raster", "rgdal","knitr", 
-                         "scales", "lubridate", "devtools","grid","gridExtra")
+  sapply( pkg, require, character.only = TRUE ) }
+
+paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate", "devtools","grid", "gridExtra")
 ipack(paquetes.a.utilizar)
 
 #Datos a utilizar
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
-
 #Paleta
 colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
            "khaki3", "thistle4", "lightsteelblue","grey80")
@@ -69,20 +63,17 @@ mapeo<-  function(n)
     size = 0.25) +
     theme(aspect.ratio = 1) + 
     theme_opts
-  
 }
 
 #Población por departamento para el año más reciente. Censo 2011, fuente: INE.
-censo<- c(73378,520187,84698,123203,57088,
-          25050,67048,58815,164300,1319108,
-          113124,54765,103493,68088,124878,
-          108309,82595,90053,48134)
+censo<- c(73378,520187,84698,123203,57088, 25050,67048,58815,164300,1319108,   113124,54765,103493,68088,124878,  108309,82595,90053,48134)
 
 # Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
 pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
 
 ################################################################################################
-################################################################################################
+
+
 
 
 
@@ -101,21 +92,29 @@ ui <- fluidPage(
       title = h6("Distribución territorial"),
       hr(),
       
-      plotOutput("mapa")
-      
-      
-      
-      
-      
+      plotOutput("mapa"),
+      p("facetado por años")
       ),  
+    
+    
+    
     tabPanel(
       title = h6("Densidad según vehículo"),
-      hr()
+      hr(),
+      plotlyOutput("densidad"),
+      p(" facetear por sexo, indicar vehiculo y año")
       ),
+    
+    
     tabPanel(
-      title = h6("Comportamiento del rol"),
-      hr()
-     ),
+      title = h6("Mosaicos"),
+      hr(),
+      
+      plotlyOutput("rol"),
+      plotlyOutput("involucrado"),
+      p("sexo y año para ambos,   rol y jurisdiccion  para involucrado ")
+         ),
+    
     tabPanel(
       title = h6("Fecha del siniestro")
       )
@@ -123,7 +122,6 @@ ui <- fluidPage(
   )
   
 
-################################################################################################
 ################################################################################################
 
 
@@ -145,15 +143,101 @@ server <-  function(input, output) {
         high = "#5ab4ac",
         midpoint = mean(pob.dep$tasa))
   })
+  
+  
+  output$densidad <- renderPlotly({ 
+    ggplotly(
+    
+    datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>% 
+    ggplot(aes(edad)) +
+    geom_density(
+      aes(fill = vehi), 
+      alpha = 0.5, 
+      show.legend = T) +
+    labs(
+      x =  "Edad", 
+      y = "Densidad")  + 
+    theme_minimal() + 
+    guides(fill = guide_legend(title = "Vehículo:")) +
+    theme(
+      legend.position = "bottom", 
+      axis.title  = (element_text(
+        size = 12,
+        colour = "darkslategray"))) + 
+    scale_fill_manual (values=colores))
+    })
+  
+  output$rol <- renderPlotly({ 
+  ggplotly(
+    datos  %>%  filter(a=="2013")%>% filter(sexo=="F")%>%dplyr::count(vehi, rol) %>% filter(vehi!="PEATON")  %>%
+      group_by( vehi= ifelse ( 
+        (vehi!="BICICLETA" &
+           vehi!="MOTO" & 
+           vehi!="AUTO" & 
+           vehi!="BICICLETA" & 
+           vehi!="CAMIONETA"),"OTROS", vehi ),rol)  %>%
+      summarise(n=sum(n))  %>%
+      ggplot()  +
+      geom_mosaic(aes(
+        weight = n,
+        x = product(  reorder(abbreviate(vehi, 4),-n)  ),
+        fill = abbreviate( rol, 1) ),
+        alpha=0.64)  +
+      labs(
+        x = "Vehículo del fallecido",
+        y = "Proporción de fallecidos") +
+      guides(fill = guide_legend(title = "Rol")) +
+      theme_minimal() +
+      theme(
+        axis.title =
+          element_text(
+            size = 12,colour="grey30")) +
+      scale_fill_manual(  values = colores[c(2,3,1)]))
+    })
+  
+  
+  
+  output$involucrado <- renderPlotly({ 
+    ggplotly(
+      datos %>% filter(a=="2017") %>%dplyr::count(involucrado, sexo) %>%
+        ggplot() +
+        geom_mosaic(aes(
+          weight = n,
+          x = product(sexo),
+          fill = involucrado),
+          alpha=0.5) +
+        labs(
+          x = "Jurisdicción",
+          y = "Proporción involucrado") +
+        theme(
+          panel.background = element_rect(
+            fill="white"),
+          plot.title = element_text(
+            size = 16,
+            face = "italic",
+            colour = "grey20",
+            vjust = -2),
+          axis.title = element_text(
+            size=12,
+            colour="grey20")) + 
+        scale_fill_manual(
+          values = colores) +
+        guides(
+          fill= guide_legend("Involucrado")))
+
+  })
+  
+  
+  
+  
+  
   }
 
 
 
 ################################################################################################
-################################################################################################
 
 shinyApp(ui = ui, server = server)
 
-################################################################################################
 ################################################################################################
 
