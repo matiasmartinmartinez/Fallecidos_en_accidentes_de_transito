@@ -71,6 +71,22 @@ censo<- c(73378,520187,84698,123203,57088, 25050,67048,58815,164300,1319108,   1
 # Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
 pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
 
+
+
+
+#Cargar fechas
+fecha<-    datos %>% separate(  fecha,c("dia","mes")  ) %>% 
+  mutate( f.h=  paste( paste(a,mes,dia,sep="-") ,  hora )  ) %>%
+  mutate( f.h=  as.POSIXct(f.h, format="%Y-%m-%d  %H:%M:%S",tz="GMT"))%>%
+  dplyr::select(f.h)
+
+
+n.dia <-  weekdays(       as.Date(  as.vector(t (fecha[1])  )    ) )
+
+f<- data.frame(fecha,n.dia)
+
+
+
 ################################################################################################
 
 
@@ -91,6 +107,7 @@ ui <- fluidPage(
     tabPanel(
       title = h6("Distribución territorial"),
       hr(),
+     
       
       plotOutput("mapa"),
       p("facetado por años")
@@ -116,11 +133,23 @@ ui <- fluidPage(
          ),
     
     tabPanel(
-      title = h6("Fecha del siniestro")
+      title = h6("Series de tiempo"),
+      sidebarLayout(
+        
+        
+        sidebarPanel(
+          
+          selectInput("fallecidos", "Fallecidos:",
+                      choices = c("Total", "Sexo", "Rol","Jurisdicción")),
+          selectInput("intervalo", "Intervalo:",
+                      choices = c("1 mes", "6 meses", "1 año"))
+        ),
+        mainPanel(
+      plotOutput("fecha"),
+      p("5: total,sexo,rol,vehi,jur")
       )
-    )
-  )
-  
+      )
+    )))
 
 ################################################################################################
 
@@ -129,6 +158,8 @@ ui <- fluidPage(
 
 
 server <-  function(input, output) {
+
+  
   output$mapa <- renderPlot({
   
     
@@ -228,6 +259,49 @@ server <-  function(input, output) {
   })
   
   
+  
+  
+  
+  
+  fallecidosInput <- reactive({
+    switch(input$fallecidos,
+           "Total" = ,
+           "Sexo" = sexo,
+           "Rol" = rol,
+           "Jurisdicción"=jur)
+  })
+  
+  
+  
+  output$fecha <- renderPlot({
+    data.frame(datos,f) %>%
+    count(  fallecidosInput(), a.mes=    floor_date(f.h, "1 month"))  %>%
+    ggplot( 
+      aes(
+        as_date(a.mes),
+          n,
+          fill=fallecidosInput()) ) + 
+    geom_point()  + 
+    geom_line(
+      stat="identity")+ 
+    geom_smooth(
+      method = "loess",
+      cex=1.4)+
+    labs(
+      x = "Año",
+      y = "Frecuencia absoluta de fallecidos") +
+    theme_minimal() +
+    theme(
+      axis.title = element_text(
+        colour="grey30", 
+        size=12),
+      axis.text =element_text(
+        colour = "grey27",
+        size=9)       )  +
+    scale_x_date( 
+      date_labels =("%Y"),
+      date_breaks = "1 year" ) 
+  })
   
   
   
