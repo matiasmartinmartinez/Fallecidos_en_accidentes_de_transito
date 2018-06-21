@@ -24,7 +24,7 @@ Se analizara tanto los datos del fallecido como lo del suceso.
 
 ### Antecedentes:
 
- En su programa de Sistema de Información Nacional de Tránsito (SINATRÁN), donde se extrajo los datos, la Unidad Nacional de Seguridad Vial (UNASEV), genera un informe anual sobre la Siniestralidad Vial en Uruguay para el periodo dado desde 2009 a la actualidad.
+ En su programa de Sistema de Información Nacional de Tránsito (SINATRÁN), donde se extrajo los datos, la Unidad Nacional de Seguridad Vial (UNASEV), genera un informe anual sobre la Siniestralidad Vial en Uruguay para el período dado desde 2009 a la actualidad.
 Dicho informes se pueden encontrar a través del siguiente enlace:http://unasev.gub.uy/inicio/sinatran/informes_siniestralidad_vial_uruguay/
 
 
@@ -65,7 +65,7 @@ Adicionalmente, motivar la divulgación de distintos estudios estadísticos que 
 
 3 - Considerando la concentración de autos en el país y el tamaño promedio del mismo, un impacto contra él generaría mayor daño en el transehúnte en comparación con otro vehículo de igual presencia en el tránsito. Por lo tanto existe una alta probabilidad de fallecer en condición de peatón siendo impactado por dicho vehículo.
 
-4 - Colisiones entre un vehiculo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipotesis de una fuerte relacion en fallecimientos en vehiculos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
+4 - Colisiones entre un vehículo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipotesis de una fuerte relación en fallecimientos en vehiculos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
  
 5 - Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base principalmente a la práctica de altas velocidades. Tanto despistes como colisiones tendrán mayor propoción de fallecidos en rutas no departamentales, sin embargo ha de excluirse atropellos de peatones de dicha jurisdicción debido a su nula circulación en las mismas.
 
@@ -82,7 +82,7 @@ Adicionalmente, motivar la divulgación de distintos estudios estadísticos que 
 
 ### Fuente de datos
 
- Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), correspondientes al período comprendido entre 2013 y 2017. Originalmennte los datos correspondían al año 2017, sin embargo se identificó apropiada la utilización de una serie de tiempo por lo cual se mecharon bases desde el año 2013, esto provocó ciertos inconvenientes en cuanto a nombres de variables debido a la utilizacion de tildes o el aumento de variables para ciertos años pero finalmente fueron solucionados y concluimos en una base de datos apta y abarcativa.
+ Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), correspondientes al período comprendido entre 2013 y 2017. Originalmente los datos correspondían al año 2017, sin embargo, se identificó apropiada la utilización de una serie de tiempo por lo cual se mecharon bases desde el año 2013, esto provocó ciertos inconvenientes en cuanto a nombres de variables debido a la utilizacion de tildes o el aumento de variables para ciertos años pero finalmente fueron solucionados y concluimos en una base de datos apta y abarcativa.
 
 Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
 
