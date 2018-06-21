@@ -1,6 +1,94 @@
 
+################################################################################################
+################################################################################################
 
-library(shiny)
+#A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitariamente.
+
+#Función que instala y carga paquetes necesarios para correr el código.
+ipack <- function( pkg )
+{
+  new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
+  if ( length(new.pkg) ) 
+    install.packages(
+      new.pkg, dependencies = TRUE )
+  sapply( pkg, require, character.only = TRUE )
+}
+paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly",
+                         "ggmap", "raster", "rgdal","knitr", 
+                         "scales", "lubridate", "devtools","grid","gridExtra")
+ipack(paquetes.a.utilizar)
+
+#Datos a utilizar
+load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
+
+#Paleta
+colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
+           "khaki3", "thistle4", "lightsteelblue","grey80")
+
+#Se cargan polígonos y coordenadas pertenecientes al territorio uruguayo, delimitados por departamentos.
+uruguay <- getData("GADM", country = "UY", level = 0)
+uruguay_states <- getData("GADM", country = "UY", level = 1)
+uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
+NAME_1 <- uystates_UTM@data$NAME_1
+
+# Función mapa
+mapeo<-  function(n) 
+{
+  
+  df <- data.frame(NAME_1,n)
+  uystates_UTM@data$id <- rownames(uystates_UTM@data)
+  uystates_UTM@data <- plyr::join(uystates_UTM@data, df, by="NAME_1")
+  uystates_df <- fortify(uystates_UTM)
+  uystates_df <- plyr::join(uystates_df,uystates_UTM@data, by="id")
+  uystates_df <-uystates_df %>% filter(!(NAME_1=="Rivera"& lat<6400000)) 
+  
+  theme_opts <-  list(  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.background = element_blank(),
+    plot.background =  element_blank(),
+    axis.line =    element_blank(),
+    axis.text.x =  element_blank(),
+    axis.text.y =  element_blank(),
+    axis.ticks =   element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    plot.title =   element_text(
+      size=16.4,
+      colour="darkslategrey",
+      hjust=0.25))   )
+  
+  ggplot() + geom_polygon(
+    data = uystates_df,
+    aes(
+      x = long,
+      y = lat,
+      group = group,
+      fill = n),
+    color = "black",
+    size = 0.25) +
+    theme(aspect.ratio = 1) + 
+    theme_opts
+  
+}
+
+#Población por departamento para el año más reciente. Censo 2011, fuente: INE.
+censo<- c(73378,520187,84698,123203,57088,
+          25050,67048,58815,164300,1319108,
+          113124,54765,103493,68088,124878,
+          108309,82595,90053,48134)
+
+# Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
+pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
+
+################################################################################################
+################################################################################################
+
+
+
+
+
+
 
 ui <- fluidPage(
   
@@ -10,67 +98,62 @@ ui <- fluidPage(
     
     
     tabPanel(
-      title = h6("Introducción"),
+      title = h6("Distribución territorial"),
+      hr(),
       
-        
-        hr(),
-        p("El presente estudio surge de la curiosidad por conocer el comportamiento de los siniestros de tránsitos en Uruguay y posee como objetivo madre una profunda aplicación de los conocimientos adquiridos en la asignatura Nuevas técnicas para el análisis de datos, marcando énfasis en un correcto análisis exploratorio y la generación de adecuadas visualizaciones de los datos.Se analizara tanto los datos del fallecido como lo del suceso."),
-       
-         h3("Antecedentes:"),
-        p(" En su programa de Sistema de Información Nacional de Tránsito (SINATRÁN), donde se extrajo los datos, la Unidad Nacional de Seguridad Vial (UNASEV), genera un informe anual sobre la Siniestralidad Vial en Uruguay para el periodo dado desde 2009 a la actualidad. Dicho informes se pueden encontrar a través del siguiente",  a(href="http://unasev.gub.uy/inicio/sinatran/informes_siniestralidad_vial_uruguay/","enlace."),
-       
-           h3("Justificación:"),
-        p("Conocer la realidad uruguaya a nivel de tránsito permite no sólo generar conocimiento y concientizar acerca de la importancia en los cuidados y medidas de seguridad apropiadas en el tránsito, sino también tomar decisiones capaces de transformar un posible siniestro fatal en un accidente menor, o en mejor instancia en una posible inexistencia del mismo. Adicionalmente, motivar la divulgación de distintos estudios estadísticos que a día de hoy provienen únicamente de entidades gubernamentales, los mismos no solo de ámbitos de seguridad vial sino sociales en general."),
-       
-         h3("Preguntas a responder"),
-        p("1 - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad del fallecido en el período dado?"),
-        p("2 - ¿Existe relación entre el rol del fallecido tanto con la edad, como con el vehículo del difunto?"),
-        p("3 -  Para observaciones de vehículo igual a peatón: ¿qué vehículo estubo involucrado en el fallecimientos de los mismos y cuál posee mayor frecuencia acumulada?"),
-        p("4 - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?"),
-        p("5 - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?"),
-        p("6 - ¿Cuál es la distribución de los días de supervivencia luego del accidente y qué proporción ocupa cada tipo de siniestro en caso de muerte súbita?"),
-        p("7 - ¿Cuál es la tasa de fallecidos por departamento?"),
-        p("8 - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de difuntos?")
-             
-             )),                       
-  
-            tabPanel(
-               title = h6("Marco Teórico"),
-               hr(),
-               h3("Fuente de datos"),
-               p(" Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), correspondientes al período comprendido entre 2013 y 2017. Originalmennte los datos correspondían al año 2017, sin embargo se identificó apropiada la utilización de una serie de tiempo por lo cual se mecharon bases desde el año 2013, esto provocó ciertos inconvenientes en cuanto a nombres de variables debido a la utilizacion de tildes o el aumento de variables para ciertos años pero finalmente fueron solucionados y concluimos en una base de datos apta y abarcativa."),
-               p("Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente",a(href="http://unasev.gub.uy/inicio/sinatran/datos_abiertos/","url"),
-                
-                  h3("Descripción de variables:"),
-                 p("Se poseen 15 variables identificadas de la siguiente manera:")
-                 
-                )),
-             
-             tabPanel(title = h6("Análisis de datos"),
-                      hr(),
-                      p(" Inicialmente se llevó a cabo una profunda exploración de datos, la cual permitió además de conocer inconvenienes en la base, formular nuevas preguntas. Posterior a esto, se realizaron visualizaciones acordes con el fin de generar una respuesta clara y acorde a las dudas planeadas. A continuación se planean las mismas:")
-                      ),
-             
-             tabPanel(title = h6("Conclusiones")                       
-                      ),
-             
-             tabPanel(title = h6("Interpretaciones")       
-                      ),
-  
-          tabPanel(title = h6("Anexo")  
-                      )
-           )
+      plotOutput("mapa")
+      
+      
+      
+      
+      
+      ),  
+    tabPanel(
+      title = h6("Densidad según vehículo"),
+      hr()
+      ),
+    tabPanel(
+      title = h6("Comportamiento del rol"),
+      hr()
+     ),
+    tabPanel(
+      title = h6("Fecha del siniestro")
+      )
+    )
   )
   
 
+################################################################################################
+################################################################################################
+
+
+
+
 
 server <-  function(input, output) {
-
+  output$mapa <- renderPlot({
   
-}
+    
+    mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
+               mutate(n=(n/censo)*10000)    ) +
+      labs(fill = "Tasa",
+           x = NULL,
+           y = NULL) +
+      scale_fill_gradient2(
+        low = "#d8b365",
+        mid = "white",
+        high = "#5ab4ac",
+        midpoint = mean(pob.dep$tasa))
+  })
+  }
 
 
 
+################################################################################################
+################################################################################################
 
 shinyApp(ui = ui, server = server)
+
+################################################################################################
+################################################################################################
 
