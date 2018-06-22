@@ -107,10 +107,22 @@ ui <- fluidPage(
     tabPanel(
       title = h6("Distribución territorial"),
       hr(),
-     
       
-      plotOutput("mapa"),
-      p("facetado por años")
+      sidebarLayout(
+        
+        sidebarPanel(
+          
+          checkboxGroupInput("años", "Elegir Año:",
+                             choiceNames = c("2013", "2014", "2015", "2016","2017"),
+                             choiceValues =  c("2013", "2014", "2015", "2016","2017"))
+          ),
+        
+        
+        mainPanel(
+          plotOutput("mapa")
+         
+          )
+        )
       ),  
     
     
@@ -118,8 +130,24 @@ ui <- fluidPage(
     tabPanel(
       title = h6("Densidad según vehículo"),
       hr(),
-      plotlyOutput("densidad"),
-      p(" facetear por sexo, indicar vehiculo y año")
+      
+      sidebarLayout(
+        
+        sidebarPanel(
+          selectInput("sexodensidad", "Sexo:",
+                      choices = c("Ambos", "Femenino", "Masculino")),
+          selectInput("añosdensidad", "Elegir año::",
+                      choices = c("Todos","2017", "2016", "2015", "2014","2013")),
+          checkboxGroupInput("vehiculodensidad", "Vehículo:",
+                             choiceNames = c("Auto","Camión","Camioneta" ,"Moto", "Peatón"),
+                             choiceValues =  c("AUTO", "CAMION", "CAMIONETA", "MOTO","PEATON"))
+          
+        ),
+        mainPanel(   
+          plotlyOutput("densidad"),
+          p(" facetear por sexo, indicar vehiculo y año")
+          )
+      )
       ),
     
     
@@ -164,17 +192,25 @@ server <-  function(input, output) {
   
   output$mapa <- renderPlot({
   
-    
-    mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
-               mutate(n=(n/censo)*10000)    ) +
-      labs(fill = "Tasa",
-           x = NULL,
-           y = NULL) +
+    mapeo(n= (datos %>% filter( a==input$años |
+                                  a==input$años |
+                                  a==input$años |
+                                  a==input$años |
+                                  a==input$años |
+                                  a==input$años )%>% count(a,dep) %>% arrange(a) %>%
+                mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000))) ) +
+      labs(
+        fill = "Tasa",
+        x = NULL,
+        y = NULL) +
       scale_fill_gradient2(
         low = "#d8b365",
         mid = "white",
         high = "#5ab4ac",
-        midpoint = mean(pob.dep$tasa))
+        midpoint =  mean((datos %>% filter(a==input$años  ) %>% count(a,dep) %>% arrange(a) %>% mutate(
+          censo= (rep(censo,(length(table(a)))))) %>% mutate(n=(n/censo)*10000))$n )) +
+      facet_wrap( ~ a)
+    
   })
   
   
