@@ -134,10 +134,13 @@ ui <- fluidPage(
       sidebarLayout(
         
         sidebarPanel(
+          
           selectInput("sexodensidad", "Sexo:",
                       choices = c("Ambos", "Femenino", "Masculino")),
-          selectInput("añosdensidad", "Elegir año::",
+          
+          selectInput("añosdensidad", "Elegir año:",
                       choices = c("Todos","2017", "2016", "2015", "2014","2013")),
+          
           checkboxGroupInput("vehiculodensidad", "Vehículo:",
                              choiceNames = c("Auto","Camión","Camioneta" ,"Moto", "Peatón"),
                              choiceValues =  c("AUTO", "CAMION", "CAMIONETA", "MOTO","PEATON"))
@@ -155,10 +158,34 @@ ui <- fluidPage(
       title = h6("Mosaicos"),
       hr(),
       
+      sidebarLayout(
+        
+        sidebarPanel(
+          
+          selectInput("variablemosaico", "Variable:",
+                      choices = c("Sexo","Rol", "Jurisdicción")),
+          
+       conditionalPanel(
+         condition = "input.variablemosaico!='Sexo'",
+         selectInput("sexomosaico", "Sexo:",
+                                    choices = c("Facetear", "No facetear") ))          ,
+          
+          checkboxGroupInput("añosmosaico", "Elegir Año:",
+                             choiceNames = c("2013", "2014", "2015", "2016","2017"),
+                             choiceValues =  c("2013", "2014", "2015", "2016","2017"))
+          
+          
+      
+          
+        ),
+        mainPanel( 
+      
       plotlyOutput("rol"),
       plotlyOutput("involucrado"),
       p("sexo y año para ambos,   rol y jurisdiccion  para involucrado ")
-         ),
+         )
+      )
+      ),
     
     tabPanel(
       title = h6("Series de tiempo"),
