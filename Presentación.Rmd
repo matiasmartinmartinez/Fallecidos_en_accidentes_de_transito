@@ -1,0 +1,127 @@
+---
+title: "Presentación"
+author: "Martínez Matías, Zang Bruno"
+date: "22 de junio de 2018"
+output: ioslides_presentation
+transition: slower
+widescreen: no
+---
+
+ <style>
+ .title-slide {
+     background-image: url(logo.png);
+     background-repeat: no-repeat;
+     padding:40px;
+     background-position: 90% 80%;
+     background-size: 200px 200px;
+   }
+   </style>
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+## Introducción
+
+ El presente estudio surge de la curiosidad por conocer el comportamiento de los siniestros de tránsitos en Uruguay y posee como objetivo madre una profunda aplicación de los conocimientos adquiridos en la asignatura "Nuevas técnicas para el análisis de datos", marcando énfasis en un correcto análisis exploratorio y la generación de adecuadas visualizaciones de los datos.
+Se analizara tanto los datos del fallecido como lo del suceso.
+
+
+## Preguntas a responder
+
+1 - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad del fallecido en el período dado?
+
+2 - ¿Existe relación entre el rol del fallecido tanto con la edad, como con el vehículo del difunto?
+ 
+3 -  Para observaciones de vehículo igual a peatón: ¿qué vehículo estubo involucrado en el fallecimientos de los mismos y cuál posee mayor frecuencia acumulada?
+ 
+4 - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
+
+5 - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?
+
+6 - ¿Cuál es la distribución de los días de supervivencia luego del accidente y qué proporción ocupa cada tipo de siniestro en caso de muerte súbita?
+ 
+7 - ¿Cuál es la tasa de fallecidos por departamento?
+ 
+8 - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de difuntos?
+
+
+## Hipótesis
+
+
+1 - Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25 y se preevé una mayor proporción de difuntos para las personas de sexo masculino.
+
+2 -  En relación con la edad y retomando el punto anterior, asumimos una mayor proporción de fallecidos peatones a altas edades, al contrario que en conductores. Los pasajeros poseeran una densidad equilibrada para todas las edades. 
+  
+3 - Considerando la concentración de autos en el país y el tamaño promedio del mismo, un impacto contra él generaría mayor daño en el transehúnte.
+
+4 - Colisiones entre un vehículo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipotesis de una fuerte relación en fallecimientos en vehiculos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
+
+5 - Se prevé mayor proporción de accidentes fatales en rutas.
+
+6 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos.
+
+7 - Debido a la concentración en zonas metropolitanas tanto en sectores productores, educativos, turísticos, ect; se provocán altos valores de accidentes de tráficos y de las mayores tasas de fallecidos en el país. 
+
+8- En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
+
+
+## Fuente de datos
+
+Los datos fueron obtenidos de la Unidad Nacional de Seguridad Víal (UNASEV), correspondientes al período comprendido entre 2013 y 2017.
+Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
+
+### Descripción de variables:
+
+Se poseen 15 variables identificadas de la siguiente manera:
+
+- **a:**  Año en el que sucede el accidente. 
+- **fecha:**  Día y mes del suceso. 
+- **hora:**  Hora del mismo, formato horas y minutos.
+- **dep:**  Departamento de Uruguay donde sucede el mismo.
+- **jur:**  Jurisdicción, ya sea en rutas nacionales o dentro del departamento.
+- **tipo.sin:**  Tipo de siniestro en cuestión.
+- **vehi:**  Vehículo en que se transporta el individuo al momento del siniestro.
+- **rol:**  Rol que cumple el fallecido: conductor, pasajero y peatones.
+- **edad:**  Edad del fallecido medido en años.
+- **Sexo:**  Sexo del difunto: femenino o masculino.
+- **f.dias:**  Días de supervivencia luego del accidente, previo a su posterior muerte.
+- **otro.vehi:**  Otro posible vehículo involucrado en el accidente.
+- **dir:**  Lugar del accidente.
+- **x:**  Latitud correspondiente a la ubicación del accidente.
+- **y:**  Longitud correspondiente a la ubicación del accidente.
+
+
+## Modelos y herramientas
+
+ Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico `R`, con la puntual aplicación de paquete `tidyverse`, que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
