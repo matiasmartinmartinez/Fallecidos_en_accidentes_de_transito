@@ -840,20 +840,18 @@ El punto medio en la escala de color corresponde a la media de tasas de fallecid
 ```{r,fig.cap="Gráfico de mapas: tasa de fallecidos en accidentes de tránsito cada 10 mil habitantes por departamento, faceteado por año."}
 
 
-mapeo(n= (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>% 
-          mutate(n=(n/censo)*10000))  ) +
-  labs(
-    fill = "Tasa",
-    x = NULL,
-    y = NULL) +
-  scale_fill_gradient2(
-    low = "#d8b365",
-    mid = "white",
-    high = "#5ab4ac",
-    midpoint = mean(
-      (cbind((datos %>% count(a,dep) %>% arrange(a)), rep(censo,5)) %>%
-                       mutate(n=(n/censo)*10000))$n )) +
-  facet_wrap( ~ a)
+mapeo(n= (datos %>% filter(a=="2013" | a=="2014" | a=="2017" )%>% count(a,dep) %>% arrange(a) %>% mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000))) ) +
+     labs(
+         fill = "Tasa",
+         x = NULL,
+         y = NULL) +
+     scale_fill_gradient2(
+         low = "#d8b365",
+         mid = "white",
+         high = "#5ab4ac",
+         midpoint =  mean((datos %>% filter(a=="2013" | a=="2014"| a=="2017") %>% count(a,dep) %>% arrange(a) %>% mutate(
+         censo= (rep(censo,(length(table(a)))))) %>% mutate(n=(n/censo)*10000))$n )) +
+     facet_wrap( ~ a)
 
 ```
 
