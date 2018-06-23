@@ -1,0 +1,551 @@
+---
+title: "Presentación"
+author: "Martínez Matías, Zang Bruno"
+date: "22 de junio de 2018"
+output: ioslides_presentation
+transition: slower
+widescreen: no
+---
+
+ <style>
+ .title-slide {
+     background-image: url(logo.png);
+     background-repeat: no-repeat;
+     padding:40px;
+     background-position: 90% 80%;
+     background-size: 200px 200px;
+   }
+   </style>
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+## Introducción
+
+ El presente estudio surge de la curiosidad por conocer el comportamiento de los siniestros de tránsitos en Uruguay y posee como objetivo madre una profunda aplicación de los conocimientos adquiridos en la asignatura "Nuevas técnicas para el análisis de datos", marcando énfasis en un correcto análisis exploratorio y la generación de adecuadas visualizaciones de los datos.
+Se analizará tanto variables del fallecido como del suceso en si. Tal analisis permitirá emitir conclusiones informativas y abarcativas que representen la realidad uruguaya en materia de siniestros fatales.
+
+
+
+```{r,echo=F,warning=FALSE,error=FALSE}
+
+#A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitariamente.
+
+#Función que instala y carga paquetes necesarios para correr el código.
+ipack <- function( pkg )
+  {
+new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
+      if ( length(new.pkg) ) 
+        install.packages(
+          new.pkg, dependencies = TRUE )
+    sapply( pkg, require, character.only = TRUE )
+   }
+   
+    
+paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly",
+                        "ggmap", "raster", "rgdal","knitr", 
+                        "scales", "lubridate", "devtools","grid","gridExtra")
+
+ipack(paquetes.a.utilizar)
+
+
+#Datos a utilizar
+load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
+
+
+
+#Paleta
+colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
+           "khaki3", "thistle4", "lightsteelblue","grey80")
+```
+
+## Preguntas a responder
+
+1 - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad del fallecido en el período dado?
+2 - ¿Existe relación entre el rol del fallecido tanto con la edad, como con el vehículo del difunto?
+3 -  Para observaciones de vehículo igual a peatón: ¿qué vehículo estubo involucrado en el fallecimientos de los mismos y cuál posee mayor frecuencia acumulada?
+4 - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
+5 - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?
+6 - ¿Cuál es la distribución de los días de supervivencia luego del accidente y qué proporción ocupa cada tipo de siniestro en caso de muerte súbita?
+7 - ¿Cuál es la tasa de fallecidos por departamento?
+8 - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de difuntos?
+
+
+## Hipótesis
+
+
+## Hipótesis
+
+
+1 - Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25, ya que se acompaña de poca experiencia al volante y pocas responsabilidades en comparación a mayores edades. Por ende, con respecto a la variable sexo, se preevé una mayor proporción de difuntos para las personas de sexo masculino.
+
+2 -  En relación con la edad y retomando el punto anterior, se asume una mayor proporción de fallecidos peatones a altas edades, al contrario que en conductores. Los pasajeros poseeran una densidad equilibrada para todas las edades. 
+    Por cuestiones de seguridad es de esperar frecuencias absolutas mayores para vehículos más débiles en su ensamblaje como motos, bicicletas, autos pequeños, etc. Dicho esto, se considera mayor mortalidad para conductores de los mismos y para los consiguentes vehículos la mortalidad estará dada principalmente en pasajeros, ya que su estructura protege mayormente al conductor.
+
+3 - Considerando la concentración de autos en el país y el tamaño promedio del mismo, un impacto contra él generaría mayor daño en el transehúnte en comparación con otro vehículo de igual presencia en el tránsito. Por lo tanto existe una alta probabilidad de fallecer en condición de peatón siendo impactado por dicho vehículo.
+
+4 - Colisiones entre un vehículo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipótesis de una fuerte relación en fallecimientos en vehículos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
+ 
+5 - Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base principalmente a la práctica de altas velocidades. Tanto despistes como colisiones tendrán mayor propoción de fallecidos en rutas no departamentales, sin embargo, he de excluirse atropellos de peatones de dicha jurisdicción debido a su nula circulación en las mismas.
+
+6 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos. Esta hipótesis surge en la brusquedad identificada para dichos accidentes.
+  Consiguiente a anteriores menciones, tales impactos generían una muerte instantánea o de poca supervivencia para el individuo. Si valoramos posibles traslados desde carretera o largas distancias a un centro de atención médica de calidad (los cuales en mayor grado se encuentran en la capital nacional) las probabilidades de salir con vida de dicho accidente se reducen drasticamente.
+
+7 - Debido a la concentración en zonas metropolitanas tanto en sectores productores, educativos, turísticos, ect; se provocan altos valores de accidentes de tráficos y esto tendrá como consecuencias que, pese a su alta población, dichos departamentos indiquen las mayores tasas de fallecidos en el país. 
+
+8- En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
+
+
+## Fuente de datos
+
+ Los datos se obtienen de la Unidad Nacional de Seguridad Víal (UNASEV) y corresponden al período comprendido entre 2013 y 2017.
+Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
+
+### Descripción de variables:
+
+Se poseen 15 variables identificadas de la siguiente manera:
+
+- **a:**  Año en el que sucede el accidente. 
+- **fecha:**  Día y mes del suceso. 
+- **hora:**  Hora del mismo, formato horas y minutos.
+- **dep:**  Departamento de Uruguay donde sucede el mismo.
+- **jur:**  Jurisdicción, ya sea en rutas nacionales o dentro del departamento.
+- **tipo.sin:**  Tipo de siniestro en cuestión.
+- **vehi:**  Vehículo en que se transporta el individuo al momento del siniestro.
+- **rol:**  Rol que cumple el fallecido: conductor, pasajero y peatones.
+- **edad:**  Edad del fallecido medido en años.
+- **Sexo:**  Sexo del difunto: femenino o masculino.
+- **f.dias:**  Días de supervivencia luego del accidente, previo a su posterior muerte.
+- **otro.vehi:**  Otro posible vehículo involucrado en el accidente.
+- **dir:**  Lugar del accidente.
+- **x:**  Latitud correspondiente a la ubicación del accidente.
+- **y:**  Longitud correspondiente a la ubicación del accidente.
+
+
+## Modelos y herramientas
+
+ Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico `R`, con la puntual aplicación de paquete `tidyverse`, que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
+ 
+
+## Fallecidos por año
+
+```{r,warning=FALSE,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos por año."}
+
+
+datos %>% dplyr::count(a)  %>% 
+     ggplot(aes( a, n)) + 
+     geom_point() + geom_line()+
+     theme_minimal()+
+     labs(
+       x = "Año", 
+       y = " Frecuencia relativa de fallecidos") +
+     theme(plot.title = element_text(
+       size =16, 
+       colour = "grey16"))+ 
+     coord_cartesian(ylim=c(0,600)) 
+
+
+```
+
+
+
+
+## Sexo
+
+```{r,echo=F,fig.cap="Gráfico de serie de tiempo: frecuencia absoluta de fallecidos por sexo medido en años."}
+
+   datos %>% dplyr::count(a, sexo) %>% 
+     ggplot(
+       aes(
+         a,
+         n,
+         colour=sexo)) +
+     geom_point()+
+     geom_line(cex=1) +
+     theme_minimal() +
+     labs(
+       x = "Año", 
+       y = "Frecuencia absoluta de fallecidos") + 
+     guides(colour=guide_legend(title="Sexo:")) +
+     theme(
+       plot.title = element_text(
+         size = 14.4,
+         colour = "darkslategrey")) +
+     coord_cartesian(ylim = c(0,500)) +
+     scale_color_manual( values=colores)  
+
+
+
+```
+
+
+## Edad
+
+```{r,echo=F,fig.cap="Gráfico de densidad: distribución en la edad del fallecido según año."}
+
+datos %>% ggplot(aes(edad)) + 
+  geom_density(
+    aes(fill=a),
+    size=0.74,
+    colour="grey10",
+    show.legend = F) + 
+  labs(
+    x="Edad del fallecido",
+    y="Densidad") +
+  theme(
+    axis.title = element_text(
+      size=11.5,
+      colour="grey20"),
+    panel.background = element_rect(
+      fill="gray96"))+
+   facet_wrap(~a)
+
+```
+
+
+
+## Rol
+
+```{r,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos según rol para el período dado."}
+
+  datos %>% dplyr::count(rol, a) %>% group_by(a) %>%
+     ggplot(
+         aes(
+         a,
+         n,
+         colour=rol)) + 
+     geom_line(cex=1)  + 
+     geom_point(cex=1.2) +
+     theme_minimal()  +
+     labs(
+         x="Año",
+         y="Frecuencia absoluta de fallecidos") + 
+     theme_minimal() +
+    guides(colour= guide_legend(title="Rol:"))+
+     coord_cartesian(y=c(0,400))+ 
+       theme(
+         axis.title = element_text(
+           colour="grey30")) +
+       scale_colour_manual(values =  colores[(c(4,1,2))]) 
+     
+```
+
+```{r,fig.cap="Gráfico de densidad: distribución de la edad del fallecido según rol del mismo."}
+
+datos %>% ggplot(aes(edad)) +
+  geom_density(
+    aes(fill = rol), 
+    alpha = 0.4, 
+    show.legend = T) +
+  labs(
+    x =  "Edad", 
+    y = "Densidad")  + 
+  theme_minimal() + 
+  guides(fill = guide_legend(title = "Rol:")) +
+  theme(
+    legend.position = "bottom", 
+    plot.title = (element_text(
+      size = 16,
+      hjust = 0.33,
+      colour = "darkslategray")))+ 
+  scale_fill_manual(values = colores[(c(4,1,2))]) 
+
+
+```
+
+
+
+## Vehículo
+
+```{r,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de difuntos por vehículo para cada año."}
+
+datos %>% dplyr::count(vehi,a) %>% 
+  mutate(vehi=ifelse(n<=50,"OTROS",vehi)) %>%
+  group_by(vehi,a) %>% summarise(n=sum(n))%>%
+   ggplot(
+     aes(
+       a,
+       n,
+       colour=vehi)) + 
+   geom_line(
+     stat ="identity",
+     show.legend = T,
+     cex=1.1 ) +
+  geom_point()+
+   labs(
+     x = "Año",
+     y = "Frecuencia absoluta de fallecidos") +
+   theme_minimal()+ guides(colour=guide_legend(title="Vehículo:"))+
+   theme(axis.title = element_text(
+       colour = "grey30"))+
+   scale_colour_manual(
+     values = colores) +
+  coord_cartesian(ylim=c(0,310))
+
+```
+
+
+
+```{r,fig.cap=" Gráfico de densidad: distribución de la edad de fallecidos en auto o moto."}
+
+datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>% 
+  ggplot(aes(edad)) +
+   geom_density(
+     aes(fill = vehi), 
+     alpha = 0.5, 
+     show.legend = T) +
+   labs(
+     x =  "Edad", 
+     y = "Densidad")  + 
+   theme_minimal() + 
+   guides(fill = guide_legend(title = "Vehículo:")) +
+   theme(
+     legend.position = "bottom", 
+     axis.title  = (element_text(
+       size = 12,
+       colour = "darkslategray"))) + 
+  scale_fill_manual (values=colores[c(3,2)])
+
+```
+
+
+## Jurisdicción
+
+```{r,echo=F, fig.cap="Gráfica de serie de tiempo: frecuencia absoluta de fallecidos por jurisdicción."}
+
+
+datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
+  ggplot(
+    aes(
+      a,
+      n,
+      colour=jur)) +
+  geom_point() +
+  geom_line(cex=1.1) +
+  labs(
+    x = "Jurisdicción",
+    y = "Frecuencia absoluta") + 
+  guides(colour = guide_legend(title = "Jurisdicción:"))+
+  scale_colour_manual( values = colores) +
+  theme(
+    panel.background = element_rect(fill="white"),
+    axis.title  = element_text(
+      colour = "gray29"),
+    legend.position = "bottom") + 
+  coord_cartesian(y=c(0,400))
+
+ 
+```
+
+
+## Días de supervivencia 
+
+```{r,fig.cap="Gráfico de barras y Pareto: proporción de fallecidos según los días de supervivencia luego del accidente, acompañado de la frecuencia relativa acumulada para los mismos."}
+
+
+ 
+  ggplot() +   
+    geom_bar(
+      data= (datos %>% dplyr::count(f.dias) %>% mutate(n = n / sum(n))) ,
+      aes(f.dias, n), 
+      stat ="identity") +
+    stat_ecdf(
+      data=datos,
+      aes(f.dias),
+      cex=1.09,
+      geom = "line",
+      colour=colores[2]) +
+   labs(
+     x = "Días de supervivencia luego del accidente" ,
+     y = "Proporción de fallecidos") + 
+   theme_get()+
+   theme(
+     plot.title = element_text(
+     hjust = 0.4,
+     size = 16,
+     colour = "gray27"),
+    axis.title = element_text(
+      size=11.6,
+      colour="grey20"))
+
+```
+
+```{r,fig.cap="Gráfico de barras: proporción de fallecidos en muerte súbita según tipo de siniestro."}
+
+
+datos %>% filter(f.dias == 0) %>% dplyr::count(tipo.sin) %>%
+  mutate(n = n / sum(n)) %>%  ggplot() +
+  geom_bar(
+  aes(reorder(abbreviate(tipo.sin, 6),-n), n),
+  stat = "identity",
+  show.legend = F) + theme_minimal() +
+  labs(
+    x = "Tipo de Siniestro" ,
+    y = "Proporción de fallecidos") +
+  theme(
+    axis.title = element_text(
+      size=13,
+      colour="grey26")  )
+```
+
+## Departamento
+
+```{r,warning=FALSE,echo=FALSE}
+
+#Se cargan polígonos y coordenadas pertenecientes al territorio uruguayo, delimitados por departamentos.
+uruguay <- getData("GADM", country = "UY", level = 0)
+uruguay_states <- getData("GADM", country = "UY", level = 1)
+uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
+NAME_1 <- uystates_UTM@data$NAME_1
+
+
+# Función mapa
+mapeo<-  function(n) 
+  {
+  
+  df <- data.frame(NAME_1,n)
+  uystates_UTM@data$id <- rownames(uystates_UTM@data)
+  uystates_UTM@data <- plyr::join(uystates_UTM@data, df, by="NAME_1")
+  uystates_df <- fortify(uystates_UTM)
+  uystates_df <- plyr::join(uystates_df,uystates_UTM@data, by="id")
+  uystates_df <-uystates_df %>% filter(!(NAME_1=="Rivera"& lat<6400000)) 
+  
+  theme_opts <-  list(  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.background = element_blank(),
+    plot.background =  element_blank(),
+    axis.line =    element_blank(),
+    axis.text.x =  element_blank(),
+    axis.text.y =  element_blank(),
+    axis.ticks =   element_blank(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    plot.title =   element_text(
+      size=16.4,
+      colour="darkslategrey",
+      hjust=0.25))   )
+  
+    ggplot() + geom_polygon(
+    data = uystates_df,
+    aes(
+      x = long,
+      y = lat,
+      group = group,
+      fill = n),
+    color = "black",
+    size = 0.25) +
+    theme(aspect.ratio = 1) + 
+    theme_opts
+    
+  } 
+
+```
+
+```{r}
+
+#Población por departamento para el año más reciente. Censo 2011, fuente: INE.
+censo<- c(73378,520187,84698,123203,57088,
+          25050,67048,58815,164300,1319108,
+          113124,54765,103493,68088,124878,
+          108309,82595,90053,48134)
+
+# Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
+pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
+
+```
+
+
+
+```{r,echo=F,fig.cap="Gráfico de mapas: tasa de fallecidos en accidentes de tránsito cada 10 mil habitantes por departamento."}
+
+
+  mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
+          mutate(n=(n/censo)*10000)    ) +
+  labs(fill = "Tasa",
+  x = NULL,
+  y = NULL) +
+  scale_fill_gradient2(
+  low = "#d8b365",
+    mid = "white",
+    high = "#5ab4ac",
+    midpoint = mean(pob.dep$tasa))
+
+```
+
+## Fecha y hora
+
+```{r,warning=FALSE,echo=F}
+fecha<-    datos %>% separate(  fecha,c("dia","mes")  ) %>% 
+    mutate( f.h=  paste( paste(a,mes,dia,sep="-") ,  hora )  ) %>%
+    mutate( f.h=  as.POSIXct(f.h, format="%Y-%m-%d  %H:%M:%S",tz="GMT"))%>%
+    dplyr::select(f.h)
+
+
+n.dia <-  weekdays(       as.Date(  as.vector(t (fecha[1])  )    ) )
+
+f<- data.frame(fecha,n.dia)
+
+
+```
+
+
+```{r,fig.cap="Diagrama térmico: frecuencia absoluta de fallecidos según día y hora del accidente."}
+
+
+
+f %>% count(n.dia, hrs= format(f.h,"%H")) %>% 
+  ggplot(aes(hrs, ordered(
+    n.dia,
+    levels = c( "lunes",  "martes",  "miércoles", 
+                "jueves",  "viernes","sábado", "domingo" )))) +
+  geom_tile(aes(fill = n)) + 
+  scale_fill_gradient2(
+    low = "white",
+    high = "midnightblue",
+    mid = "turquoise",
+    midpoint = mean( 
+      (f %>% count(n.dia, hrs=format(f.h,"%H")))$n  )) +
+  labs(
+    x = "Hora",
+    y = "Día",
+    fill="Fallecidos") +
+  theme( 
+    axis.title = element_text(
+      size=13,
+      colour="grey34",
+      face="bold"),
+    axis.text = element_text(
+      size=10.4),
+    panel.background = element_rect(
+      colour="white"))
+
+
+```
+
+
+
+## Inconvenientes
+
+
+ La inexistencia de una serie temporal de calidad complejizó llevar a cabo un profundo análisis estádistico. Tales bases de datos corresponden a cada año, por lo que fue necesario unir cada una de las mismas para formar una de mayor extensión y mejor información. Pero al momento de tal procedimiento, nacieron obstáculos producto de la desigualdad en los formatos estructurales de los datos elegidos para cada año.
+ Además, se presentaron inconvenientes en el uso de las variables latitud y longitud, las cuales corresponden a formato GMS84 y dificultan convertir las mismas en visualizaciones de calidad. Súmese a las anteriores, una débil descripción de las variables, que dan lugar a diversas interpretaciones en ciertos aspectos, como por ejemplo en la variable otro vehículo no es claro si el nivel " " significa que no existió recolección de los datos o que el accidente fue sin otro vehículo involucrado. Se decide para tal caso interpretarse como la no existencia de otro posible vehículo involucrado en el accidente.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
