@@ -208,8 +208,10 @@ server <- function(input, output) {
                                 #DISTRIBUCIÓN TERRITORIAL
   
   output$mapa <- renderPlot({
+
     
-    if(input$años==FALSE)
+    
+    if(is.null(input$años)) 
       
     {
       mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
