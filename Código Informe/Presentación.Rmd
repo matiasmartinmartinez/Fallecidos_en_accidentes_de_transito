@@ -27,7 +27,7 @@ Se analizará tanto variables del fallecido como del suceso en si. Tal analisis 
 
 
 
-```{r,echo=F,warning=FALSE,error=FALSE}
+```{r,echo=F,warning=FALSE,error=FALSE, message=FALSE}
 
 #A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitariamente.
 
@@ -62,39 +62,39 @@ colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
 ## Preguntas a responder
 
 1 - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad del fallecido en el período dado?
+
 2 - ¿Existe relación entre el rol del fallecido tanto con la edad, como con el vehículo del difunto?
+
 3 -  Para observaciones de vehículo igual a peatón: ¿qué vehículo estubo involucrado en el fallecimientos de los mismos y cuál posee mayor frecuencia acumulada?
+
 4 - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
+
 5 - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?
+
 6 - ¿Cuál es la distribución de los días de supervivencia luego del accidente y qué proporción ocupa cada tipo de siniestro en caso de muerte súbita?
+
 7 - ¿Cuál es la tasa de fallecidos por departamento?
+
 8 - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de difuntos?
 
-
 ## Hipótesis
 
-
-## Hipótesis
-
-
-1 - Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25, ya que se acompaña de poca experiencia al volante y pocas responsabilidades en comparación a mayores edades. Por ende, con respecto a la variable sexo, se preevé una mayor proporción de difuntos para las personas de sexo masculino.
+1 - Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25 y una mayor proporción de difuntos para las personas de sexo masculino.
 
 2 -  En relación con la edad y retomando el punto anterior, se asume una mayor proporción de fallecidos peatones a altas edades, al contrario que en conductores. Los pasajeros poseeran una densidad equilibrada para todas las edades. 
-    Por cuestiones de seguridad es de esperar frecuencias absolutas mayores para vehículos más débiles en su ensamblaje como motos, bicicletas, autos pequeños, etc. Dicho esto, se considera mayor mortalidad para conductores de los mismos y para los consiguentes vehículos la mortalidad estará dada principalmente en pasajeros, ya que su estructura protege mayormente al conductor.
 
-3 - Considerando la concentración de autos en el país y el tamaño promedio del mismo, un impacto contra él generaría mayor daño en el transehúnte en comparación con otro vehículo de igual presencia en el tránsito. Por lo tanto existe una alta probabilidad de fallecer en condición de peatón siendo impactado por dicho vehículo.
+3 - Considerando la concentración de autos en el país, existe una alta probabilidad de fallecer en condición de peatón siendo impactado por dicho vehículo.
 
-4 - Colisiones entre un vehículo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias, esto genera la hipótesis de una fuerte relación en fallecimientos en vehículos como: motos, bicicletas, inclusive peatones, ect; al impactar con autos, camionetas, ómnibus,camiones,ect.
- 
-5 - Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base principalmente a la práctica de altas velocidades. Tanto despistes como colisiones tendrán mayor propoción de fallecidos en rutas no departamentales, sin embargo, he de excluirse atropellos de peatones de dicha jurisdicción debido a su nula circulación en las mismas.
+4 - Colisiones entre un vehículo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias
 
-6 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos. Esta hipótesis surge en la brusquedad identificada para dichos accidentes.
-  Consiguiente a anteriores menciones, tales impactos generían una muerte instantánea o de poca supervivencia para el individuo. Si valoramos posibles traslados desde carretera o largas distancias a un centro de atención médica de calidad (los cuales en mayor grado se encuentran en la capital nacional) las probabilidades de salir con vida de dicho accidente se reducen drasticamente.
+5 - Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base principalmente a la práctica de altas velocidades.
 
-7 - Debido a la concentración en zonas metropolitanas tanto en sectores productores, educativos, turísticos, ect; se provocan altos valores de accidentes de tráficos y esto tendrá como consecuencias que, pese a su alta población, dichos departamentos indiquen las mayores tasas de fallecidos en el país. 
+6 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos.
+  Consiguiente a anteriores menciones, tales impactos generían una muerte instantánea o de poca supervivencia para el individuo.
 
-8- En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
+7 - Debido a la concentración en la zonas metropolitanas habra mas probabilidades de sufrir un accidentes de tráficos. En tanto la tasas de fallecidos en el país, las mayores tasas se encontraran en la zona anteriormente nombrada. 
 
+8- En meses de vacaciones se provocarían mayores accidentes de tráfico. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
 
 ## Fuente de datos
 
@@ -126,7 +126,6 @@ Se poseen 15 variables identificadas de la siguiente manera:
 
  Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico `R`, con la puntual aplicación de paquete `tidyverse`, que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
  
-
 ## Fallecidos por año
 
 ```{r,warning=FALSE,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos por año."}
@@ -146,9 +145,6 @@ datos %>% dplyr::count(a)  %>%
 
 
 ```
-
-
-
 
 ## Sexo
 
@@ -178,7 +174,6 @@ datos %>% dplyr::count(a)  %>%
 
 ```
 
-
 ## Edad
 
 ```{r,echo=F,fig.cap="Gráfico de densidad: distribución en la edad del fallecido según año."}
@@ -201,8 +196,6 @@ datos %>% ggplot(aes(edad)) +
    facet_wrap(~a)
 
 ```
-
-
 
 ## Rol
 
@@ -253,8 +246,6 @@ datos %>% ggplot(aes(edad)) +
 
 ```
 
-
-
 ## Vehículo
 
 ```{r,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de difuntos por vehículo para cada año."}
@@ -285,7 +276,6 @@ datos %>% dplyr::count(vehi,a) %>%
 ```
 
 
-
 ```{r,fig.cap=" Gráfico de densidad: distribución de la edad de fallecidos en auto o moto."}
 
 datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>% 
@@ -307,7 +297,6 @@ datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>%
   scale_fill_manual (values=colores[c(3,2)])
 
 ```
-
 
 ## Jurisdicción
 
@@ -336,7 +325,6 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
 
  
 ```
-
 
 ## Días de supervivencia 
 
@@ -455,8 +443,6 @@ pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n
 
 ```
 
-
-
 ```{r,echo=F,fig.cap="Gráfico de mapas: tasa de fallecidos en accidentes de tránsito cada 10 mil habitantes por departamento."}
 
 
@@ -523,20 +509,37 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 
 ```
 
+## Conclusiones
+
+ Luego de la etapa analítica de los datos, con la utilización de dieferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
+
+1- En la distribución por sexo se revela que  el sexo masculino fallece aproximadamente 3 veces mas que sexo femenino.
+Respecto a la edad, hay una gran concentración de fallecidos en el intervalo 20 a 30 años.
+
+2- El rol conductor posee entre 280 a 370 fallecidos por año mientras que peatones y pasajeros son unos 100 fallecidos por año aproximadamente.
+En el analisis del vehículo del difunto con respecto al rol que cumplia en el, se registro altas cantidades de fallecimiento para los conductores de motos y autos.
 
 
-## Inconvenientes
+3- Gran parte de los atropellos a peatones se ocasionan por causa de autos y motos con aproximadamente 25 fallecidos por año.
 
+4- Si bien disminuye hasta el año 2016, la frecuencia absoluta de fallecidos en motos supera ampliamente a los fallecidos en otros vehículos, superando entre un 200 y 300% dichas cantidades.
 
- La inexistencia de una serie temporal de calidad complejizó llevar a cabo un profundo análisis estádistico. Tales bases de datos corresponden a cada año, por lo que fue necesario unir cada una de las mismas para formar una de mayor extensión y mejor información. Pero al momento de tal procedimiento, nacieron obstáculos producto de la desigualdad en los formatos estructurales de los datos elegidos para cada año.
- Además, se presentaron inconvenientes en el uso de las variables latitud y longitud, las cuales corresponden a formato GMS84 y dificultan convertir las mismas en visualizaciones de calidad. Súmese a las anteriores, una débil descripción de las variables, que dan lugar a diversas interpretaciones en ciertos aspectos, como por ejemplo en la variable otro vehículo no es claro si el nivel " " significa que no existió recolección de los datos o que el accidente fue sin otro vehículo involucrado. Se decide para tal caso interpretarse como la no existencia de otro posible vehículo involucrado en el accidente.
+En relación entre vehículo del fallecido y otro posible vehículo involucrado en el siniestro se concluyó que si hay una proporcion alta. Sin embargo se debe tener en cuenta accidentados por si mismo o no registrados ya que son ceranos al 50% para los autos y un 25% para las motos.
 
+5- Hay un disminucion de  fallecidos en jurisdicciones nacionales hasta el año 2015, donde creece tal que en el año 2017 supera a los fallecidos en departamentales.
+Entre un valor cercano a 60% de tales accidentes en jurisdicción nacional ocurren con otro vehículo involucrado y en juridicciones departamentales este porcentaje crece a un 75%.
 
+Adicional a esto las colisiones enre vehículos atropello de peatones y despistes respectivamente poseen mayor frecuencia absoluta de fallecidos.
 
+6- Existe aproximadamente un 60% de probabilidad de fallecer al instante o no superar las 24 horas en caso de sufrir un accidene fatal.
+Centrándonos en muertes súbitas ocurridas, más de un 50% de las mismas son ocasionadas por colisiones entre vehículos.
 
+7- La mayoría de los fallecimientos en siniestros de tránsito ocurren  en la zona metropolitana, conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Los mismos son los únicos en superar la media de fallecidos en todo el país y denotan la fuerte conglomeración allí existente.
+Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad completamente diferente, con Rivera y Montevideo presentando las tasas más bajas del país para el período trabajado. San José, en cambio, presenta la mayor tasa del territorio uruguayo, seguido por Rocha y Florida. 
+Si tales tasas se analizan año a año, se ecuentra una fuerte tendencia hacia la homogeneidad para todos los departamentos hasta el año 2016, tendiendo a disminuir y equilibrar sus defunciones. Pero en el año 2017 se retoma un nuevo ascenso de las mismas pese a no ser abrupto.
 
-
-
+8- Llegado el análisis de tendencias en las fechas de los accidentes fatales, se percata frecuencias absolutas superiores en los años 2013 y 2014, que luego decrecen hasta el año 2016 y finalmente retoman su crecimiento en 2017, donde se presenta su valor más alto en el mes de diciembre.
+Existe una clara concentración en la frecuencia absoluta de fallecidos para los horarios de 16:00 a 21:00 horas, la cual aumentando paulatinamente en el transcurso de la semana, presentándose con mayor intensidad los fines de semana.
 
 
 
