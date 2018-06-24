@@ -10,7 +10,7 @@ ipack <- function( pkg ) {
       new.pkg, dependencies = TRUE )
   sapply( pkg, require, character.only = TRUE ) }
 
-paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate", "devtools","grid", "gridExtra")
+paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny","shinythemes", "ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate", "devtools","grid", "gridExtra")
 ipack(paquetes.a.utilizar)
 
       #Datos a utilizar
@@ -97,7 +97,7 @@ f<- data.frame(fecha,n.dia)
 
                                                                                                                         #UI
 
-ui <- fluidPage(
+ui <- fluidPage(theme = shinytheme("paper"),
   
   
   titlePanel( h1("Siniestros fatales de tránsito en Uruguay, 2013-2017")),
@@ -1195,13 +1195,8 @@ server <- function(input, output) {
   
 }
 
-                             
-                             
-                             
-                             
-                             
-################################
+################################################################################################
 
 shinyApp(ui = ui, server = server)
 
-#################################
+################################################################################################
