@@ -504,16 +504,16 @@ server <- function(input, output) {
   #MOSAICOS
   
   
-
+  
   
   añosmosaicoInput <- reactive({input$añosmosaico})
   
   
   output$rol <- renderPlotly({
     if (input$variablemosaico=="Sexo")
-      {
+    {
       if (is.null(añosmosaicoInput())) 
-        {
+      {
         ggplotly(
           datos %>% dplyr::count(vehi, sexo) %>% filter(vehi!="PEATON") %>%
             group_by( vehi= ifelse (
@@ -539,9 +539,9 @@ server <- function(input, output) {
                 element_text(
                   size = 12,colour="grey30")) +
             scale_fill_manual( values = colores[c(2,3,1)]))
-        }
+      }
       else
-        {  ggplotly(
+      {  ggplotly(
         datos %>% filter(a== añosmosaicoInput ())%>%
           dplyr::count(vehi, sexo) %>% filter(vehi!="PEATON") %>%
           group_by( vehi= ifelse (
@@ -567,14 +567,14 @@ server <- function(input, output) {
               element_text(
                 size = 12,colour="grey30")) +
           scale_fill_manual( values = colores[c(2,3,1)]))
-          }
+      }
       
     }
-  
-  else if (input$variablemosaico=="Rol"){
+    
+    else if (input$variablemosaico=="Rol"){
       
-       
-        
+      
+      
       if (is.null(añosmosaicoInput()))
         
       {
@@ -604,8 +604,8 @@ server <- function(input, output) {
               axis.title =
                 element_text(
                   size = 12,colour="grey30")) +
-            scale_fill_manual( values = colores)
-          )
+            scale_fill_manual( values = colores[c(2,3,1)])
+        )
         
       }
       else
@@ -635,82 +635,86 @@ server <- function(input, output) {
               axis.title =
                 element_text(
                   size = 12,colour="grey30")) +
-            scale_fill_manual( values = colores))
+            scale_fill_manual( values = colores[c(2,3,1)]))
         
       }
     }
-
-  else if (input$variablemosaico=="Jurisdicción")
+    
+    else if (input$variablemosaico=="Jurisdicción")
     {
-    if (is.null(añosmosaicoInput()))
+      if (is.null(añosmosaicoInput()))
       {
-      ggplotly(
-        datos %>% dplyr::count(vehi,jur) %>% filter(vehi!="PEATON") %>%
-          group_by( vehi= ifelse (
-            (vehi!="BICICLETA" &
-               vehi!="MOTO" &
-               vehi!="AUTO" &
-               vehi!="BICICLETA" &
-               vehi!="CAMIONETA"),"OTROS", vehi ),jur) %>%
-          summarise(n=sum(n)) %>%
-          ggplot() +
-          geom_mosaic(aes(
-            weight = n,
-            x = product( reorder(abbreviate(vehi, 4),-n) ),
-            fill = abbreviate( jur, 1) ),
-            alpha=0.64) +
-          labs(
-            x = "Vehículo del fallecido",
-            y = "Proporción de fallecidos") +
-          guides(fill = guide_legend(title = "Jurisdicción")) +
-          theme_minimal() +
-          theme(
-            axis.title =
-              element_text(
-                size = 12,colour="grey30")) +
-          scale_fill_manual( values = colores)
-      )
+        ggplotly(
+          datos %>% dplyr::count(vehi,jur) %>% filter(vehi!="PEATON") %>%
+            group_by( vehi= ifelse (
+              (vehi!="BICICLETA" &
+                 vehi!="MOTO" &
+                 vehi!="AUTO" &
+                 vehi!="BICICLETA" &
+                 vehi!="CAMIONETA"),"OTROS", vehi ),jur) %>%
+            summarise(n=sum(n)) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product( reorder(abbreviate(vehi, 4),-n) ),
+              fill = abbreviate( jur, 1) ),
+              alpha=0.64) +
+            labs(
+              x = "Vehículo del fallecido",
+              y = "Proporción de fallecidos") +
+            guides(fill = guide_legend(title = "Jurisdicción")) +
+            theme_minimal() +
+            theme(
+              axis.title =
+                element_text(
+                  size = 12,colour="grey30")) +
+            scale_fill_manual( values = colores[c(2,3,1)])
+        )
       }
-    else
-    {
-      
-      ggplotly(
-        datos%>% filter(a== añosmosaicoInput()) %>% dplyr::count(vehi,jur) %>% filter(vehi!="PEATON") %>%
-          group_by( vehi= ifelse (
-            (vehi!="BICICLETA" &
-               vehi!="MOTO" &
-               vehi!="AUTO" &
-               vehi!="BICICLETA" &
-               vehi!="CAMIONETA"),"OTROS", vehi ),jur) %>%
-          summarise(n=sum(n)) %>%
-          ggplot() +
-          geom_mosaic(aes(
-            weight = n,
-            x = product( reorder(abbreviate(vehi, 4),-n) ),
-            fill = abbreviate( jur, 1) ),
-            alpha=0.64) +
-          labs(
-            x = "Vehículo del fallecido",
-            y = "Proporción de fallecidos") +
-          guides(fill = guide_legend(title = "Jurisdicción")) +
-          theme_minimal() +
-          theme(
-            axis.title =
-              element_text(
-                size = 12,colour="grey30")) +
-          scale_fill_manual( values = colores))
-      
+      else
+      {
+        
+        ggplotly(
+          datos%>% filter(a== añosmosaicoInput()) %>% dplyr::count(vehi,jur) %>% filter(vehi!="PEATON") %>%
+            group_by( vehi= ifelse (
+              (vehi!="BICICLETA" &
+                 vehi!="MOTO" &
+                 vehi!="AUTO" &
+                 vehi!="BICICLETA" &
+                 vehi!="CAMIONETA"),"OTROS", vehi ),jur) %>%
+            summarise(n=sum(n)) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product( reorder(abbreviate(vehi, 4),-n) ),
+              fill = abbreviate( jur, 1) ),
+              alpha=0.64) +
+            labs(
+              x = "Vehículo del fallecido",
+              y = "Proporción de fallecidos") +
+            guides(fill = guide_legend(title = "Jurisdicción")) +
+            theme_minimal() +
+            theme(
+              axis.title =
+                element_text(
+                  size = 12,colour="grey30")) +
+            scale_fill_manual( values = colores[c(2,3,1)]))
+        
+      }
     }
-  }
-      
+    
     
     
   })
   
   
   output$involucrado <- renderPlotly({
-    ggplotly(
-      datos %>% filter(a=="2017") %>%dplyr::count(involucrado, sexo) %>%
+    if (is.null(añosmosaicoInput())) 
+    {
+    if (input$variablemosaico=="Sexo") 
+      {
+      ggplotly(
+        datos  %>%dplyr::count(involucrado, sexo) %>%
         ggplot() +
         geom_mosaic(aes(
           weight = n,
@@ -718,7 +722,7 @@ server <- function(input, output) {
           fill = involucrado),
           alpha=0.5) +
         labs(
-          x = "Jurisdicción",
+          x = "Sexo",
           y = "Proporción involucrado") +
         theme(
           panel.background = element_rect(
@@ -734,7 +738,171 @@ server <- function(input, output) {
         scale_fill_manual(
           values = colores) +
         guides(
-          fill= guide_legend("Involucrado")))
+          fill= guide_legend("Involucrado"))
+      )
+      }
+    else if (input$variablemosaico=="Rol")
+    {
+      ggplotly(
+        datos %>%dplyr::count(involucrado, rol) %>%
+          ggplot() +
+          geom_mosaic(aes(
+            weight = n,
+            x = product(rol),
+            fill = involucrado),
+            alpha=0.5) +
+          labs(
+            x = "Rol",
+            y = "Proporción involucrado") +
+          theme(
+            panel.background = element_rect(
+              fill="white"),
+            plot.title = element_text(
+              size = 16,
+              face = "italic",
+              colour = "grey20",
+              vjust = -2),
+            axis.title = element_text(
+              size=12,
+              colour="grey20")) +
+          scale_fill_manual(
+            values = colores) +
+          guides(
+            fill= guide_legend("Involucrado"))
+      ) 
+    }
+    else if (input$variablemosaico=="Jurisdicción")
+    {
+      ggplotly(
+        datos %>%dplyr::count(involucrado, jur) %>%
+          ggplot() +
+          geom_mosaic(aes(
+            weight = n,
+            x = product(jur),
+            fill = involucrado),
+            alpha=0.5) +
+          labs(
+            x = "Jurisdicción",
+            y = "Proporción involucrado") +
+          theme(
+            panel.background = element_rect(
+              fill="white"),
+            plot.title = element_text(
+              size = 16,
+              face = "italic",
+              colour = "grey20",
+              vjust = -2),
+            axis.title = element_text(
+              size=12,
+              colour="grey20")) +
+          scale_fill_manual(
+            values = colores) +
+          guides(
+            fill= guide_legend("Involucrado"))
+      ) 
+    }
+    }
+    else
+      
+    {
+      if (input$variablemosaico=="Sexo") 
+    {
+      ggplotly(
+        datos %>% filter(a== añosmosaicoInput()) %>%dplyr::count(involucrado, sexo) %>%
+          ggplot() +
+          geom_mosaic(aes(
+            weight = n,
+            x = product(sexo),
+            fill = involucrado),
+            alpha=0.5) +
+          labs(
+            x = "Sexo",
+            y = "Proporción involucrado") +
+          theme(
+            panel.background = element_rect(
+              fill="white"),
+            plot.title = element_text(
+              size = 16,
+              face = "italic",
+              colour = "grey20",
+              vjust = -2),
+            axis.title = element_text(
+              size=12,
+              colour="grey20")) +
+          scale_fill_manual(
+            values = colores) +
+          guides(
+            fill= guide_legend("Involucrado"))
+      )
+    }
+      else if (input$variablemosaico=="Rol")
+      {
+        ggplotly(
+          datos %>%  filter(a== añosmosaicoInput())%>%dplyr::count(involucrado, rol) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product(rol),
+              fill = involucrado),
+              alpha=0.5) +
+            labs(
+              x = "Rol",
+              y = "Proporción involucrado") +
+            theme(
+              panel.background = element_rect(
+                fill="white"),
+              plot.title = element_text(
+                size = 16,
+                face = "italic",
+                colour = "grey20",
+                vjust = -2),
+              axis.title = element_text(
+                size=12,
+                colour="grey20")) +
+            scale_fill_manual(
+              values = colores) +
+            guides(
+              fill= guide_legend("Involucrado"))
+        ) 
+      }
+      else if (input$variablemosaico=="Jurisdicción")
+      {
+        ggplotly(
+          datos %>%  filter(a== añosmosaicoInput()) %>%dplyr::count(involucrado, jur) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product(jur),
+              fill = involucrado),
+              alpha=0.5) +
+            labs(
+              x = "Jurisdicción",
+              y = "Proporción involucrado") +
+            theme(
+              panel.background = element_rect(
+                fill="white"),
+              plot.title = element_text(
+                size = 16,
+                face = "italic",
+                colour = "grey20",
+                vjust = -2),
+              axis.title = element_text(
+                size=12,
+                colour="grey20")) +
+            scale_fill_manual(
+              values = colores) +
+            guides(
+              fill= guide_legend("Involucrado"))
+        ) 
+      }
+      }
+    
+    
+    
+    
+    
+    
+    
     
   })
   
