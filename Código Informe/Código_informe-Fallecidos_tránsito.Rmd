@@ -141,7 +141,7 @@ Con el fin de crear visualizaciones oportunas se gestara su formación con la li
 ##
 
 
-```{r,echo=F,warning=FALSE,error=FALSE}
+```{r,echo=F,warning=FALSE,error=FALSE,results='hide'}
 
 #A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitrariamente.
 
@@ -179,7 +179,7 @@ colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
 
  Inicialmente se llevó a cabo una profunda exploración de datos, la cual permitió además de conocer inconvenientes en la base, formular nuevas preguntas. Posterior a esto, se realizaron visualizaciones acordes con el fin de generar una respuesta clara y acorde a las dudas planteadas. A continuación se planean las mismas:
 
-```{r}
+```{r,results='hide'}
 
 dim(datos)
 str(datos)
