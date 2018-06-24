@@ -1029,7 +1029,7 @@ La aplicación shiny generada para el presente informe corresponde al siguiente 
                     
  Wickham Hadley, Grolemund  Garret. (2016) R for data sciencie: import, tidy,
                   transform,visualize, and Model Data. 1st Edition. O REILLY.
-                
+                   {http://r4ds.had.co.nz/}
                 
  Wickham Hadley. Tidyverse: Easily Install and Load the 'Tidyverse'.
                   Version 1.2.1 {https://www.tidyverse.org}
