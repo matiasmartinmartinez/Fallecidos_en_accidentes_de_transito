@@ -503,7 +503,7 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 
 ```
 
-## Conclusiones
+##<span style="color:#88398A"> Conclusiones
  Luego de la etapa analítica de los datos, con la utilización de dieferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
 
 1- En la distribución por sexo se revela que  el sexo masculino fallece aproximadamente 3 veces mas que sexo femenino.
@@ -512,7 +512,7 @@ Respecto a la edad, hay una gran concentración de fallecidos en el intervalo 20
 2- El rol conductor posee entre 280 a 370 fallecidos por año mientras que peatones y pasajeros son unos 100 fallecidos por año aproximadamente.
 En el analisis del vehículo del difunto con respecto al rol que cumplia en el, se registro altas cantidades de fallecimiento para los conductores de motos y autos.
 
-## Conclusiones
+##<span style="color:#88398A"> Conclusiones
 3- Gran parte de los atropellos a peatones se ocasionan por causa de autos y motos con aproximadamente 25 fallecidos por año.
 
 4- Si bien disminuye hasta el año 2016, la frecuencia absoluta de fallecidos en motos supera a los demás vehículos por 200 o 300%.
@@ -520,7 +520,7 @@ En relación entre vehículo del fallecido y otro posible vehículo involucrado 
 
 5- Hay un disminucion de fallecidos en jurisdicciones nacionales hasta el año 2015, donde creece tal que en el año 2017 supera a los fallecidos en departamentales.
 
-##Conclusiones
+##<span style="color:#88398A"> Conclusiones
 6- Existe aproximadamente un 60% de probabilidad de fallecer al instante o no superar las 24 horas en caso de sufrir un accidene fatal, además de un 50% de las mismas son ocasionadas por colisiones entre vehículos.
 
 7- La mayoría de los fallecimientos en siniestros de tránsito ocurren  en la zona metropolitana, conformada por los departamentos de Montevideo, Maldonado, Canelones y San José.
@@ -529,7 +529,7 @@ Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad 
 8- Existe una clara concentración en la frecuencia absoluta de fallecidos para los horarios de 16:00 a 21:00 horas, la cual aumentando paulatinamente y se intensidad los fines de semana.
 
 
-## Interpretación
+##<span style="color:#88398A"> Interpretación
  Las siguientes explicaciones presentan cierto nivel de subjetividad en consecuencia a la limitación propia de los conocimientos adquiridos por los autores del presente informe, por lo cual es posible diferir en las mismas.
 
 
