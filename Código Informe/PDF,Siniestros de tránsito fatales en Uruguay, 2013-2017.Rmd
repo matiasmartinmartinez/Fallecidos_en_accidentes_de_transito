@@ -97,7 +97,7 @@ Se poseen 15 variables identificadas de la siguiente manera:
 - **rol:**  Rol que cumple el fallecido: conductor, pasajero y peatones.
 - **edad:**  Edad del fallecido medido en años.
 - **Sexo:**  Sexo del difunto: femenino o masculino.
-- **f.días:**  Días de supervivencia luego del accidente, previo a su posterior muerte.
+- **f.dias:**  Días de supervivencia luego del accidente, previo a su posterior muerte.
 - **otro.vehi:**  Otro posible vehículo involucrado en el accidente.
 - **dir:**  Lugar del accidente.
 - **x:**  Latitud correspondiente a la ubicación del accidente.
