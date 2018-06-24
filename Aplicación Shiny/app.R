@@ -13,7 +13,7 @@ paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly"
 ipack(paquetes.a.utilizar)
 
 #Datos a utilizar
-#load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
+load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 #Paleta
 colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
            "khaki3", "thistle4", "lightsteelblue","grey80")
@@ -143,6 +143,8 @@ ui <- fluidPage(
     ),
     
     
+  #MOSAICOS
+    
     tabPanel(
       title = h6("Mosaicos"),
       hr(),
@@ -152,12 +154,13 @@ ui <- fluidPage(
         sidebarPanel(
           
           selectInput("variablemosaico", "Variable:",
-                      choices = c("Sexo","Rol", "Jurisdicción")),
+                      choiceNames = c("Sexo","Rol", "Jurisdicción"),
+                      choiceValues =c("sexo","rol","jur") ),
           
           conditionalPanel(
             condition = "input.variablemosaico!='Sexo'",
-            selectInput("sexomosaico", "Sexo:",
-                        choices = c("Facetear", "No facetear") ))          ,
+            checkboxInput("facetearmosaico", "Facetear por sexo:" )
+            )    ,
           
           checkboxGroupInput("añosmosaico", "Elegir Año:",
                              choiceNames = c("2013", "2014", "2015", "2016","2017"),
@@ -205,7 +208,11 @@ server <- function(input, output) {
   
   
   
-                                #DISTRIBUCIÓN TERRITORIAL
+                            
+  
+                  #DISTRIBUCIÓN TERRITORIAL
+  
+  añosmapaInput <- reactive({input$años})
   
   output$mapa <- renderPlot({
 
@@ -227,12 +234,12 @@ server <- function(input, output) {
     }
     else {
     
-    mapeo(n= (datos %>% filter( a==input$años |
-                                  a==input$años |
-                                  a==input$años |
-                                  a==input$años |
-                                  a==input$años |
-                                  a==input$años )%>% count(a,dep) %>% arrange(a) %>%
+    mapeo(n= (datos %>% filter( a==añosmapaInput()  |
+                                  a==añosmapaInput()  |
+                                  a==añosmapaInput() |
+                                  a==añosmapaInput()  |
+                                  a==añosmapaInput()  |
+                                  a==añosmapaInput() )%>% count(a,dep) %>% arrange(a) %>%
                 mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000))) ) +
       labs(
         fill = "Tasa",
@@ -242,12 +249,12 @@ server <- function(input, output) {
         low = "#d8b365",
         mid = "white",
         high = "#5ab4ac",
-        midpoint =  mean((datos %>% filter( a==input$años |
-                                              a==input$años |
-                                              a==input$años |
-                                              a==input$años |
-                                              a==input$años |
-                                              a==input$años  ) %>% count(a,dep) %>% arrange(a) %>% mutate(
+        midpoint =  mean((datos %>% filter( a==añosmapaInput()  |
+                                              a==añosmapaInput()  |
+                                              a==añosmapaInput() |
+                                              a==añosmapaInput()  |
+                                              a==añosmapaInput()  |
+                                              a==añosmapaInput() ) %>% count(a,dep) %>% arrange(a) %>% mutate(
                                                 censo= (rep(censo,(length(table(a)))))) %>% mutate(n=(n/censo)*10000))$n )) +
       facet_wrap( ~ a)
     }
@@ -271,14 +278,8 @@ server <- function(input, output) {
     })
   
   
-  añosdensidadInput <- reactive({   
-    switch(input$añosdensidad,
-           "2017"="2017",
-           "2016"="2016",
-           "2015"="2015",
-           "2014"="2014",
-           "2013"="2013"
-           )
+  añosdensidadInput <- reactive({   input$añosdensidad
+          
   })
   
   
@@ -500,33 +501,143 @@ else
   
   
   
-  #MOSAICOS
+                                 #MOSAICOS
+  
+ 
+ 
+  añosmosaicoInput <- reactive({input$añosmosaico})
+  
+  
+  
+  
   output$rol <- renderPlotly({
-    ggplotly(
-      datos %>% filter(a=="2013")%>% filter(sexo=="F")%>%dplyr::count(vehi, rol) %>% filter(vehi!="PEATON") %>%
+    
+    if (input$variablemosaico=="Sexo"){
+      
+      if (is.null(añosmosaicoInput())) {
+      
+      ggplotly(
+      datos %>% dplyr::count(vehi, sexo) %>% filter(vehi!="PEATON") %>%
         group_by( vehi= ifelse (
           (vehi!="BICICLETA" &
              vehi!="MOTO" &
              vehi!="AUTO" &
              vehi!="BICICLETA" &
-             vehi!="CAMIONETA"),"OTROS", vehi ),rol) %>%
+             vehi!="CAMIONETA"),"OTROS", vehi ),sexo) %>%
         summarise(n=sum(n)) %>%
         ggplot() +
         geom_mosaic(aes(
           weight = n,
           x = product( reorder(abbreviate(vehi, 4),-n) ),
-          fill = abbreviate( rol, 1) ),
+          fill = abbreviate( sexo, 1) ),
           alpha=0.64) +
         labs(
           x = "Vehículo del fallecido",
           y = "Proporción de fallecidos") +
-        guides(fill = guide_legend(title = "Rol")) +
+        guides(fill = guide_legend(title = "Sexo")) +
         theme_minimal() +
         theme(
           axis.title =
             element_text(
               size = 12,colour="grey30")) +
         scale_fill_manual( values = colores[c(2,3,1)]))
+      }
+      else
+      {  ggplotly(
+        datos %>% filter(a== añosmosaicoInput ())%>%
+          dplyr::count(vehi, sexo) %>% filter(vehi!="PEATON") %>%
+          group_by( vehi= ifelse (
+            (vehi!="BICICLETA" &
+               vehi!="MOTO" &
+               vehi!="AUTO" &
+               vehi!="BICICLETA" &
+               vehi!="CAMIONETA"),"OTROS", vehi ),sexo) %>%
+          summarise(n=sum(n)) %>%
+          ggplot() +
+          geom_mosaic(aes(
+            weight = n,
+            x = product( reorder(abbreviate(vehi, 4),-n) ),
+            fill = abbreviate( sexo, 1) ),
+            alpha=0.64) +
+          labs(
+            x = "Vehículo del fallecido",
+            y = "Proporción de fallecidos") +
+          guides(fill = guide_legend(title = "Sexo")) +
+          theme_minimal() +
+          theme(
+            axis.title =
+              element_text(
+                size = 12,colour="grey30")) +
+          scale_fill_manual( values = colores[c(2,3,1)]))}
+      
+    }
+    else {
+      if (is.null(añosmosaicoInput()))
+
+      {
+        
+        
+        ggplotly(
+          datos %>% dplyr::count(vehi,input$variablemosaico) %>% filter(vehi!="PEATON") %>%
+            group_by( vehi= ifelse (
+              (vehi!="BICICLETA" &
+                 vehi!="MOTO" &
+                 vehi!="AUTO" &
+                 vehi!="BICICLETA" &
+                 vehi!="CAMIONETA"),"OTROS", vehi ),input$variablemosaico) %>%
+            summarise(n=sum(n)) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product( reorder(abbreviate(vehi, 4),-n) ),
+              fill = abbreviate( input$variablemosaico, 1) ),
+              alpha=0.64) +
+            labs(
+              x = "Vehículo del fallecido",
+              y = "Proporción de fallecidos") +
+            guides(fill = guide_legend(title = "Sexo")) +
+            theme_minimal() +
+            theme(
+              axis.title =
+                element_text(
+                  size = 12,colour="grey30")) +
+            scale_fill_manual( values = colores)
+          )
+        
+      }
+      else
+      {
+        
+        ggplotly(
+          datos%>% filter(a== añosmosaicoInput ()) %>% dplyr::count(vehi,input$variablemosaico) %>% filter(vehi!="PEATON") %>%
+            group_by( vehi= ifelse (
+              (vehi!="BICICLETA" &
+                 vehi!="MOTO" &
+                 vehi!="AUTO" &
+                 vehi!="BICICLETA" &
+                 vehi!="CAMIONETA"),"OTROS", vehi ),input$variablemosaico) %>%
+            summarise(n=sum(n)) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product( reorder(abbreviate(vehi, 4),-n) ),
+              fill = abbreviate( input$variablemosaico, 1) ),
+              alpha=0.64) +
+            labs(
+              x = "Vehículo del fallecido",
+              y = "Proporción de fallecidos") +
+            guides(fill = guide_legend(title = "Sexo")) +
+            theme_minimal() +
+            theme(
+              axis.title =
+                element_text(
+                  size = 12,colour="grey30")) +
+            scale_fill_manual( values = colores))
+        
+      }
+      
+    }
+    
   })
   
   output$involucrado <- renderPlotly({
@@ -558,6 +669,10 @@ else
           fill= guide_legend("Involucrado")))
     
   })
+  
+  
+  
+  
   
   #SERIES DE TIEMPO
   
