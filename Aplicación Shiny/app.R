@@ -1,7 +1,8 @@
-################################################################################################
+
 #A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitariamente.
 
-#Función que instala y carga paquetes necesarios para correr el código.
+      #Función que instala y carga paquetes necesarios para correr el código.
+
 ipack <- function( pkg ) {
   new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
   if ( length(new.pkg) ) 
@@ -12,19 +13,19 @@ ipack <- function( pkg ) {
 paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate", "devtools","grid", "gridExtra")
 ipack(paquetes.a.utilizar)
 
-#Datos a utilizar
+      #Datos a utilizar
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
-#Paleta
+      #Paleta
 colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
            "khaki3", "thistle4", "lightsteelblue","grey80")
 
-#Se cargan polígonos y coordenadas pertenecientes al territorio uruguayo, delimitados por departamentos.
+      #Se cargan polígonos y coordenadas pertenecientes al territorio uruguayo, delimitados por departamentos.
 uruguay <- getData("GADM", country = "UY", level = 0)
 uruguay_states <- getData("GADM", country = "UY", level = 1)
 uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
 NAME_1 <- uystates_UTM@data$NAME_1
 
-# Función mapa
+      # Función mapa
 mapeo<-  function(n) 
 {
   
@@ -64,16 +65,16 @@ mapeo<-  function(n)
     theme_opts
 }
 
-#Población por departamento para el año más reciente. Censo 2011, fuente: INE.
+      #Población por departamento para el año más reciente. Censo 2011, fuente: INE.
 censo<- c(73378,520187,84698,123203,57088,
           25050,67048,58815,164300,1319108,   
           113124,54765,103493,68088,124878,
           108309,82595,90053,48134)
 
-# Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
+    # Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
 pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
 
-#Cargar fechas
+      #Cargar fechas
 fecha<- datos %>% separate( fecha,c("dia","mes") ) %>%
   mutate( f.h= paste( paste(a,mes,dia,sep="-") , hora ) ) %>%
   mutate( f.h= as.POSIXct(f.h, format="%Y-%m-%d %H:%M:%S",tz="GMT"))%>%
@@ -83,7 +84,18 @@ n.dia <- weekdays( as.Date( as.vector(t (fecha[1]) ) ) )
 
 f<- data.frame(fecha,n.dia)
 
-################################################################################################
+###################################################################################################################################################################################
+
+
+
+
+
+
+
+
+
+
+                                                                                                                        #UI
 
 ui <- fluidPage(
   
@@ -92,6 +104,8 @@ ui <- fluidPage(
   
   tabsetPanel(
     
+    
+                                                                                                                                           #DISTRIBUCIÓN TERRITORIAL
     tabPanel(
       title = h6("Distribución territorial"),
       hr(),
@@ -101,13 +115,14 @@ ui <- fluidPage(
         sidebarPanel(
           
           checkboxGroupInput("años", "Elegir Año:",
-                             choiceNames = c("2013", "2014", "2015", "2016","2017"),
-                             choiceValues =  c("2013", "2014", "2015", "2016","2017"))
+                             choices = c("2013", "2014", "2015", "2016","2017"))
         ),
         
         
         mainPanel(
-          plotOutput("mapa")
+          plotOutput("mapa"),
+          hr(),
+          p("Dichas tasas corresponden a los fallecidos en siniestros de tránsito cada 10.000 habitantes en cada departamentto del Uruguay")
           
         )
       )
@@ -115,7 +130,7 @@ ui <- fluidPage(
     
     
     
-    #DENSIDAD
+                                                                                                                                               #DENSIDAD UI
     
     tabPanel(
       title = h6("Densidad según vehículo"),
@@ -141,9 +156,7 @@ ui <- fluidPage(
         )
       )
     ),
-    
-    
-    #MOSAICOS
+                                                                                                                                               #MOSAICOs UI
     
     tabPanel(
       title = h6("Mosaicos"),
@@ -154,31 +167,29 @@ ui <- fluidPage(
         sidebarPanel(
           
           selectInput("variablemosaico", "Variable:",
-                      choiceNames = c("Sexo","Rol", "Jurisdicción"),
-                      choiceValues =c("sexo","rol","jur") ),
-          
-          conditionalPanel(
-            condition = "input.variablemosaico!='Sexo'",
-            checkboxInput("facetearmosaico", "Facetear por sexo:" )
-          )    ,
+                      choices = c("Sexo","Rol", "Jurisdicción")),
           
           checkboxGroupInput("añosmosaico", "Elegir Año:",
-                             choiceNames = c("2013", "2014", "2015", "2016","2017"),
-                             choiceValues =  c("2013", "2014", "2015", "2016","2017"))
-          
-          
+                             choices = c("2013", "2014", "2015", "2016","2017"))
           
           
         ),
         mainPanel( 
-          
+          p("A continuación puede visualizar la proporción de fallecidos según vehículo del mismo."),
           plotlyOutput("rol"),
+          hr(),
+          hr(),
+          hr(),
+          p("En tanto, el siguiente gráfico muestra la proporción de fallecidos según la existencia o no de otro posible involucrado."),
           plotlyOutput("involucrado"),
-          p("sexo y año para ambos,   rol y jurisdiccion  para involucrado ")
+          br()
+          
         )
       )
     ),
     
+    
+                                                                                                                                                #SERIES DE TIEMPO UI
     tabPanel(
       title = h6("Series de tiempo"),
       sidebarLayout(
@@ -200,7 +211,23 @@ ui <- fluidPage(
       )
     )))
 
+
+
+
+
+
+
+
+
 ################################################################################################
+
+
+
+
+
+
+
+                                                                                                                        # SERVER
 
 server <- function(input, output) {
   
@@ -210,7 +237,7 @@ server <- function(input, output) {
   
   
   
-  #DISTRIBUCIÓN TERRITORIAL
+                                                                                                                                                 #DISTRIBUCIÓN TERRITORIAL
   
   añosmapaInput <- reactive({input$años})
   
@@ -269,7 +296,7 @@ server <- function(input, output) {
   
   
   
-  #DENSIDAD
+                                                                                                                                                                   #DENSIDAD
   
   sexodensidadInput <- reactive({   
     switch(input$sexodensidad,
@@ -489,23 +516,9 @@ server <- function(input, output) {
   
   
   
+                                                                                                                                                                   #MOSAICOS
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  #MOSAICOS
-  
-  
-  
-  
+                                                                                                                                                                                #PLOT 1
   añosmosaicoInput <- reactive({input$añosmosaico})
   
   
@@ -707,7 +720,7 @@ server <- function(input, output) {
     
   })
   
-  
+                                                                                                                                                                                #PLOT 2
   output$involucrado <- renderPlotly({
     if (is.null(añosmosaicoInput())) 
     {
@@ -910,7 +923,7 @@ server <- function(input, output) {
   
   
   
-  #SERIES DE TIEMPO
+                                                                                                                                                           #SERIES DE TIEMPO
   
   intervaloInput <- reactive({
     switch(input$intervalo,
@@ -1182,8 +1195,13 @@ server <- function(input, output) {
   
 }
 
-################################################################################################
+                             
+                             
+                             
+                             
+                             
+################################
 
 shinyApp(ui = ui, server = server)
 
-################################################################################################
+#################################
