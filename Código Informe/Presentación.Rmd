@@ -1,41 +1,30 @@
 ---
 title: "Presentación"
 author: "Martínez Matías, Zang Bruno"
-date: "22 de junio de 2018"
+date: "25 de junio de 2018"
 output: ioslides_presentation
 transition: slower
 widescreen: no
 ---
 
- <style>
- .title-slide {
-     background-image: url(logo.png);
-     background-repeat: no-repeat;
-     padding:40px;
-     background-position: 90% 80%;
-     background-size: 200px 200px;
-   }
-   </style>
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.pos = 'hbpt', out.extra = '', message = FALSE, warning = FALSE)
 ```
 
-## Introducción
+## <span style="color:#88398A"> Introducción
 
  El presente estudio surge de la curiosidad por conocer el comportamiento de los siniestros de tránsitos en Uruguay y posee como objetivo madre una profunda aplicación de los conocimientos adquiridos en la asignatura "Nuevas técnicas para el análisis de datos", marcando énfasis en un correcto análisis exploratorio y la generación de adecuadas visualizaciones de los datos.
-Se analizará tanto variables del fallecido como del suceso en si. Tal analisis permitirá emitir conclusiones informativas y abarcativas que representen la realidad uruguaya en materia de siniestros fatales.
-
-
+Se analizará tanto variables del fallecido como del suceso en sí. Tal análisis permitirá emitir conclusiones informativas que representen la realidad uruguaya en materia de siniestros fatales.
 
 ```{r,echo=F,warning=FALSE,error=FALSE, message=FALSE}
 
-#A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitariamente.
+#A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitrariamente.
 
 #Función que instala y carga paquetes necesarios para correr el código.
 ipack <- function( pkg )
   {
 new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
-      if ( length(new.pkg) ) 
+      if ( length(new.pkg) )
         install.packages(
           new.pkg, dependencies = TRUE )
     sapply( pkg, require, character.only = TRUE )
@@ -43,7 +32,7 @@ new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
    
     
 paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny", "ggmosaic", "plotly",
-                        "ggmap", "raster", "rgdal","knitr", 
+                        "ggmap", "raster", "rgdal","knitr",
                         "scales", "lubridate", "devtools","grid","gridExtra")
 
 ipack(paquetes.a.utilizar)
@@ -59,50 +48,54 @@ colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
            "khaki3", "thistle4", "lightsteelblue","grey80")
 ```
 
-## Preguntas a responder
+## <span style="color:#88398A"> Preguntas a responder:
 
 1 - ¿Cuál es la distribución relativa por sexo y qué comportamiento posee la edad del fallecido en el período dado?
 
 2 - ¿Existe relación entre el rol del fallecido tanto con la edad, como con el vehículo del difunto?
-
-3 -  Para observaciones de vehículo igual a peatón: ¿qué vehículo estubo involucrado en el fallecimientos de los mismos y cuál posee mayor frecuencia acumulada?
-
+ 
+3 - ¿Qué vehículo estuvo involucrado en los fallecimientos de peatones y cuál posee mayor frecuencia acumulada?
+ 
 4 - ¿Hay relación entre el vehículo del fallecido y otro posible vehículo involucrado en el accidente?
 
-5 - ¿Qué comportamiento posee la jurisdicción por si misma, y según el tipo de siniestro ocurrido?
+## <span style="color:#88398A"> Preguntas a responder:
+5 - ¿Qué comportamiento posee la jurisdicción por sí misma, y según el tipo de siniestro ocurrido?
 
 6 - ¿Cuál es la distribución de los días de supervivencia luego del accidente y qué proporción ocupa cada tipo de siniestro en caso de muerte súbita?
-
+ 
 7 - ¿Cuál es la tasa de fallecidos por departamento?
-
+ 
 8 - ¿Qué fechas y horarios poseen mayor frecuencia absoluta de difuntos?
 
-## Hipótesis
+## <span style="color:#88398A"> Hipótesis
+- Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25 y una mayor proporción de difuntos para las personas de sexo masculino.
 
-1 - Se considera que el comportamiento de la edad estará dado por una fuerte densidad para edades cercanas a los 25 y una mayor proporción de difuntos para las personas de sexo masculino.
+- Retomando el punto anterior, se asume una mayor proporción de fallecidos para peatones a altas edades, al contrario que en conductores. Los pasajeros poseerán una densidad equilibrada para todas las edades.
 
-2 -  En relación con la edad y retomando el punto anterior, se asume una mayor proporción de fallecidos peatones a altas edades, al contrario que en conductores. Los pasajeros poseeran una densidad equilibrada para todas las edades. 
+- Considerando la concentración de autos en el país, existe una alta probabilidad de fallecer en condición de peatón siendo impactado por dicho vehículo.
 
-3 - Considerando la concentración de autos en el país, existe una alta probabilidad de fallecer en condición de peatón siendo impactado por dicho vehículo.
+- Colisiones entre un vehículo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias.
 
-4 - Colisiones entre un vehículo de gran magnitud y otro de menor provocaría que el de menor quede expuesto a graves consecuencias
+## <span style="color:#88398A"> Hipótesis
+- Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base principalmente a la práctica de altas velocidades.
 
-5 - Se prevé mayor proporción de accidentes fatales en rutas nacionales, esto en base principalmente a la práctica de altas velocidades.
+- Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos. Tales impactos generían una muerte instantánea o de poca supervivencia para el individuo.
 
-6 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos.
-  Consiguiente a anteriores menciones, tales impactos generían una muerte instantánea o de poca supervivencia para el individuo.
+- Debido a la concentración en la zonas metropolitanas habra mas probabilidades de sufrir un accidentes de tráficos. En tanto la tasas de fallecidos en el país, las mayores tasas se encontraran en la zona anteriormente mencionadas. 
 
-7 - Debido a la concentración en la zonas metropolitanas habra mas probabilidades de sufrir un accidentes de tráficos. En tanto la tasas de fallecidos en el país, las mayores tasas se encontraran en la zona anteriormente nombrada. 
+- En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
 
-8- En meses de vacaciones se provocarían mayores accidentes de tráfico. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
+## <span style="color:#88398A"> Fuente de datos
 
-## Fuente de datos
-
- Los datos se obtienen de la Unidad Nacional de Seguridad Víal (UNASEV) y corresponden al período comprendido entre 2013 y 2017.
+ Los datos se obtienen de la Unidad Nacional de Seguridad Vial (UNASEV) y corresponden al período comprendido entre 2013 y 2017.
+ 
 Mediante su catálogo de datos abiertos se extraen las bases utilizadas, desde el siguiente url: http://unasev.gub.uy/inicio/sinatran/datos_abiertos/
 
-### Descripción de variables:
+### <span style="color:#88398A"> ***Modelos y herramientas:***
 
+ Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico `R`, con la puntual aplicación de paquete `tidyverse`, que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
+
+## <span style="color:#88398A"> Descripción de variables:
 Se poseen 15 variables identificadas de la siguiente manera:
 
 - **a:**  Año en el que sucede el accidente. 
@@ -112,6 +105,8 @@ Se poseen 15 variables identificadas de la siguiente manera:
 - **jur:**  Jurisdicción, ya sea en rutas nacionales o dentro del departamento.
 - **tipo.sin:**  Tipo de siniestro en cuestión.
 - **vehi:**  Vehículo en que se transporta el individuo al momento del siniestro.
+
+## <span style="color:#88398A"> Descripción de variables:
 - **rol:**  Rol que cumple el fallecido: conductor, pasajero y peatones.
 - **edad:**  Edad del fallecido medido en años.
 - **Sexo:**  Sexo del difunto: femenino o masculino.
@@ -121,12 +116,11 @@ Se poseen 15 variables identificadas de la siguiente manera:
 - **x:**  Latitud correspondiente a la ubicación del accidente.
 - **y:**  Longitud correspondiente a la ubicación del accidente.
 
-
-## Modelos y herramientas
-
- Es importarte recordar los objetivos del estudio, uno de ellos guía a la implementación de apropiadas visualizaciones. Para esto se utilizará el software estadístico `R`, con la puntual aplicación de paquete `tidyverse`, que proporciona un conjunto de librerías óptimas para el análisis exploratorio de datos.
  
-## Fallecidos por año
+##<span style="color:#88398A"> Análisis de Datos
+ Inicialmente se llevó a cabo una profunda exploración de datos, la cual permitió además de conocer inconvenientes en la base, formular nuevas preguntas. Posterior a esto, se realizaron visualizaciones acordes con el fin de generar una respuesta clara y acorde a las dudas planteadas. A continuación se planean las mismas:
+ 
+### Fallecidos por año
 
 ```{r,warning=FALSE,echo=F,fig.cap="Gráfico de series de tiempo: frecuencia absoluta de fallecidos por año."}
 
@@ -510,7 +504,6 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 ```
 
 ## Conclusiones
-
  Luego de la etapa analítica de los datos, con la utilización de dieferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
 
 1- En la distribución por sexo se revela que  el sexo masculino fallece aproximadamente 3 veces mas que sexo femenino.
@@ -519,36 +512,25 @@ Respecto a la edad, hay una gran concentración de fallecidos en el intervalo 20
 2- El rol conductor posee entre 280 a 370 fallecidos por año mientras que peatones y pasajeros son unos 100 fallecidos por año aproximadamente.
 En el analisis del vehículo del difunto con respecto al rol que cumplia en el, se registro altas cantidades de fallecimiento para los conductores de motos y autos.
 
-
+## Conclusiones
 3- Gran parte de los atropellos a peatones se ocasionan por causa de autos y motos con aproximadamente 25 fallecidos por año.
 
-4- Si bien disminuye hasta el año 2016, la frecuencia absoluta de fallecidos en motos supera ampliamente a los fallecidos en otros vehículos, superando entre un 200 y 300% dichas cantidades.
-
+4- Si bien disminuye hasta el año 2016, la frecuencia absoluta de fallecidos en motos supera a los demás vehículos por 200 o 300%.
 En relación entre vehículo del fallecido y otro posible vehículo involucrado en el siniestro se concluyó que si hay una proporcion alta. Sin embargo se debe tener en cuenta accidentados por si mismo o no registrados ya que son ceranos al 50% para los autos y un 25% para las motos.
 
-5- Hay un disminucion de  fallecidos en jurisdicciones nacionales hasta el año 2015, donde creece tal que en el año 2017 supera a los fallecidos en departamentales.
-Entre un valor cercano a 60% de tales accidentes en jurisdicción nacional ocurren con otro vehículo involucrado y en juridicciones departamentales este porcentaje crece a un 75%.
+5- Hay un disminucion de fallecidos en jurisdicciones nacionales hasta el año 2015, donde creece tal que en el año 2017 supera a los fallecidos en departamentales.
 
-Adicional a esto las colisiones enre vehículos atropello de peatones y despistes respectivamente poseen mayor frecuencia absoluta de fallecidos.
+##Conclusiones
+6- Existe aproximadamente un 60% de probabilidad de fallecer al instante o no superar las 24 horas en caso de sufrir un accidene fatal, además de un 50% de las mismas son ocasionadas por colisiones entre vehículos.
 
-6- Existe aproximadamente un 60% de probabilidad de fallecer al instante o no superar las 24 horas en caso de sufrir un accidene fatal.
-Centrándonos en muertes súbitas ocurridas, más de un 50% de las mismas son ocasionadas por colisiones entre vehículos.
+7- La mayoría de los fallecimientos en siniestros de tránsito ocurren  en la zona metropolitana, conformada por los departamentos de Montevideo, Maldonado, Canelones y San José.
+Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad completamente diferente, con Rivera y Montevideo presentando las tasas más bajas del país.
 
-7- La mayoría de los fallecimientos en siniestros de tránsito ocurren  en la zona metropolitana, conformada por los departamentos de Montevideo, Maldonado, Canelones y San José. Los mismos son los únicos en superar la media de fallecidos en todo el país y denotan la fuerte conglomeración allí existente.
-Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad completamente diferente, con Rivera y Montevideo presentando las tasas más bajas del país para el período trabajado. San José, en cambio, presenta la mayor tasa del territorio uruguayo, seguido por Rocha y Florida. 
-Si tales tasas se analizan año a año, se ecuentra una fuerte tendencia hacia la homogeneidad para todos los departamentos hasta el año 2016, tendiendo a disminuir y equilibrar sus defunciones. Pero en el año 2017 se retoma un nuevo ascenso de las mismas pese a no ser abrupto.
-
-8- Llegado el análisis de tendencias en las fechas de los accidentes fatales, se percata frecuencias absolutas superiores en los años 2013 y 2014, que luego decrecen hasta el año 2016 y finalmente retoman su crecimiento en 2017, donde se presenta su valor más alto en el mes de diciembre.
-Existe una clara concentración en la frecuencia absoluta de fallecidos para los horarios de 16:00 a 21:00 horas, la cual aumentando paulatinamente en el transcurso de la semana, presentándose con mayor intensidad los fines de semana.
+8- Existe una clara concentración en la frecuencia absoluta de fallecidos para los horarios de 16:00 a 21:00 horas, la cual aumentando paulatinamente y se intensidad los fines de semana.
 
 
-
-
-
-
-
-
-
+## Interpretación
+ Las siguientes explicaciones presentan cierto nivel de subjetividad en consecuencia a la limitación propia de los conocimientos adquiridos por los autores del presente informe, por lo cual es posible diferir en las mismas.
 
 
 
