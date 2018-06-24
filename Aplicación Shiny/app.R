@@ -143,7 +143,7 @@ ui <- fluidPage(
     ),
     
     
-  #MOSAICOS
+    #MOSAICOS
     
     tabPanel(
       title = h6("Mosaicos"),
@@ -160,7 +160,7 @@ ui <- fluidPage(
           conditionalPanel(
             condition = "input.variablemosaico!='Sexo'",
             checkboxInput("facetearmosaico", "Facetear por sexo:" )
-            )    ,
+          )    ,
           
           checkboxGroupInput("añosmosaico", "Elegir Año:",
                              choiceNames = c("2013", "2014", "2015", "2016","2017"),
@@ -208,14 +208,14 @@ server <- function(input, output) {
   
   
   
-                            
   
-                  #DISTRIBUCIÓN TERRITORIAL
+  
+  #DISTRIBUCIÓN TERRITORIAL
   
   añosmapaInput <- reactive({input$años})
   
   output$mapa <- renderPlot({
-
+    
     
     
     if(is.null(input$años)) 
@@ -233,33 +233,33 @@ server <- function(input, output) {
           midpoint = mean(pob.dep$tasa))
     }
     else {
-    
-    mapeo(n= (datos %>% filter( a==añosmapaInput()  |
-                                  a==añosmapaInput()  |
-                                  a==añosmapaInput() |
-                                  a==añosmapaInput()  |
-                                  a==añosmapaInput()  |
-                                  a==añosmapaInput() )%>% count(a,dep) %>% arrange(a) %>%
-                mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000))) ) +
-      labs(
-        fill = "Tasa",
-        x = NULL,
-        y = NULL) +
-      scale_fill_gradient2(
-        low = "#d8b365",
-        mid = "white",
-        high = "#5ab4ac",
-        midpoint =  mean((datos %>% filter( a==añosmapaInput()  |
-                                              a==añosmapaInput()  |
-                                              a==añosmapaInput() |
-                                              a==añosmapaInput()  |
-                                              a==añosmapaInput()  |
-                                              a==añosmapaInput() ) %>% count(a,dep) %>% arrange(a) %>% mutate(
-                                                censo= (rep(censo,(length(table(a)))))) %>% mutate(n=(n/censo)*10000))$n )) +
-      facet_wrap( ~ a)
+      
+      mapeo(n= (datos %>% filter( a==añosmapaInput()  |
+                                    a==añosmapaInput()  |
+                                    a==añosmapaInput() |
+                                    a==añosmapaInput()  |
+                                    a==añosmapaInput()  |
+                                    a==añosmapaInput() )%>% count(a,dep) %>% arrange(a) %>%
+                  mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000))) ) +
+        labs(
+          fill = "Tasa",
+          x = NULL,
+          y = NULL) +
+        scale_fill_gradient2(
+          low = "#d8b365",
+          mid = "white",
+          high = "#5ab4ac",
+          midpoint =  mean((datos %>% filter( a==añosmapaInput()  |
+                                                a==añosmapaInput()  |
+                                                a==añosmapaInput() |
+                                                a==añosmapaInput()  |
+                                                a==añosmapaInput()  |
+                                                a==añosmapaInput() ) %>% count(a,dep) %>% arrange(a) %>% mutate(
+                                                  censo= (rep(censo,(length(table(a)))))) %>% mutate(n=(n/censo)*10000))$n )) +
+        facet_wrap( ~ a)
     }
     
-    })
+  })
   
   
   
@@ -269,55 +269,35 @@ server <- function(input, output) {
   
   
   
-                                     #DENSIDAD
+  #DENSIDAD
   
   sexodensidadInput <- reactive({   
     switch(input$sexodensidad,
            "Femenino"= "F",
            "Masculino" = "M")
-    })
+  })
   
   
   añosdensidadInput <- reactive({   input$añosdensidad
-          
+    
   })
   
   
   output$densidad <- renderPlotly({
     
     
-if(is.null(input$vehiculodensidad))
-  
-{
-    if(input$añosdensidad=="Todos")
+    if(is.null(input$vehiculodensidad))
+      
+    {
+      if(input$añosdensidad=="Todos")
       {
-      if (input$sexodensidad=="Ambos")      
+        if (input$sexodensidad=="Ambos")      
         {  
-        ggplotly(
-          datos  %>% 
-            ggplot(aes(edad)) +
-            geom_density(
-            fill = "grey23",
-              alpha = 0.5, 
-              show.legend = T) +
-            labs(
-              x =  "Edad", 
-              y = "Densidad")  + 
-            theme_minimal() + 
-            guides(fill = guide_legend(title = "Vehículo:")) +
-            theme(
-              legend.position = "bottom", 
-              axis.title  = (element_text(
-                size = 12,
-                colour = "darkslategray")))
-          )
-        }
-      else
-        {
           ggplotly(
-            datos %>% filter(sexo==sexodensidadInput())%>% 
+            datos  %>% 
               ggplot(aes(edad)) +
-              geom_density(fill = "grey23",
+              geom_density(
+                fill = "grey23",
                 alpha = 0.5, 
                 show.legend = T) +
               labs(
@@ -330,15 +310,35 @@ if(is.null(input$vehiculodensidad))
                 axis.title  = (element_text(
                   size = 12,
                   colour = "darkslategray")))
-            )  
-          }
-      #if ambos,M,F
-    }
-    #if añosdensidad=="Todos"
-    else
+          )
+        }
+        else
+        {
+          ggplotly(
+            datos %>% filter(sexo==sexodensidadInput())%>% 
+              ggplot(aes(edad)) +
+              geom_density(fill = "grey23",
+                           alpha = 0.5, 
+                           show.legend = T) +
+              labs(
+                x =  "Edad", 
+                y = "Densidad")  + 
+              theme_minimal() + 
+              guides(fill = guide_legend(title = "Vehículo:")) +
+              theme(
+                legend.position = "bottom", 
+                axis.title  = (element_text(
+                  size = 12,
+                  colour = "darkslategray")))
+          )  
+        }
+        #if ambos,M,F
+      }
+      #if añosdensidad=="Todos"
+      else
       {
         if (input$sexodensidad=="Ambos")
-          {
+        {
           ggplotly(
             datos %>% filter(a==añosdensidadInput())%>%
               ggplot(aes(edad)) +
@@ -356,136 +356,136 @@ if(is.null(input$vehiculodensidad))
                 axis.title  = (element_text(
                   size = 12,
                   colour = "darkslategray")))
-            )
-          }
-        else
-          {
-            ggplotly(
-              datos %>% filter(sexo==sexodensidadInput()) %>% 
-                filter(a==añosdensidadInput())%>% 
-                ggplot(aes(edad)) +
-                geom_density( 
-                  fill = "grey23", 
-                  alpha = 0.5, 
-                  show.legend = T) +
-                labs(
-                  x =  "Edad", 
-                  y = "Densidad")  +
-                theme_minimal() + 
-                guides(fill = guide_legend(title = "Vehículo:")) +
-                theme(
-                  legend.position = "bottom", 
-                  axis.title  = (element_text(
-                    size = 12,
-                    colour = "darkslategray")))
-              )
-          }
+          )
         }
-    #if añosdensidad=="Todos"
-  }
-else  
-{
-  if(input$añosdensidad=="Todos")
-  {
-    if (input$sexodensidad=="Ambos")      
-    {  
-      ggplotly(
-        datos  %>% filter(vehi== input$vehiculodensidad )%>% 
-          ggplot(aes(edad)) +
-          geom_density(
-            aes(fill = vehi), 
-            alpha = 0.5, 
-            show.legend = T) +
-          labs(
-            x =  "Edad", 
-            y = "Densidad")  + 
-          theme_minimal() + 
-          guides(fill = guide_legend(title = "Vehículo:")) +
-          theme(
-            legend.position = "bottom", 
-            axis.title  = (element_text(
-              size = 12,
-              colour = "darkslategray"))) + 
-          scale_fill_manual (values=colores))
+        else
+        {
+          ggplotly(
+            datos %>% filter(sexo==sexodensidadInput()) %>% 
+              filter(a==añosdensidadInput())%>% 
+              ggplot(aes(edad)) +
+              geom_density( 
+                fill = "grey23", 
+                alpha = 0.5, 
+                show.legend = T) +
+              labs(
+                x =  "Edad", 
+                y = "Densidad")  +
+              theme_minimal() + 
+              guides(fill = guide_legend(title = "Vehículo:")) +
+              theme(
+                legend.position = "bottom", 
+                axis.title  = (element_text(
+                  size = 12,
+                  colour = "darkslategray")))
+          )
+        }
+      }
+      #if añosdensidad=="Todos"
     }
-    else
+    else  
     {
-      ggplotly(
-        datos %>% filter(sexo==sexodensidadInput()) %>% 
-          filter(vehi== input$vehiculodensidad )%>% 
-          ggplot(aes(edad)) +
-          geom_density(
-            aes(fill = vehi), 
-            alpha = 0.5, 
-            show.legend = T) +
-          labs(
-            x =  "Edad", 
-            y = "Densidad")  + 
-          theme_minimal() + 
-          guides(fill = guide_legend(title = "Vehículo:")) +
-          theme(
-            legend.position = "bottom", 
-            axis.title  = (element_text(
-              size = 12,
-              colour = "darkslategray"))) + 
-          scale_fill_manual (values=colores))  
+      if(input$añosdensidad=="Todos")
+      {
+        if (input$sexodensidad=="Ambos")      
+        {  
+          ggplotly(
+            datos  %>% filter(vehi== input$vehiculodensidad )%>% 
+              ggplot(aes(edad)) +
+              geom_density(
+                aes(fill = vehi), 
+                alpha = 0.5, 
+                show.legend = T) +
+              labs(
+                x =  "Edad", 
+                y = "Densidad")  + 
+              theme_minimal() + 
+              guides(fill = guide_legend(title = "Vehículo:")) +
+              theme(
+                legend.position = "bottom", 
+                axis.title  = (element_text(
+                  size = 12,
+                  colour = "darkslategray"))) + 
+              scale_fill_manual (values=colores))
+        }
+        else
+        {
+          ggplotly(
+            datos %>% filter(sexo==sexodensidadInput()) %>% 
+              filter(vehi== input$vehiculodensidad )%>% 
+              ggplot(aes(edad)) +
+              geom_density(
+                aes(fill = vehi), 
+                alpha = 0.5, 
+                show.legend = T) +
+              labs(
+                x =  "Edad", 
+                y = "Densidad")  + 
+              theme_minimal() + 
+              guides(fill = guide_legend(title = "Vehículo:")) +
+              theme(
+                legend.position = "bottom", 
+                axis.title  = (element_text(
+                  size = 12,
+                  colour = "darkslategray"))) + 
+              scale_fill_manual (values=colores))  
+        }
+        #if ambos,M,F
+      }
+      #if añosdensidad=="Todos"
+      else
+      {
+        if (input$sexodensidad=="Ambos")
+        {
+          ggplotly(
+            datos %>% filter(a==añosdensidadInput()) %>%
+              filter(vehi== input$vehiculodensidad ) %>% 
+              ggplot(aes(edad)) +
+              geom_density(         
+                aes(fill = vehi), 
+                alpha = 0.5, 
+                show.legend = T) +
+              labs(
+                x =  "Edad", 
+                y = "Densidad")  + 
+              theme_minimal() + 
+              guides(fill = guide_legend(title = "Vehículo:")) +
+              theme(
+                legend.position = "bottom", 
+                axis.title  = (element_text(
+                  size = 12,
+                  colour = "darkslategray"))) + 
+              scale_fill_manual (values=colores))
+        }
+        else
+        {
+          ggplotly(
+            datos %>% filter(sexo==sexodensidadInput()) %>% 
+              filter(a==añosdensidadInput())%>% filter(vehi== input$vehiculodensidad )%>% 
+              ggplot(aes(edad)) +
+              geom_density(
+                aes(fill = vehi), 
+                alpha = 0.5, 
+                show.legend = T) +
+              labs(
+                x =  "Edad", 
+                y = "Densidad")  +
+              theme_minimal() + 
+              guides(fill = guide_legend(title = "Vehículo:")) +
+              theme(
+                legend.position = "bottom", 
+                axis.title  = (element_text(
+                  size = 12,
+                  colour = "darkslategray"))) + 
+              scale_fill_manual (values=colores))
+        }
+      }
+      #if añosdensidad=="Todos"
     }
-    #if ambos,M,F
-  }
-  #if añosdensidad=="Todos"
-  else
-  {
-    if (input$sexodensidad=="Ambos")
-    {
-      ggplotly(
-        datos %>% filter(a==añosdensidadInput()) %>%
-          filter(vehi== input$vehiculodensidad ) %>% 
-          ggplot(aes(edad)) +
-          geom_density(         
-            aes(fill = vehi), 
-            alpha = 0.5, 
-            show.legend = T) +
-          labs(
-            x =  "Edad", 
-            y = "Densidad")  + 
-          theme_minimal() + 
-          guides(fill = guide_legend(title = "Vehículo:")) +
-          theme(
-            legend.position = "bottom", 
-            axis.title  = (element_text(
-              size = 12,
-              colour = "darkslategray"))) + 
-          scale_fill_manual (values=colores))
-    }
-    else
-    {
-      ggplotly(
-        datos %>% filter(sexo==sexodensidadInput()) %>% 
-          filter(a==añosdensidadInput())%>% filter(vehi== input$vehiculodensidad )%>% 
-          ggplot(aes(edad)) +
-          geom_density(
-            aes(fill = vehi), 
-            alpha = 0.5, 
-            show.legend = T) +
-          labs(
-            x =  "Edad", 
-            y = "Densidad")  +
-          theme_minimal() + 
-          guides(fill = guide_legend(title = "Vehículo:")) +
-          theme(
-            legend.position = "bottom", 
-            axis.title  = (element_text(
-              size = 12,
-              colour = "darkslategray"))) + 
-          scale_fill_manual (values=colores))
-    }
-  }
-  #if añosdensidad=="Todos"
-}
-  
     
-})
-#renderplotly
+    
+  })
+  #renderplotly
   
   
   
@@ -501,49 +501,47 @@ else
   
   
   
-                                 #MOSAICOS
+  #MOSAICOS
   
- 
- 
+  
+
+  
   añosmosaicoInput <- reactive({input$añosmosaico})
   
   
-  
-  
   output$rol <- renderPlotly({
-    
-    if (input$variablemosaico=="Sexo"){
-      
-      if (is.null(añosmosaicoInput())) {
-      
-      ggplotly(
-      datos %>% dplyr::count(vehi, sexo) %>% filter(vehi!="PEATON") %>%
-        group_by( vehi= ifelse (
-          (vehi!="BICICLETA" &
-             vehi!="MOTO" &
-             vehi!="AUTO" &
-             vehi!="BICICLETA" &
-             vehi!="CAMIONETA"),"OTROS", vehi ),sexo) %>%
-        summarise(n=sum(n)) %>%
-        ggplot() +
-        geom_mosaic(aes(
-          weight = n,
-          x = product( reorder(abbreviate(vehi, 4),-n) ),
-          fill = abbreviate( sexo, 1) ),
-          alpha=0.64) +
-        labs(
-          x = "Vehículo del fallecido",
-          y = "Proporción de fallecidos") +
-        guides(fill = guide_legend(title = "Sexo")) +
-        theme_minimal() +
-        theme(
-          axis.title =
-            element_text(
-              size = 12,colour="grey30")) +
-        scale_fill_manual( values = colores[c(2,3,1)]))
-      }
+    if (input$variablemosaico=="Sexo")
+      {
+      if (is.null(añosmosaicoInput())) 
+        {
+        ggplotly(
+          datos %>% dplyr::count(vehi, sexo) %>% filter(vehi!="PEATON") %>%
+            group_by( vehi= ifelse (
+              (vehi!="BICICLETA" &
+                 vehi!="MOTO" &
+                 vehi!="AUTO" &
+                 vehi!="BICICLETA" &
+                 vehi!="CAMIONETA"),"OTROS", vehi ),sexo) %>%
+            summarise(n=sum(n)) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product( reorder(abbreviate(vehi, 4),-n) ),
+              fill = abbreviate( sexo, 1) ),
+              alpha=0.64) +
+            labs(
+              x = "Vehículo del fallecido",
+              y = "Proporción de fallecidos") +
+            guides(fill = guide_legend(title = "Sexo")) +
+            theme_minimal() +
+            theme(
+              axis.title =
+                element_text(
+                  size = 12,colour="grey30")) +
+            scale_fill_manual( values = colores[c(2,3,1)]))
+        }
       else
-      {  ggplotly(
+        {  ggplotly(
         datos %>% filter(a== añosmosaicoInput ())%>%
           dplyr::count(vehi, sexo) %>% filter(vehi!="PEATON") %>%
           group_by( vehi= ifelse (
@@ -568,34 +566,39 @@ else
             axis.title =
               element_text(
                 size = 12,colour="grey30")) +
-          scale_fill_manual( values = colores[c(2,3,1)]))}
+          scale_fill_manual( values = colores[c(2,3,1)]))
+          }
       
     }
-    else {
+  
+  else if (input$variablemosaico=="Rol"){
+      
+       
+        
       if (is.null(añosmosaicoInput()))
-
+        
       {
         
         
         ggplotly(
-          datos %>% dplyr::count(vehi,input$variablemosaico) %>% filter(vehi!="PEATON") %>%
+          datos %>% dplyr::count(vehi,rol) %>% filter(vehi!="PEATON") %>%
             group_by( vehi= ifelse (
               (vehi!="BICICLETA" &
                  vehi!="MOTO" &
                  vehi!="AUTO" &
                  vehi!="BICICLETA" &
-                 vehi!="CAMIONETA"),"OTROS", vehi ),input$variablemosaico) %>%
+                 vehi!="CAMIONETA"),"OTROS", vehi ),rol) %>%
             summarise(n=sum(n)) %>%
             ggplot() +
             geom_mosaic(aes(
               weight = n,
               x = product( reorder(abbreviate(vehi, 4),-n) ),
-              fill = abbreviate( input$variablemosaico, 1) ),
+              fill = abbreviate( rol, 1) ),
               alpha=0.64) +
             labs(
               x = "Vehículo del fallecido",
               y = "Proporción de fallecidos") +
-            guides(fill = guide_legend(title = "Sexo")) +
+            guides(fill = guide_legend(title = "Rol")) +
             theme_minimal() +
             theme(
               axis.title =
@@ -609,24 +612,24 @@ else
       {
         
         ggplotly(
-          datos%>% filter(a== añosmosaicoInput ()) %>% dplyr::count(vehi,input$variablemosaico) %>% filter(vehi!="PEATON") %>%
+          datos%>% filter(a== añosmosaicoInput ()) %>% dplyr::count(vehi,rol) %>% filter(vehi!="PEATON") %>%
             group_by( vehi= ifelse (
               (vehi!="BICICLETA" &
                  vehi!="MOTO" &
                  vehi!="AUTO" &
                  vehi!="BICICLETA" &
-                 vehi!="CAMIONETA"),"OTROS", vehi ),input$variablemosaico) %>%
+                 vehi!="CAMIONETA"),"OTROS", vehi ),rol) %>%
             summarise(n=sum(n)) %>%
             ggplot() +
             geom_mosaic(aes(
               weight = n,
               x = product( reorder(abbreviate(vehi, 4),-n) ),
-              fill = abbreviate( input$variablemosaico, 1) ),
+              fill = abbreviate( rol, 1) ),
               alpha=0.64) +
             labs(
               x = "Vehículo del fallecido",
               y = "Proporción de fallecidos") +
-            guides(fill = guide_legend(title = "Sexo")) +
+            guides(fill = guide_legend(title = "Rol")) +
             theme_minimal() +
             theme(
               axis.title =
@@ -635,10 +638,75 @@ else
             scale_fill_manual( values = colores))
         
       }
+    }
+
+  else if (input$variablemosaico=="Jurisdicción")
+    {
+    if (is.null(añosmosaicoInput()))
+      {
+      ggplotly(
+        datos %>% dplyr::count(vehi,jur) %>% filter(vehi!="PEATON") %>%
+          group_by( vehi= ifelse (
+            (vehi!="BICICLETA" &
+               vehi!="MOTO" &
+               vehi!="AUTO" &
+               vehi!="BICICLETA" &
+               vehi!="CAMIONETA"),"OTROS", vehi ),jur) %>%
+          summarise(n=sum(n)) %>%
+          ggplot() +
+          geom_mosaic(aes(
+            weight = n,
+            x = product( reorder(abbreviate(vehi, 4),-n) ),
+            fill = abbreviate( jur, 1) ),
+            alpha=0.64) +
+          labs(
+            x = "Vehículo del fallecido",
+            y = "Proporción de fallecidos") +
+          guides(fill = guide_legend(title = "Jurisdicción")) +
+          theme_minimal() +
+          theme(
+            axis.title =
+              element_text(
+                size = 12,colour="grey30")) +
+          scale_fill_manual( values = colores)
+      )
+      }
+    else
+    {
+      
+      ggplotly(
+        datos%>% filter(a== añosmosaicoInput()) %>% dplyr::count(vehi,jur) %>% filter(vehi!="PEATON") %>%
+          group_by( vehi= ifelse (
+            (vehi!="BICICLETA" &
+               vehi!="MOTO" &
+               vehi!="AUTO" &
+               vehi!="BICICLETA" &
+               vehi!="CAMIONETA"),"OTROS", vehi ),jur) %>%
+          summarise(n=sum(n)) %>%
+          ggplot() +
+          geom_mosaic(aes(
+            weight = n,
+            x = product( reorder(abbreviate(vehi, 4),-n) ),
+            fill = abbreviate( jur, 1) ),
+            alpha=0.64) +
+          labs(
+            x = "Vehículo del fallecido",
+            y = "Proporción de fallecidos") +
+          guides(fill = guide_legend(title = "Jurisdicción")) +
+          theme_minimal() +
+          theme(
+            axis.title =
+              element_text(
+                size = 12,colour="grey30")) +
+          scale_fill_manual( values = colores))
       
     }
+  }
+      
+    
     
   })
+  
   
   output$involucrado <- renderPlotly({
     ggplotly(
