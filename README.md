@@ -1,4 +1,5 @@
-![alt text](https://pbs.twimg.com/profile_images/960924836137750529/r-XG6uEM_400x400.jpg| width=10)
+
+<img src="https://pbs.twimg.com/profile_images/960924836137750529/r-XG6uEM_400x400.jpg" width="54" height="54" />
 
 Resumen
 
