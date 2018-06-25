@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = FALSE, fig.pos = 'hbpt', out.extra = '', message = 
 ## <span style="color:#46007b"> Introducción:
 
  El presente estudio surge de la curiosidad por conocer el comportamiento de los siniestros de tránsitos en Uruguay y posee como objetivo madre una profunda aplicación de los conocimientos adquiridos en la asignatura "Nuevas técnicas para el análisis de datos", marcando énfasis en un correcto análisis exploratorio y la generación de adecuadas visualizaciones de los datos.
-Se analizará tanto variables del fallecido como del suceso en sí. Tal análisis permitirá emitir conclusiones informativas que representen la realidad uruguaya en materia de siniestros fatales.
+ Se analizará tanto variables del fallecido como del suceso en sí. Tal análisis permitirá emitir conclusiones informativas que representen la realidad uruguaya en materia de siniestros fatales.
 
 ```{r,echo=F,warning=FALSE,error=FALSE, message=FALSE,results='hide'}
 
@@ -589,5 +589,5 @@ Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad 
 ##
 
 
-<center> <span style="color:#46007b"> **¡MUCHAS GRACIAS!**
+<center <font size="50"<span style="color:#46007b">>> **¡MUCHAS GRACIAS!**
 
