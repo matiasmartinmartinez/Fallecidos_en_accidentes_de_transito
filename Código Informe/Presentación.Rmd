@@ -3,8 +3,10 @@ title: <span style="color:#a58519"> Siniestros fatales en tránsito, Uruguay 201
 author: "Martínez Matías, Zang Bruno"
 date: "25 de junio de 2018"
 output: ioslides_presentation
-transition: slower
+transition: slower+
+logo: logo.png
 widescreen: no
+ 
 ---
 
 ```{r setup, include=FALSE}
