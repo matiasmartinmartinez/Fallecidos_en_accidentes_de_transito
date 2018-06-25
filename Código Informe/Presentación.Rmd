@@ -81,9 +81,9 @@ colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
 
 - Los tipos de siniestros que mayoritariamente se llevan vidas serán colisión entre vehículos e impacto con obstáculos. Tales impactos generían una muerte instantánea o de poca supervivencia para el individuo.
 
-- Debido a la concentración en la zonas metropolitanas habra mas probabilidades de sufrir un accidentes de tráficos. En tanto la tasas de fallecidos en el país, las mayores tasas se encontraran en la zona anteriormente mencionadas. 
+- Debido a la concentración en la zonas metropolitanas habrá más probabilidades de sufrir un accidentes de tráficos. En tanto la tasas de fallecidos en el país, las mayores tasas se encontrarán en la zona anteriormente mencionadas. 
 
-- En meses de vacaciones se provocarían mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
+- En meses de vacaciones se provocan mayores accidentes de tráfico producto de congregaciones y movimientos en general. Respecto al día y hora se considera altas frecuencias absolutas para fines de semana en horarios nocturnos.
 
 ## <span style="color:#46007b"> Fuente de datos
 
@@ -342,35 +342,31 @@ datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
 ```
 
 ## Jurisdicción
-
-```{r,fig.cap="Gráfico de mosaicos: jurisdicción del accidente de tránsito según tipo de siniestro."}
-
-datos %>% dplyr::count(tipo.sin, jur) %>%
-  mutate(tipo.sin=ifelse(n <= 60,"OTROS",tipo.sin) ) %>%
-  ggplot() +
-  geom_mosaic(
+```{r}
+ggplotly(
+datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
+  ggplot(
     aes(
-      weight = n,
-      x = product( abbreviate(tipo.sin, 5) ),
-      fill = jur),
-    alpha=0.5) +
-  theme(
-      legend.position = "bottom",
-      panel.background = element_rect(
-        fill="white"),
-          axis.title =
-      element_text(
-        colour="grey24")) +
+      a,
+      n,
+      colour=jur)) +
+  geom_point() +
+  geom_line(cex=1.1) +
   labs(
-    x = "Tipo de siniestro",
-    y = "Proporción jurisdicción",
-    fill = "Jurisdicción") +
-  scale_fill_manual(
-    values =  colores )
-
-
-
+    x = "Jurisdicción",
+    y = "Frecuencia absoluta") +
+  guides(colour = guide_legend(title = "Jurisdicción:"))+
+  scale_colour_manual( values = colores) +
+  theme(
+    panel.background = element_rect(fill="white"),
+    axis.title  = element_text(
+      colour = "gray29"),
+    legend.position = "bottom") +
+  coord_cartesian(y=c(0,400))
+)
 ```
+
+
 
 ## Días de supervivencia 
 
@@ -561,24 +557,24 @@ f %>% count(n.dia, hrs= format(f.h,"%H")) %>%
 ```
 
 ## <span style="color:#46007b"> Conclusiones
- Luego de la etapa analítica de los datos, con la utilización de dieferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
+ Luego de la etapa analítica de los datos, con la utilización de diferentes técnicas descriptivas y de visualización, procedemos a interpretar los resultados obtenidos, y contrastarlos con las hipótesis planteadas.
 
-1- En la distribución por sexo se revela que  el sexo masculino fallece aproximadamente 3 veces mas que sexo femenino.
+1- En la distribución por sexo se revela que  el sexo masculino falleció aproximadamente 3 veces más que sexo femenino.
 Respecto a la edad, hay una gran concentración de fallecidos en el intervalo 20 a 30 años.
 
 2- El rol conductor posee entre 280 a 370 fallecidos por año mientras que peatones y pasajeros son unos 100 fallecidos por año aproximadamente.
-En el analisis del vehículo del difunto con respecto al rol que cumplia en el, se registro altas cantidades de fallecimiento para los conductores de motos y autos.
+En el análisis del vehículo del difunto con respecto al rol que cumplia en el, se registro altas cantidades de fallecimiento para los conductores de motos y autos.
 
 ## <span style="color:#46007b"> Conclusiones
 3- Gran parte de los atropellos a peatones se ocasionan por causa de autos y motos con aproximadamente 25 fallecidos por año.
 
 4- Si bien disminuye hasta el año 2016, la frecuencia absoluta de fallecidos en motos supera a los demás vehículos por 200 o 300%.
-En relación entre vehículo del fallecido y otro posible vehículo involucrado en el siniestro se concluyó que si hay una proporcion alta. Sin embargo se debe tener en cuenta accidentados por si mismo o no registrados ya que son ceranos al 50% para los autos y un 25% para las motos.
+En relación entre vehículo del fallecido y otro posible vehículo involucrado en el siniestro se concluyó que si hay una proporción alta. Sin embargo se debe tener en cuenta accidentados por sí mismo o no registrados ya que son cercanos al 50% para los autos y un 25% para las motos.
 
-5- Hay un disminucion de fallecidos en jurisdicciones nacionales hasta el año 2015, donde creece tal que en el año 2017 supera a los fallecidos en departamentales.
+5- Hay un disminución de fallecidos en jurisdicciones nacionales hasta el año 2015, donde crece tal que en el año 2017 supera a los fallecidos en departamentales.
 
 ## <span style="color:#46007b"> Conclusiones
-6- Existe aproximadamente un 60% de probabilidad de fallecer al instante o no superar las 24 horas en caso de sufrir un accidene fatal, además de un 50% de las mismas son ocasionadas por colisiones entre vehículos.
+6- Existe aproximadamente un 60% de probabilidad de fallecer al instante o no superar las 24 horas en caso de sufrir un accidente fatal, además de un 50% de las mismas son ocasionadas por colisiones entre vehículos.
 
 7- La mayoría de los fallecimientos en siniestros de tránsito ocurren  en la zona metropolitana, conformada por los departamentos de Montevideo, Maldonado, Canelones y San José.
 Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad completamente diferente, con Rivera y Montevideo presentando las tasas más bajas del país.
@@ -592,3 +588,5 @@ Con respecto a las tasas medidas cada 10 mil habitantes se refleja una realidad 
 
 
 <center <font size="50"<span style="color:#46007b">>> **¡MUCHAS GRACIAS!**
+
+
