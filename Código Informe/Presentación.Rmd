@@ -310,36 +310,40 @@ datos %>% filter(vehi== "AUTO" | vehi=="MOTO")%>%
 )
 
 ```
+## Relaciones entre vehículos
 
-
-## Jurisdicción
-
-```{r,echo=F, fig.cap="Gráfica de serie de tiempo: frecuencia absoluta de fallecidos por jurisdicción."}
+```{r,fig.cap="Gráfico de mosaico: proporción de otro posible vehículo involucrado según el vehículo del fallecido."}
 
 ggplotly(
-datos %>% dplyr::count(jur, a) %>%group_by(a) %>% mutate(prop = n / sum(n))  %>%
-  ggplot(
-    aes(
-      a,
-      n,
-      colour=jur)) +
-  geom_point() +
-  geom_line(cex=1.1) +
-  labs(
-    x = "Jurisdicción",
-    y = "Frecuencia absoluta") +
-  guides(colour = guide_legend(title = "Jurisdicción:"))+
-  scale_colour_manual( values = colores) +
-  theme(
-    panel.background = element_rect(fill="white"),
-    axis.title  = element_text(
-      colour = "gray29"),
-    legend.position = "bottom") +
-  coord_cartesian(y=c(0,400))
-)
+  datos %>% dplyr::count(vehi, otro.vehi)  %>% filter(vehi!="PEATON")%>%
+   mutate(otro.vehi = ifelse( otro.vehi == ""," NADA",otro.vehi),
+          vehi = ifelse(vehi!="AUTO" &
+          vehi!="MOTO" &
+          vehi!="PEATON" &
+          vehi!="BICICLETA"  &
+          vehi!="CAMIONETA","OTROS",vehi),
+          otro.vehi = ifelse(n<30,"OTROS",otro.vehi)) %>%
+    group_by(vehi,otro.vehi)%>%
+    summarise(n=sum(n)) %>% arrange(desc(n)) %>%
+    ggplot() +
+    geom_mosaic(aes(
+      weight = n,
+      x = product(abbreviate(vehi,5)),
+      fill = otro.vehi)) +
+    labs(
+      x = "Vehículo del fallecido",
+      y = "Proporción de otro vehículo") +
+    guides(  fill = guide_legend( title = "Otro vehículo")) +
+    scale_fill_manual(
+      values = c("darkseagreen4",colores[3:8])) +
+    theme(
+      panel.background = element_rect(
+        fill="white"),
+      axis.title  = element_text(
+        colour = "gray37")))
 
- 
 ```
+
 
 ## Jurisdicción
 ```{r}
