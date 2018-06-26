@@ -122,7 +122,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
         mainPanel(
           plotOutput("mapa"),
           hr(),
-          p("Dichas tasas corresponden a los fallecidos en siniestros de tránsito cada 10.000 habitantes en cada departamentto del Uruguay")
+          p("Dichas tasas corresponden a los fallecidos en siniestros de tránsito cada 10.000 habitantes en cada departamento del Uruguay")
           
         )
       )
@@ -244,7 +244,6 @@ server <- function(input, output) {
   output$mapa <- renderPlot({
     
     
-    
     if(is.null(input$años)) 
       
     {
@@ -261,13 +260,10 @@ server <- function(input, output) {
     }
     else {
       
-      mapeo(n= (datos %>% filter( a==añosmapaInput()  |
-                                    a==añosmapaInput()  |
-                                    a==añosmapaInput() |
-                                    a==añosmapaInput()  |
-                                    a==añosmapaInput()  |
-                                    a==añosmapaInput() )%>% count(a,dep) %>% arrange(a) %>%
-                  mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000))) ) +
+      n= (datos %>% filter( a %in% añosmapaInput() )%>% count(a,dep) %>% arrange(a) %>%
+         mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000)))
+      
+      mapeo(n) +
         labs(
           fill = "Tasa",
           x = NULL,
@@ -276,13 +272,7 @@ server <- function(input, output) {
           low = "#d8b365",
           mid = "white",
           high = "#5ab4ac",
-          midpoint =  mean((datos %>% filter( a==añosmapaInput()  |
-                                                a==añosmapaInput()  |
-                                                a==añosmapaInput() |
-                                                a==añosmapaInput()  |
-                                                a==añosmapaInput()  |
-                                                a==añosmapaInput() ) %>% count(a,dep) %>% arrange(a) %>% mutate(
-                                                  censo= (rep(censo,(length(table(a)))))) %>% mutate(n=(n/censo)*10000))$n )) +
+          midpoint =  mean(n$n)) +
         facet_wrap( ~ a)
     }
     
@@ -305,9 +295,7 @@ server <- function(input, output) {
   })
   
   
-  añosdensidadInput <- reactive({   input$añosdensidad
-    
-  })
+  añosdensidadInput <- reactive({   input$añosdensidad  })
   
   
   output$densidad <- renderPlotly({
@@ -342,7 +330,7 @@ server <- function(input, output) {
         else
         {
           ggplotly(
-            datos %>% filter(sexo==sexodensidadInput())%>% 
+            datos %>% filter(sexo%in%sexodensidadInput())%>% 
               ggplot(aes(edad)) +
               geom_density(fill = "grey23",
                            alpha = 0.5, 
@@ -388,7 +376,7 @@ server <- function(input, output) {
         else
         {
           ggplotly(
-            datos %>% filter(sexo==sexodensidadInput()) %>% 
+            datos %>% filter(sexo%in% sexodensidadInput()) %>% 
               filter(a==añosdensidadInput())%>% 
               ggplot(aes(edad)) +
               geom_density( 
