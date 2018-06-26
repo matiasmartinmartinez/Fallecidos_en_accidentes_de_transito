@@ -222,11 +222,6 @@ ui <- fluidPage(theme = shinytheme("paper"),
 ################################################################################################
 
 
-
-
-
-
-
                                                                                                                         # SERVER
 
 server <- function(input, output) {
@@ -237,7 +232,7 @@ server <- function(input, output) {
   
   
   
-                                                                                                                                                 #DISTRIBUCIÓN TERRITORIAL
+                                                                                                                         #DISTRIBUCIÓN TERRITORIAL
   
   añosmapaInput <- reactive({input$años})
   
@@ -245,6 +240,7 @@ server <- function(input, output) {
     
     
     if(is.null(input$años)) 
+      #si no marcas ningún año
       
     {
       mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
@@ -258,7 +254,10 @@ server <- function(input, output) {
           high = "#5ab4ac",
           midpoint = mean(pob.dep$tasa))
     }
-    else {
+    
+    else
+      #si elegis al menos un año
+      {
       
       n= (datos %>% filter( a %in% añosmapaInput() )%>% count(a,dep) %>% arrange(a) %>%
          mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000)))
@@ -277,6 +276,7 @@ server <- function(input, output) {
     }
     
   })
+#cierre render
   
   
   
@@ -285,28 +285,28 @@ server <- function(input, output) {
   
   
   
+                                                                                                                                                 #DENSIDAD
   
-                                                                                                                                                                   #DENSIDAD
   
-  sexodensidadInput <- reactive({   
+  #Reactivos:
+  sexodensidadInput <- reactive({ 
     switch(input$sexodensidad,
            "Femenino"= "F",
-           "Masculino" = "M")
-  })
-  
-  
+           "Masculino" = "M")   })
   añosdensidadInput <- reactive({   input$añosdensidad  })
   
+
   
   output$densidad <- renderPlotly({
     
     
-    if(is.null(input$vehiculodensidad))
-      
+    if(is.null( input$vehiculodensidad ))
+      #si no marca vehículo
     {
       if(input$añosdensidad=="Todos")
       {
-        if (input$sexodensidad=="Ambos")      
+        if (input$sexodensidad=="Ambos")
+        
         {  
           ggplotly(
             datos  %>% 
@@ -328,6 +328,7 @@ server <- function(input, output) {
           )
         }
         else
+          #no marcó ambos, decide elegir Masculino o Femenino
         {
           ggplotly(
             datos %>% filter(sexo%in%sexodensidadInput())%>% 
@@ -350,12 +351,15 @@ server <- function(input, output) {
         #if ambos,M,F
       }
       #if añosdensidad=="Todos"
+      
+      
       else
+      #elige un año
       {
         if (input$sexodensidad=="Ambos")
         {
           ggplotly(
-            datos %>% filter(a==añosdensidadInput())%>%
+            datos %>% filter(a %in% añosdensidadInput() )%>%
               ggplot(aes(edad)) +
               geom_density(
                 fill = "grey23",
@@ -374,10 +378,11 @@ server <- function(input, output) {
           )
         }
         else
+       #además de elegir un año, elige sexo F o M
         {
           ggplotly(
-            datos %>% filter(sexo%in% sexodensidadInput()) %>% 
-              filter(a==añosdensidadInput())%>% 
+            datos %>% filter(sexo %in% sexodensidadInput()) %>% 
+              filter(a %in% añosdensidadInput())%>% 
               ggplot(aes(edad)) +
               geom_density( 
                 fill = "grey23", 
@@ -398,14 +403,18 @@ server <- function(input, output) {
       }
       #if añosdensidad=="Todos"
     }
+    
+    
     else  
+    #ELIGE VEHÍCULO
+      
     {
       if(input$añosdensidad=="Todos")
       {
         if (input$sexodensidad=="Ambos")      
         {  
           ggplotly(
-            datos  %>% filter(vehi== input$vehiculodensidad )%>% 
+            datos  %>% filter( vehi == input$vehiculodensidad  )%>% 
               ggplot(aes(edad)) +
               geom_density(
                 aes(fill = vehi), 
@@ -426,8 +435,8 @@ server <- function(input, output) {
         else
         {
           ggplotly(
-            datos %>% filter(sexo==sexodensidadInput()) %>% 
-              filter(vehi== input$vehiculodensidad )%>% 
+            datos %>% filter(  vehi == input$vehiculodensidad) %>% 
+              filter(vehi%in%input$vehiculodensidad )%>% 
               ggplot(aes(edad)) +
               geom_density(
                 aes(fill = vehi), 
@@ -449,12 +458,13 @@ server <- function(input, output) {
       }
       #if añosdensidad=="Todos"
       else
+        #elige vehículo, ambos sexos y un marca al menos un año
       {
         if (input$sexodensidad=="Ambos")
         {
           ggplotly(
-            datos %>% filter(a==añosdensidadInput()) %>%
-              filter(vehi== input$vehiculodensidad ) %>% 
+            datos %>% filter(a %in% añosdensidadInput()) %>%
+              filter(  vehi == input$vehiculodensidad) %>% 
               ggplot(aes(edad)) +
               geom_density(         
                 aes(fill = vehi), 
@@ -473,10 +483,12 @@ server <- function(input, output) {
               scale_fill_manual (values=colores))
         }
         else
+          #Elige vehículo, Femenino o Maculino, y un marca al menos un año.
         {
           ggplotly(
-            datos %>% filter(sexo==sexodensidadInput()) %>% 
-              filter(a==añosdensidadInput())%>% filter(vehi== input$vehiculodensidad )%>% 
+            datos %>% filter(  sexo %in%sexodensidadInput() ) %>% 
+              filter(  a %in% añosdensidadInput()  )%>% 
+              filter( vehi == input$vehiculodensidad )%>% 
               ggplot(aes(edad)) +
               geom_density(
                 aes(fill = vehi), 
@@ -504,11 +516,11 @@ server <- function(input, output) {
   
   
   
-                                                                                                                                                                   #MOSAICOS
+                                                                                                                                          #MOSAICOS
   
-                                                                                                                                                                                #PLOT 1
+                                                                                                                                                                #PLOT 1
   añosmosaicoInput <- reactive({input$añosmosaico})
-  
+
   
   output$rol <- renderPlotly({
     if (input$variablemosaico=="Sexo")
@@ -1155,7 +1167,7 @@ server <- function(input, output) {
             aes(
               as_date(a.mes),
               n,
-              colour=jur
+              colour=jurº
             ) ) + 
           geom_smooth(
             method = "loess",
