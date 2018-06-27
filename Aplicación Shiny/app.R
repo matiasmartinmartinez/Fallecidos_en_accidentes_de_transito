@@ -1,7 +1,7 @@
 
 #A continuación se cargan paquetes y datos a utilizar, además se genera una paleta de colores elegida arbitariamente.
 
-      #Función que instala y carga paquetes necesarios para correr el código.
+#Función que instala y carga paquetes necesarios para correr el código.
 
 ipack <- function( pkg ) {
   new.pkg <-  pkg[ ! (pkg %in% installed.packages()[, "Package"]) ]
@@ -13,19 +13,19 @@ ipack <- function( pkg ) {
 paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny","shinythemes", "ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate", "devtools","grid", "gridExtra")
 ipack(paquetes.a.utilizar)
 
-      #Datos a utilizar
+#Datos a utilizar
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
-      #Paleta
+#Paleta
 colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
            "khaki3", "thistle4", "lightsteelblue","grey80")
 
-      #Se cargan polígonos y coordenadas pertenecientes al territorio uruguayo, delimitados por departamentos.
+#Se cargan polígonos y coordenadas pertenecientes al territorio uruguayo, delimitados por departamentos.
 uruguay <- getData("GADM", country = "UY", level = 0)
 uruguay_states <- getData("GADM", country = "UY", level = 1)
 uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
 NAME_1 <- uystates_UTM@data$NAME_1
 
-      # Función mapa
+# Función mapa
 mapeo<-  function(n) 
 {
   
@@ -65,16 +65,16 @@ mapeo<-  function(n)
     theme_opts
 }
 
-      #Población por departamento para el año más reciente. Censo 2011, fuente: INE.
+#Población por departamento para el año más reciente. Censo 2011, fuente: INE.
 censo<- c(73378,520187,84698,123203,57088,
           25050,67048,58815,164300,1319108,   
           113124,54765,103493,68088,124878,
           108309,82595,90053,48134)
 
-    # Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
+# Tasa de fallecidos en accidentes de tránsito cada 10.000 habitantes.
 pob.dep<- cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% mutate(tasa=(n/censo)*10000)
 
-      #Cargar fechas
+#Cargar fechas
 fecha<- datos %>% separate( fecha,c("dia","mes") ) %>%
   mutate( f.h= paste( paste(a,mes,dia,sep="-") , hora ) ) %>%
   mutate( f.h= as.POSIXct(f.h, format="%Y-%m-%d %H:%M:%S",tz="GMT"))%>%
@@ -95,121 +95,121 @@ f<- data.frame(fecha,n.dia)
 
 
 
-                                                                                                                        #UI
+#UI
 
 ui <- fluidPage(theme = shinytheme("paper"),
-  
-  
-  titlePanel( h1("Siniestros fatales de tránsito en Uruguay, 2013-2017")),
-  
-  tabsetPanel(
-    
-    
-                                                                                                                                           #DISTRIBUCIÓN TERRITORIAL
-    tabPanel(
-      title = h6("Distribución territorial"),
-      hr(),
-      
-      sidebarLayout(
-        
-        sidebarPanel(
-          
-          checkboxGroupInput("años", "Elegir Año:",
-                             choices = c("2013", "2014", "2015", "2016","2017"))
-        ),
-        
-        
-        mainPanel(
-          plotOutput("mapa"),
-          hr(),
-          p("Dichas tasas corresponden a los fallecidos en siniestros de tránsito cada 10.000 habitantes en cada departamento del Uruguay")
-          
-        )
-      )
-    ),  
-    
-    
-    
-                                                                                                                                               #DENSIDAD UI
-    
-    tabPanel(
-      title = h6("Densidad según vehículo"),
-      hr(),
-      
-      sidebarLayout(
-        
-        sidebarPanel(
-          
-          selectInput("sexodensidad", "Sexo:",
-                      choices = c("Ambos", "Femenino", "Masculino")),
-          
-          selectInput("añosdensidad", "Elegir año:",
-                      choices = c("Todos","2017", "2016", "2015", "2014","2013")),
-          
-          checkboxGroupInput("vehiculodensidad", "Vehículo:",
-                             choiceNames = c("Auto","Bicicleta","Camioneta" ,"Moto", "Peatón"),
-                             choiceValues =  c("AUTO", "BICICLETA", "CAMIONETA", "MOTO","PEATON"))
-          
-        ),
-        mainPanel(   
-          plotlyOutput("densidad")
-        )
-      )
-    ),
-                                                                                                                                               #MOSAICOs UI
-    
-    tabPanel(
-      title = h6("Mosaicos"),
-      hr(),
-      
-      sidebarLayout(
-        
-        sidebarPanel(
-          
-          selectInput("variablemosaico", "Variable:",
-                      choices = c("Sexo","Rol", "Jurisdicción")),
-          
-          checkboxGroupInput("añosmosaico", "Elegir Año:",
-                             choices = c("2013", "2014", "2015", "2016","2017"))
-          
-          
-        ),
-        mainPanel( 
-          p("A continuación puede visualizar la proporción de fallecidos según vehículo del mismo."),
-          plotlyOutput("rol"),
-          hr(),
-          hr(),
-          hr(),
-          p("En tanto, el siguiente gráfico muestra la proporción de fallecidos según la existencia o no de otro posible involucrado."),
-          plotlyOutput("involucrado"),
-          br()
-          
-        )
-      )
-    ),
-    
-    
-                                                                                                                                                #SERIES DE TIEMPO UI
-    tabPanel(
-      title = h6("Series de tiempo"),
-      sidebarLayout(
-        
-        
-        sidebarPanel(
-          
-          selectInput("fallecidos", "Fallecidos:",
-                      choices = c("Total", "Sexo", "Rol","Jurisdicción")),
-          selectInput("intervalo", "Intervalo:",
-                      choices = c("1 mes","3 mes", "6 meses", "1 año")),
-          checkboxInput("error", "Error", TRUE),
-          checkboxInput("puntoylinea", "Punto y línea", TRUE)
-        ),
-        mainPanel(
-          plotOutput("fecha")
-          
-        )
-      )
-    )))
+                
+                
+                titlePanel( h1("Siniestros fatales de tránsito en Uruguay, 2013-2017")),
+                
+                tabsetPanel(
+                  
+                  
+                  #DISTRIBUCIÓN TERRITORIAL
+                  tabPanel(
+                    title = h6("Distribución territorial"),
+                    hr(),
+                    
+                    sidebarLayout(
+                      
+                      sidebarPanel(
+                        
+                        checkboxGroupInput("años", "Elegir Año:",
+                                           choices = c("2013", "2014", "2015", "2016","2017"))
+                      ),
+                      
+                      
+                      mainPanel(
+                        plotOutput("mapa"),
+                        hr(),
+                        p("Dichas tasas corresponden a los fallecidos en siniestros de tránsito cada 10.000 habitantes en cada departamento del Uruguay")
+                        
+                      )
+                    )
+                  ),  
+                  
+                  
+                  
+                  #DENSIDAD UI
+                  
+                  tabPanel(
+                    title = h6("Densidad según vehículo"),
+                    hr(),
+                    
+                    sidebarLayout(
+                      
+                      sidebarPanel(
+                        
+                        selectInput("sexodensidad", "Sexo:",
+                                    choices = c("Ambos", "Femenino", "Masculino")),
+                        
+                        selectInput("añosdensidad", "Elegir año:",
+                                    choices = c("Todos","2017", "2016", "2015", "2014","2013")),
+                        
+                        checkboxGroupInput("vehiculodensidad", "Vehículo:",
+                                           choiceNames = c("Auto","Bicicleta","Camioneta" ,"Moto", "Peatón"),
+                                           choiceValues =  c("AUTO", "BICICLETA", "CAMIONETA", "MOTO","PEATON"))
+                        
+                      ),
+                      mainPanel(   
+                        plotlyOutput("densidad")
+                      )
+                    )
+                  ),
+                  #MOSAICOs UI
+                  
+                  tabPanel(
+                    title = h6("Mosaicos"),
+                    hr(),
+                    
+                    sidebarLayout(
+                      
+                      sidebarPanel(
+                        
+                        selectInput("variablemosaico", "Variable:",
+                                    choices = c("Sexo","Rol", "Jurisdicción")),
+                        
+                        checkboxGroupInput("añosmosaico", "Elegir Año:",
+                                           choices = c("2013", "2014", "2015", "2016","2017"))
+                        
+                        
+                      ),
+                      mainPanel( 
+                        p("A continuación puede visualizar la proporción de fallecidos según vehículo del mismo."),
+                        plotlyOutput("rol"),
+                        hr(),
+                        hr(),
+                        hr(),
+                        p("En tanto, el siguiente gráfico muestra la proporción de fallecidos según la existencia o no de otro posible involucrado."),
+                        plotlyOutput("involucrado"),
+                        br()
+                        
+                      )
+                    )
+                  ),
+                  
+                  
+                  #SERIES DE TIEMPO UI
+                  tabPanel(
+                    title = h6("Series de tiempo"),
+                    sidebarLayout(
+                      
+                      
+                      sidebarPanel(
+                        
+                        selectInput("fallecidos", "Fallecidos:",
+                                    choices = c("Total", "Sexo", "Rol","Jurisdicción")),
+                        selectInput("intervalo", "Intervalo:",
+                                    choices = c("1 mes","3 mes", "6 meses")),
+                        checkboxInput("error", "Error", TRUE),
+                        checkboxInput("puntoylinea", "Punto y línea", TRUE)
+                      ),
+                      mainPanel(
+                        plotOutput("fecha")
+                        
+                      )
+                    )
+                  )))
 
 
 
@@ -222,7 +222,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
 ################################################################################################
 
 
-                                                                                                                        # SERVER
+# SERVER
 
 server <- function(input, output) {
   
@@ -232,7 +232,7 @@ server <- function(input, output) {
   
   
   
-                                                                                                                         #DISTRIBUCIÓN TERRITORIAL
+  #DISTRIBUCIÓN TERRITORIAL
   
   añosmapaInput <- reactive({input$años})
   
@@ -257,10 +257,10 @@ server <- function(input, output) {
     
     else
       #si elegis al menos un año
-      {
+    {
       
       n= (datos %>% filter( a %in% añosmapaInput() )%>% count(a,dep) %>% arrange(a) %>%
-         mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000)))
+            mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000)))
       
       mapeo(n) +
         labs(
@@ -276,7 +276,7 @@ server <- function(input, output) {
     }
     
   })
-#cierre render
+  #cierre render
   
   
   
@@ -285,7 +285,7 @@ server <- function(input, output) {
   
   
   
-                                                                                                                                                 #DENSIDAD
+  #DENSIDAD
   
   
   #Reactivos:
@@ -295,7 +295,7 @@ server <- function(input, output) {
            "Masculino" = "M")   })
   añosdensidadInput <- reactive({   input$añosdensidad  })
   
-
+  
   
   output$densidad <- renderPlotly({
     
@@ -306,7 +306,7 @@ server <- function(input, output) {
       if(input$añosdensidad=="Todos")
       {
         if (input$sexodensidad=="Ambos")
-        
+          
         {  
           ggplotly(
             datos  %>% 
@@ -354,7 +354,7 @@ server <- function(input, output) {
       
       
       else
-      #elige un año
+        #elige un año
       {
         if (input$sexodensidad=="Ambos")
         {
@@ -378,7 +378,7 @@ server <- function(input, output) {
           )
         }
         else
-       #además de elegir un año, elige sexo F o M
+          #además de elegir un año, elige sexo F o M
         {
           ggplotly(
             datos %>% filter(sexo %in% sexodensidadInput()) %>% 
@@ -406,7 +406,7 @@ server <- function(input, output) {
     
     
     else  
-    #ELIGE VEHÍCULO
+      #ELIGE VEHÍCULO
       
     {
       if(input$añosdensidad=="Todos")
@@ -516,11 +516,11 @@ server <- function(input, output) {
   
   
   
-                                                                                                                                          #MOSAICOS
+  #MOSAICOS
   
-                                                                                                                                                                #PLOT 1
+  #PLOT 1
   añosmosaicoInput <- reactive({input$añosmosaico})
-
+  
   
   output$rol <- renderPlotly({
     if (input$variablemosaico=="Sexo")
@@ -720,134 +720,134 @@ server <- function(input, output) {
     
   })
   
-                                                                                                                                                                                #PLOT 2
+  #PLOT 2
   output$involucrado <- renderPlotly({
     if (is.null(añosmosaicoInput())) 
     {
-    if (input$variablemosaico=="Sexo") 
+      if (input$variablemosaico=="Sexo") 
       {
-      ggplotly(
-        datos  %>%dplyr::count(involucrado, sexo) %>%
-        ggplot() +
-        geom_mosaic(aes(
-          weight = n,
-          x = product(sexo),
-          fill = involucrado),
-          alpha=0.5) +
-        labs(
-          x = "Sexo",
-          y = "Proporción involucrado") +
-        theme(
-          panel.background = element_rect(
-            fill="white"),
-          plot.title = element_text(
-            size = 16,
-            face = "italic",
-            colour = "grey20",
-            vjust = -2),
-          axis.title = element_text(
-            size=12,
-            colour="grey20")) +
-        scale_fill_manual(
-          values = colores) +
-        guides(
-          fill= guide_legend("Involucrado"))
-      )
+        ggplotly(
+          datos  %>%dplyr::count(involucrado, sexo) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product(sexo),
+              fill = involucrado),
+              alpha=0.5) +
+            labs(
+              x = "Sexo",
+              y = "Proporción involucrado") +
+            theme(
+              panel.background = element_rect(
+                fill="white"),
+              plot.title = element_text(
+                size = 16,
+                face = "italic",
+                colour = "grey20",
+                vjust = -2),
+              axis.title = element_text(
+                size=12,
+                colour="grey20")) +
+            scale_fill_manual(
+              values = colores) +
+            guides(
+              fill= guide_legend("Involucrado"))
+        )
       }
-    else if (input$variablemosaico=="Rol")
-    {
-      ggplotly(
-        datos %>%dplyr::count(involucrado, rol) %>%
-          ggplot() +
-          geom_mosaic(aes(
-            weight = n,
-            x = product(rol),
-            fill = involucrado),
-            alpha=0.5) +
-          labs(
-            x = "Rol",
-            y = "Proporción involucrado") +
-          theme(
-            panel.background = element_rect(
-              fill="white"),
-            plot.title = element_text(
-              size = 16,
-              face = "italic",
-              colour = "grey20",
-              vjust = -2),
-            axis.title = element_text(
-              size=12,
-              colour="grey20")) +
-          scale_fill_manual(
-            values = colores) +
-          guides(
-            fill= guide_legend("Involucrado"))
-      ) 
-    }
-    else if (input$variablemosaico=="Jurisdicción")
-    {
-      ggplotly(
-        datos %>%dplyr::count(involucrado, jur) %>%
-          ggplot() +
-          geom_mosaic(aes(
-            weight = n,
-            x = product(jur),
-            fill = involucrado),
-            alpha=0.5) +
-          labs(
-            x = "Jurisdicción",
-            y = "Proporción involucrado") +
-          theme(
-            panel.background = element_rect(
-              fill="white"),
-            plot.title = element_text(
-              size = 16,
-              face = "italic",
-              colour = "grey20",
-              vjust = -2),
-            axis.title = element_text(
-              size=12,
-              colour="grey20")) +
-          scale_fill_manual(
-            values = colores) +
-          guides(
-            fill= guide_legend("Involucrado"))
-      ) 
-    }
+      else if (input$variablemosaico=="Rol")
+      {
+        ggplotly(
+          datos %>%dplyr::count(involucrado, rol) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product(rol),
+              fill = involucrado),
+              alpha=0.5) +
+            labs(
+              x = "Rol",
+              y = "Proporción involucrado") +
+            theme(
+              panel.background = element_rect(
+                fill="white"),
+              plot.title = element_text(
+                size = 16,
+                face = "italic",
+                colour = "grey20",
+                vjust = -2),
+              axis.title = element_text(
+                size=12,
+                colour="grey20")) +
+            scale_fill_manual(
+              values = colores) +
+            guides(
+              fill= guide_legend("Involucrado"))
+        ) 
+      }
+      else if (input$variablemosaico=="Jurisdicción")
+      {
+        ggplotly(
+          datos %>%dplyr::count(involucrado, jur) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product(jur),
+              fill = involucrado),
+              alpha=0.5) +
+            labs(
+              x = "Jurisdicción",
+              y = "Proporción involucrado") +
+            theme(
+              panel.background = element_rect(
+                fill="white"),
+              plot.title = element_text(
+                size = 16,
+                face = "italic",
+                colour = "grey20",
+                vjust = -2),
+              axis.title = element_text(
+                size=12,
+                colour="grey20")) +
+            scale_fill_manual(
+              values = colores) +
+            guides(
+              fill= guide_legend("Involucrado"))
+        ) 
+      }
     }
     else
       
     {
       if (input$variablemosaico=="Sexo") 
-    {
-      ggplotly(
-        datos %>% filter(a== añosmosaicoInput()) %>%dplyr::count(involucrado, sexo) %>%
-          ggplot() +
-          geom_mosaic(aes(
-            weight = n,
-            x = product(sexo),
-            fill = involucrado),
-            alpha=0.5) +
-          labs(
-            x = "Sexo",
-            y = "Proporción involucrado") +
-          theme(
-            panel.background = element_rect(
-              fill="white"),
-            plot.title = element_text(
-              size = 16,
-              face = "italic",
-              colour = "grey20",
-              vjust = -2),
-            axis.title = element_text(
-              size=12,
-              colour="grey20")) +
-          scale_fill_manual(
-            values = colores) +
-          guides(
-            fill= guide_legend("Involucrado"))
-      )
-    }
+      {
+        ggplotly(
+          datos %>% filter(a== añosmosaicoInput()) %>%dplyr::count(involucrado, sexo) %>%
+            ggplot() +
+            geom_mosaic(aes(
+              weight = n,
+              x = product(sexo),
+              fill = involucrado),
+              alpha=0.5) +
+            labs(
+              x = "Sexo",
+              y = "Proporción involucrado") +
+            theme(
+              panel.background = element_rect(
+                fill="white"),
+              plot.title = element_text(
+                size = 16,
+                face = "italic",
+                colour = "grey20",
+                vjust = -2),
+              axis.title = element_text(
+                size=12,
+                colour="grey20")) +
+            scale_fill_manual(
+              values = colores) +
+            guides(
+              fill= guide_legend("Involucrado"))
+        )
+      }
       else if (input$variablemosaico=="Rol")
       {
         ggplotly(
@@ -908,7 +908,7 @@ server <- function(input, output) {
               fill= guide_legend("Involucrado"))
         ) 
       }
-      }
+    }
     
     
     
@@ -923,18 +923,20 @@ server <- function(input, output) {
   
   
   
-                                                                                                                                                           #SERIES DE TIEMPO
+  #SERIES DE TIEMPO
   
   intervaloInput <- reactive({
     switch(input$intervalo,
            "1 mes"= "1 month",
            "3 mes"= "3 months",
-           "6 meses" = "6 months",
-           "1 año" = "1 year")
-    
-  })
+           "6 meses" = "6 months"
+           )
+    })
   
   output$fecha <- renderPlot({
+    
+    
+    
     
     if(input$fallecidos=="Total")
     {
@@ -1162,7 +1164,7 @@ server <- function(input, output) {
           scale_color_manual(values=colores)}
       else {  
         data.frame(datos,f) %>%
-          count(jur, a.mes=    floor_date(f.h, intervaloInput()))  %>%
+          count(jur, a.mes=    floor_date(f.h, intervaloInput() ))  %>%
           ggplot( 
             aes(
               as_date(a.mes),
@@ -1190,6 +1192,7 @@ server <- function(input, output) {
           scale_color_manual(values=colores)}
       
     }
+    
     
   })
   
