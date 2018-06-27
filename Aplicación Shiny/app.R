@@ -222,11 +222,13 @@ ui <- fluidPage(theme = shinytheme("paper"),
                         
                         selectInput("sexofechayhora", "Sexo:",
                                     choices = c("Ambos", "Femenino", "Masculino")),
+                        sliderInput("sdias", "Días de supervivencia:",
+                                    min = 1, max = 30, value = 30 ),
                         
                         checkboxGroupInput("añosfechayhora", "Elegir año:",
                                            choices = c("2017", "2016", "2015", "2014","2013"))
-                        
-                        
+                   
+                      
                         
                       ),
                       mainPanel(
@@ -1523,21 +1525,23 @@ server <- function(input, output) {
   
   añosfechayhora<- reactive({input$añosfechayhora})
   
+  
   sexofechayhoraInput<- reactive({
     switch (input$sexofechayhora,
             "Ambos"=data.frame(datos,f),
             "Femenino"= data.frame(datos,f) %>% filter(sexo=="F"),
             "Masculino"=data.frame(datos,f) %>% filter(sexo=="M")  )
   })
+
   
   output$tilefechayhora <- renderPlot({
-    
-    
+     
+
     if(is.null(añosfechayhora()))
       #no marca año
     {
       
-      sexofechayhoraInput() %>% count(n.dia, hrs= format(f.h,"%H")) %>%
+      sexofechayhoraInput() %>% filter(f.dias<=input$sdias) %>%  count(n.dia, hrs= format(f.h,"%H")) %>%
         ggplot(aes(hrs, ordered(
           n.dia,
           levels = c( "lunes",  "martes",  "miércoles",
@@ -1566,7 +1570,7 @@ server <- function(input, output) {
     else
       #marca al menos un año
     {
-      sexofechayhoraInput() %>% filter(a%in%añosfechayhora() )%>% count(n.dia, hrs= format(f.h,"%H")) %>%
+      sexofechayhoraInput() %>% filter(a%in%añosfechayhora() )%>% filter(f.dias<=input$sdias) %>% count(n.dia, hrs= format(f.h,"%H")) %>%
         ggplot(aes(hrs, ordered(
           n.dia,
           levels = c( "lunes",  "martes",  "miércoles",
