@@ -1172,7 +1172,7 @@ server <- function(input, output) {
               aes(
                 as_date(a.mes),
                 n,
-                colour=jurº
+                colour=jur
               ) ) + 
             geom_smooth(
               method = "loess",
@@ -1455,7 +1455,7 @@ server <- function(input, output) {
             aes(
               as_date(a.mes),
               n,
-              colour=jurº
+              colour=jur
             ) ) + 
           geom_smooth(
             method = "loess",
