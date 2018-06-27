@@ -210,7 +210,39 @@ ui <- fluidPage(theme = shinytheme("paper"),
                         
                       )
                     )
-                  )))
+                  ),
+                  
+                  #                  #FECHA Y HORA
+                  tabPanel(
+                    title = h6("Fecha y hora"),
+                    sidebarLayout(
+                      
+                      
+                      sidebarPanel(
+                        
+                        selectInput("sexofechayhora", "Sexo:",
+                                    choices = c("Ambos", "Femenino", "Masculino")),
+                        
+                        checkboxGroupInput("añosfechayhora", "Elegir año:",
+                                           choices = c("2017", "2016", "2015", "2014","2013"))
+                        
+                        
+                        
+                      ),
+                      mainPanel(
+                        hr(),
+                        plotOutput("tilefechayhora"),
+                        hr(),
+                        p("Indica la frecuencia absoluta de fallecidos según día de la semana y hora del accidente.")
+                      
+                        
+                      )
+                    )
+                  )
+                  
+                  
+                  
+                ))
 
 
 
@@ -931,8 +963,8 @@ server <- function(input, output) {
            "1 mes"= "1 month",
            "3 mes"= "3 months",
            "6 meses" = "6 months"
-           )
-    })
+    )
+  })
   
   output$fecha <- renderPlot({
     
@@ -1206,285 +1238,367 @@ server <- function(input, output) {
       #MARCA ZOOM
       
     {
-    
-    
-    
-    if(input$fallecidos=="Total")
-    {
-      if(input$puntoylinea==T) {
+      
+      
+      
+      if(input$fallecidos=="Total")
+      {
+        if(input$puntoylinea==T) {
+          
+          data.frame(datos,f) %>%
+            count( a.mes=    floor_date(f.h, intervaloInput()))  %>%
+            ggplot( 
+              aes(
+                as_date(a.mes),
+                n
+              ) ) +geom_point()+   
+            geom_line(
+              stat="identity")+
+            geom_smooth(
+              method = "loess",
+              se=input$error,
+              cex=1.4)+
+            labs(
+              x = "Año",
+              y = "Frecuencia absoluta de fallecidos") +
+            theme_minimal() +
+            theme(
+              axis.title = element_text(
+                colour="grey30", 
+                size=12),
+              axis.text =element_text(
+                colour = "grey27",
+                size=9)       )  +
+            scale_x_date( 
+              date_labels =("%Y"),
+              date_breaks = "1 year" )+
+            scale_color_manual(values=colores) +
+            coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
+                                             count( a.mes=    floor_date(f.h, intervaloInput())))$n )))}
         
-        data.frame(datos,f) %>%
-          count( a.mes=    floor_date(f.h, intervaloInput()))  %>%
-          ggplot( 
-            aes(
-              as_date(a.mes),
-              n
-            ) ) +geom_point()+   
-          geom_line(
-            stat="identity")+
-          geom_smooth(
-            method = "loess",
-            se=input$error,
-            cex=1.4)+
-          labs(
-            x = "Año",
-            y = "Frecuencia absoluta de fallecidos") +
-          theme_minimal() +
-          theme(
-            axis.title = element_text(
-              colour="grey30", 
-              size=12),
-            axis.text =element_text(
-              colour = "grey27",
-              size=9)       )  +
-          scale_x_date( 
-            date_labels =("%Y"),
-            date_breaks = "1 year" )+
-          scale_color_manual(values=colores) +
-          coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
-                                  count( a.mes=    floor_date(f.h, intervaloInput())))$n )))}
-      
-      else {  data.frame(datos,f) %>%
-          count( a.mes=    floor_date(f.h, intervaloInput()))  %>%
-          ggplot( 
-            aes(
-              as_date(a.mes),
-              n
-            ) ) +
-          geom_smooth(
-            method = "loess",
-            se=input$error,
-            cex=1.4)+
-          labs(
-            x = "Año",
-            y = "Frecuencia absoluta de fallecidos") +
-          theme_minimal() +
-          theme(
-            axis.title = element_text(
-              colour="grey30", 
-              size=12),
-            axis.text =element_text(
-              colour = "grey27",
-              size=9)       )  +
-          scale_x_date( 
-            date_labels =("%Y"),
-            date_breaks = "1 year" )+
-          scale_color_manual(values=colores)+
-          coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
-                                  count( a.mes=    floor_date(f.h, intervaloInput())) )$n )))  }
-      
-      
-    } 
-    
-    else if(input$fallecidos=="Sexo"){
-      
-      if(input$puntoylinea==T) {
+        else {  data.frame(datos,f) %>%
+            count( a.mes=    floor_date(f.h, intervaloInput()))  %>%
+            ggplot( 
+              aes(
+                as_date(a.mes),
+                n
+              ) ) +
+            geom_smooth(
+              method = "loess",
+              se=input$error,
+              cex=1.4)+
+            labs(
+              x = "Año",
+              y = "Frecuencia absoluta de fallecidos") +
+            theme_minimal() +
+            theme(
+              axis.title = element_text(
+                colour="grey30", 
+                size=12),
+              axis.text =element_text(
+                colour = "grey27",
+                size=9)       )  +
+            scale_x_date( 
+              date_labels =("%Y"),
+              date_breaks = "1 year" )+
+            scale_color_manual(values=colores)+
+            coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
+                                             count( a.mes=    floor_date(f.h, intervaloInput())) )$n )))  }
         
-        data.frame(datos,f) %>%
-          count(sexo, a.mes=    floor_date(f.h, intervaloInput()))  %>%
-          ggplot( 
-            aes(
-              as_date(a.mes),
-              n,
-              colour=sexo
-            ) ) + 
-          geom_point()  + 
-          geom_line(
-            stat="identity")+ 
-          geom_smooth(
-            method = "loess",
-            se=input$error,
-            cex=1.4)+
-          labs(
-            x = "Año",
-            y = "Frecuencia absoluta de fallecidos") +
-          theme_minimal() +
-          theme(
-            axis.title = element_text(
-              colour="grey30", 
-              size=12),
-            axis.text =element_text(
-              colour = "grey27",
-              size=9)       )  +
-          scale_x_date( 
-            date_labels =("%Y"),
-            date_breaks = "1 year" )+
-          coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
-                                  count(sexo, a.mes=    floor_date(f.h, intervaloInput())))$n )) ) }
-      
-      else {
-        data.frame(datos,f) %>%
-          count(sexo, a.mes=    floor_date(f.h, intervaloInput()))  %>%
-          ggplot( 
-            aes(
-              as_date(a.mes),
-              n,
-              colour=sexo
-            ) ) + 
-          geom_smooth(
-            method = "loess",
-            se=input$error,
-            cex=1.4)+
-          labs(
-            x = "Año",
-            y = "Frecuencia absoluta de fallecidos") +
-          theme_minimal() +
-          theme(
-            axis.title = element_text(
-              colour="grey30", 
-              size=12),
-            axis.text =element_text(
-              colour = "grey27",
-              size=9)       )  +
-          scale_x_date( 
-            date_labels =("%Y"),
-            date_breaks = "1 year" )+
-          coord_cartesian(ylim=c(0,max((data.frame(datos,f) %>%
-                                 count(sexo, a.mes=    floor_date(f.h, intervaloInput())) )$n)) )}
-      
-      
-    }
-    else if(input$fallecidos=="Rol"){
-      
-      if(input$puntoylinea==T) {
         
-        data.frame(datos,f) %>%
-          count(rol, a.mes=    floor_date(f.h, intervaloInput()))  %>%
-          ggplot( 
-            aes(
-              as_date(a.mes),
-              n,
-              colour=rol
-            ) ) + 
-          geom_point()  + 
-          geom_line(
-            stat="identity")+ 
-          geom_smooth(
-            method = "loess",
-            se=input$error,
-            cex=1.4)+
-          labs(
-            x = "Año",
-            y = "Frecuencia absoluta de fallecidos") +
-          theme_minimal() +
-          theme(
-            axis.title = element_text(
-              colour="grey30", 
-              size=12),
-            axis.text =element_text(
-              colour = "grey27",
-              size=9)       )  +
-          scale_x_date( 
-            date_labels =("%Y"),
-            date_breaks = "1 year" ) +
-          scale_color_manual(values=colores) +
-          coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
-                                           count(rol, a.mes=    floor_date(f.h, intervaloInput())))$n)))}
+      } 
       
-      else {   data.frame(datos,f) %>%
-          count(rol, a.mes=    floor_date(f.h, intervaloInput()))  %>%
-          ggplot( 
-            aes(
-              as_date(a.mes),
-              n,
-              colour=rol
-            ) ) + 
-          geom_smooth(
-            method = "loess",
-            se=input$error,
-            cex=1.4)+
-          labs(
-            x = "Año",
-            y = "Frecuencia absoluta de fallecidos") +
-          theme_minimal() +
-          theme(
-            axis.title = element_text(
-              colour="grey30", 
-              size=12),
-            axis.text =element_text(
-              colour = "grey27",
-              size=9)       )  +
-          scale_x_date( 
-            date_labels =("%Y"),
-            date_breaks = "1 year" ) +
-          scale_color_manual(values=colores)+
-          coord_cartesian(ylim=c(0,max( ( data.frame(datos,f) %>%
-                                            count(rol, a.mes=    floor_date(f.h, intervaloInput())))$n)))}
-      
-    }
-    else if(input$fallecidos=="Jurisdicción"){
-      
-      if(input$puntoylinea==T) {
+      else if(input$fallecidos=="Sexo"){
         
-        data.frame(datos,f) %>%
-          count(jur, a.mes=    floor_date(f.h, intervaloInput()))  %>%
-          ggplot( 
-            aes(
-              as_date(a.mes),
-              n,
-              colour=jur
-            ) ) + 
-          geom_point()  + 
-          geom_line(
-            stat="identity")+ 
-          geom_smooth(
-            method = "loess",
-            se=input$error,
-            cex=1.4)+
-          labs(
-            x = "Año",
-            y = "Frecuencia absoluta de fallecidos") +
-          theme_minimal() +
-          theme(
-            axis.title = element_text(
-              colour="grey30", 
-              size=12),
-            axis.text =element_text(
-              colour = "grey27",
-              size=9)       )  +
-          scale_x_date( 
-            date_labels =("%Y"),
-            date_breaks = "1 year" )+
-          scale_color_manual(values=colores)+
-          coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
-                                           count(jur, a.mes=    floor_date(f.h, intervaloInput())) )$n )))}
-      else {  
-        data.frame(datos,f) %>%
-          count(jur, a.mes=    floor_date(f.h, intervaloInput() ))  %>%
-          ggplot( 
-            aes(
-              as_date(a.mes),
-              n,
-              colour=jur
-            ) ) + 
-          geom_smooth(
-            method = "loess",
-            se=input$error,
-            cex=1.4)+
-          labs(
-            x = "Año",
-            y = "Frecuencia absoluta de fallecidos") +
-          theme_minimal() +
-          theme(
-            axis.title = element_text(
-              colour="grey30", 
-              size=12),
-            axis.text =element_text(
-              colour = "grey27",
-              size=9)       )  +
-          scale_x_date( 
-            date_labels =("%Y"),
-            date_breaks = "1 year" ) +
-          scale_color_manual(values=colores)+
-          coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
-                                           count(jur, a.mes=    floor_date(f.h, intervaloInput() )) )$n)))}
-      
-    }
+        if(input$puntoylinea==T) {
+          
+          data.frame(datos,f) %>%
+            count(sexo, a.mes=    floor_date(f.h, intervaloInput()))  %>%
+            ggplot( 
+              aes(
+                as_date(a.mes),
+                n,
+                colour=sexo
+              ) ) + 
+            geom_point()  + 
+            geom_line(
+              stat="identity")+ 
+            geom_smooth(
+              method = "loess",
+              se=input$error,
+              cex=1.4)+
+            labs(
+              x = "Año",
+              y = "Frecuencia absoluta de fallecidos") +
+            theme_minimal() +
+            theme(
+              axis.title = element_text(
+                colour="grey30", 
+                size=12),
+              axis.text =element_text(
+                colour = "grey27",
+                size=9)       )  +
+            scale_x_date( 
+              date_labels =("%Y"),
+              date_breaks = "1 year" )+
+            coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
+                                             count(sexo, a.mes=    floor_date(f.h, intervaloInput())))$n )) ) }
+        
+        else {
+          data.frame(datos,f) %>%
+            count(sexo, a.mes=    floor_date(f.h, intervaloInput()))  %>%
+            ggplot( 
+              aes(
+                as_date(a.mes),
+                n,
+                colour=sexo
+              ) ) + 
+            geom_smooth(
+              method = "loess",
+              se=input$error,
+              cex=1.4)+
+            labs(
+              x = "Año",
+              y = "Frecuencia absoluta de fallecidos") +
+            theme_minimal() +
+            theme(
+              axis.title = element_text(
+                colour="grey30", 
+                size=12),
+              axis.text =element_text(
+                colour = "grey27",
+                size=9)       )  +
+            scale_x_date( 
+              date_labels =("%Y"),
+              date_breaks = "1 year" )+
+            coord_cartesian(ylim=c(0,max((data.frame(datos,f) %>%
+                                            count(sexo, a.mes=    floor_date(f.h, intervaloInput())) )$n)) )}
+        
+        
+      }
+      else if(input$fallecidos=="Rol"){
+        
+        if(input$puntoylinea==T) {
+          
+          data.frame(datos,f) %>%
+            count(rol, a.mes=    floor_date(f.h, intervaloInput()))  %>%
+            ggplot( 
+              aes(
+                as_date(a.mes),
+                n,
+                colour=rol
+              ) ) + 
+            geom_point()  + 
+            geom_line(
+              stat="identity")+ 
+            geom_smooth(
+              method = "loess",
+              se=input$error,
+              cex=1.4)+
+            labs(
+              x = "Año",
+              y = "Frecuencia absoluta de fallecidos") +
+            theme_minimal() +
+            theme(
+              axis.title = element_text(
+                colour="grey30", 
+                size=12),
+              axis.text =element_text(
+                colour = "grey27",
+                size=9)       )  +
+            scale_x_date( 
+              date_labels =("%Y"),
+              date_breaks = "1 year" ) +
+            scale_color_manual(values=colores) +
+            coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
+                                             count(rol, a.mes=    floor_date(f.h, intervaloInput())))$n)))}
+        
+        else {   data.frame(datos,f) %>%
+            count(rol, a.mes=    floor_date(f.h, intervaloInput()))  %>%
+            ggplot( 
+              aes(
+                as_date(a.mes),
+                n,
+                colour=rol
+              ) ) + 
+            geom_smooth(
+              method = "loess",
+              se=input$error,
+              cex=1.4)+
+            labs(
+              x = "Año",
+              y = "Frecuencia absoluta de fallecidos") +
+            theme_minimal() +
+            theme(
+              axis.title = element_text(
+                colour="grey30", 
+                size=12),
+              axis.text =element_text(
+                colour = "grey27",
+                size=9)       )  +
+            scale_x_date( 
+              date_labels =("%Y"),
+              date_breaks = "1 year" ) +
+            scale_color_manual(values=colores)+
+            coord_cartesian(ylim=c(0,max( ( data.frame(datos,f) %>%
+                                              count(rol, a.mes=    floor_date(f.h, intervaloInput())))$n)))}
+        
+      }
+      else if(input$fallecidos=="Jurisdicción"){
+        
+        if(input$puntoylinea==T) {
+          
+          data.frame(datos,f) %>%
+            count(jur, a.mes=    floor_date(f.h, intervaloInput()))  %>%
+            ggplot( 
+              aes(
+                as_date(a.mes),
+                n,
+                colour=jur
+              ) ) + 
+            geom_point()  + 
+            geom_line(
+              stat="identity")+ 
+            geom_smooth(
+              method = "loess",
+              se=input$error,
+              cex=1.4)+
+            labs(
+              x = "Año",
+              y = "Frecuencia absoluta de fallecidos") +
+            theme_minimal() +
+            theme(
+              axis.title = element_text(
+                colour="grey30", 
+                size=12),
+              axis.text =element_text(
+                colour = "grey27",
+                size=9)       )  +
+            scale_x_date( 
+              date_labels =("%Y"),
+              date_breaks = "1 year" )+
+            scale_color_manual(values=colores)+
+            coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
+                                             count(jur, a.mes=    floor_date(f.h, intervaloInput())) )$n )))}
+        else {  
+          data.frame(datos,f) %>%
+            count(jur, a.mes=    floor_date(f.h, intervaloInput() ))  %>%
+            ggplot( 
+              aes(
+                as_date(a.mes),
+                n,
+                colour=jur
+              ) ) + 
+            geom_smooth(
+              method = "loess",
+              se=input$error,
+              cex=1.4)+
+            labs(
+              x = "Año",
+              y = "Frecuencia absoluta de fallecidos") +
+            theme_minimal() +
+            theme(
+              axis.title = element_text(
+                colour="grey30", 
+                size=12),
+              axis.text =element_text(
+                colour = "grey27",
+                size=9)       )  +
+            scale_x_date( 
+              date_labels =("%Y"),
+              date_breaks = "1 year" ) +
+            scale_color_manual(values=colores)+
+            coord_cartesian(ylim=c(0,max( (data.frame(datos,f) %>%
+                                             count(jur, a.mes=    floor_date(f.h, intervaloInput() )) )$n)))}
+        
+      }
     }
     
   })
+  #serie de tiempo
+  
+  
+  
+  #FECHA Y HORA
+  
+  añosfechayhora<- reactive({input$añosfechayhora})
+  
+  sexofechayhoraInput<- reactive({
+    switch (input$sexofechayhora,
+            "Ambos"=data.frame(datos,f),
+            "Femenino"= data.frame(datos,f) %>% filter(sexo=="F"),
+            "Masculino"=data.frame(datos,f) %>% filter(sexo=="M")  )
+  })
+  
+  output$tilefechayhora <- renderPlot({
+    
+    
+    if(is.null(añosfechayhora()))
+      #no marca año
+    {
+      
+      sexofechayhoraInput() %>% count(n.dia, hrs= format(f.h,"%H")) %>%
+        ggplot(aes(hrs, ordered(
+          n.dia,
+          levels = c( "lunes",  "martes",  "miércoles",
+                      "jueves",  "viernes","sábado", "domingo" )))) +
+        geom_tile(aes(fill = n)) +
+        scale_fill_gradient2(
+          low = "white",
+          high = "midnightblue",
+          mid = "turquoise",
+          midpoint = mean(
+            (data.frame(datos,f) %>% count(n.dia, hrs=format(f.h,"%H")))$n  )) +
+        labs(
+          x = "Hora",
+          y = "Día",
+          fill="Fallecidos") +
+        theme(
+          axis.title = element_text(
+            size=13,
+            colour="grey34",
+            face="bold"),
+          axis.text = element_text(
+            size=10.4),
+          panel.background = element_rect(
+            colour="white"))
+    }
+    else
+      #marca al menos un año
+    {
+      sexofechayhoraInput() %>% filter(a%in%añosfechayhora() )%>% count(n.dia, hrs= format(f.h,"%H")) %>%
+        ggplot(aes(hrs, ordered(
+          n.dia,
+          levels = c( "lunes",  "martes",  "miércoles",
+                      "jueves",  "viernes","sábado", "domingo" )))) +
+        geom_tile(aes(fill = n)) +
+        scale_fill_gradient2(
+          low = "white",
+          high = "midnightblue",
+          mid = "turquoise",
+          midpoint = mean(
+            (data.frame(datos,f) %>% filter(a%in%añosfechayhora())%>% count(n.dia, hrs=format(f.h,"%H")))$n  )) +
+        labs(
+          x = "Hora",
+          y = "Día",
+          fill="Fallecidos") +
+        theme(
+          axis.title = element_text(
+            size=13,
+            colour="grey34",
+            face="bold"),
+          axis.text = element_text(
+            size=10.4),
+          panel.background = element_rect(
+            colour="white")) 
+    }
+    
+    
+  })
+  
   
 }
+#SERVER
 
 ################################################################################################
 
