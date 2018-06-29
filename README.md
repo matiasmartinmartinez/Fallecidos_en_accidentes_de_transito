@@ -7,4 +7,4 @@ El siguiente informe sobre siniestros fatales en Uruguay para el período compre
 
 Desde ya se agradece su lectura.
                                                      
-Martínez Matías, Zang Bruno.
+*Martínez Matías, Zang Bruno.*
