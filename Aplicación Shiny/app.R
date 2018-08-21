@@ -108,7 +108,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
                   #DISTRIBUCIÓN TERRITORIAL
                   tabPanel(
                     title = h6("Distribución territorial"),
-                    hr(),
+                    shiny::hr(),
                     
                     sidebarLayout(
                       
@@ -121,7 +121,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
                       
                       mainPanel(
                         plotOutput("mapa"),
-                        hr(),
+                        shiny::hr(),
                         p("Dichas tasas corresponden a los fallecidos en siniestros de tránsito cada 10.000 habitantes en cada departamento del Uruguay")
                         
                       )
@@ -134,7 +134,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
                   
                   tabPanel(
                     title = h6("Densidad según vehículo"),
-                    hr(),
+                    shiny::hr(),
                     
                     sidebarLayout(
                       
@@ -160,7 +160,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
                   
                   tabPanel(
                     title = h6("Mosaicos"),
-                    hr(),
+                    shiny::hr(),
                     
                     sidebarLayout(
                       
@@ -177,12 +177,12 @@ ui <- fluidPage(theme = shinytheme("paper"),
                       mainPanel( 
                         p("A continuación puede visualizar la proporción de fallecidos según vehículo del mismo."),
                         plotlyOutput("rol"),
-                        hr(),
-                        hr(),
-                        hr(),
+                        shiny::hr(),
+                        shiny::hr(),
+                        shiny::hr(),
                         p("En tanto, el siguiente gráfico muestra la proporción de fallecidos según la existencia o no de otro posible involucrado."),
                         plotlyOutput("involucrado"),
-                        br()
+                        shiny::br()
                         
                       )
                     )
@@ -234,7 +234,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
                       mainPanel(
                         hr(),
                         plotOutput("tilefechayhora"),
-                        hr(),
+                        shiny::hr(),
                         p("Indica la frecuencia absoluta de fallecidos según día de la semana y hora del accidente.")
                       
                         
