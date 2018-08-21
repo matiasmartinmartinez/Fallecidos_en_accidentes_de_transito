@@ -232,7 +232,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
                         
                       ),
                       mainPanel(
-                        hr(),
+                        shiny::hr(),
                         plotOutput("tilefechayhora"),
                         shiny::hr(),
                         p("Indica la frecuencia absoluta de fallecidos según día de la semana y hora del accidente.")
