@@ -97,7 +97,7 @@ f<- data.frame(fecha,n.dia)
 
 #UI
 
-ui <- fluidPage(theme = shinytheme("paper"),
+ui <- fluidPage(theme = shinythemes::shinytheme("paper"),
                 
                 
                 titlePanel( h1("Siniestros fatales de tránsito en Uruguay, 2013-2017")),
@@ -169,7 +169,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
                         selectInput("variablemosaico", "Variable:",
                                     choices = c("Sexo","Rol", "Jurisdicción")),
                         
-                        checkboxGroupInput("añosmosaico", "Elegir Año:",
+                        checkboxGroupInput("añosmosaico", "Años a considerar:",
                                            choices = c("2013", "2014", "2015", "2016","2017"))
                         
                         
@@ -200,7 +200,7 @@ ui <- fluidPage(theme = shinytheme("paper"),
                         selectInput("fallecidos", "Fallecidos:",
                                     choices = c("Total", "Sexo", "Rol","Jurisdicción")),
                         selectInput("intervalo", "Intervalo:",
-                                    choices = c("1 mes","3 mes", "6 meses")),
+                                    choices = c("1 mes","3 meses", "6 meses")),
                         checkboxInput("zoom","Zoom"),
                         checkboxInput("error", "Error", TRUE),
                         checkboxInput("puntoylinea", "Punto y línea", TRUE)
@@ -963,7 +963,7 @@ server <- function(input, output) {
   intervaloInput <- reactive({
     switch(input$intervalo,
            "1 mes"= "1 month",
-           "3 mes"= "3 months",
+           "3 meses"= "3 months",
            "6 meses" = "6 months"
     )
   })
