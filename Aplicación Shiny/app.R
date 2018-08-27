@@ -20,8 +20,8 @@ colores<-c("darkolivegreen3","turquoise4","tan2","indianred",
            "khaki3", "thistle4", "lightsteelblue","grey80")
 
 #Se cargan polígonos y coordenadas pertenecientes al territorio uruguayo, delimitados por departamentos.
-uruguay <- getData("GADM", country = "UY", level = 0)
-uruguay_states <- getData("GADM", country = "UY", level = 1)
+uruguay <- raster::getData("GADM", country = "UY", level = 0)
+uruguay_states <- raster::getData("GADM", country = "UY", level = 1)
 uystates_UTM <-spTransform(uruguay_states, CRS("+init=EPSG:5383"))
 NAME_1 <- uystates_UTM@data$NAME_1
 
