@@ -7,9 +7,31 @@ load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 
 #Cargamos paquetes en caso de ser necesario
 
-#paquete#s.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny","shinythemes", "ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate", "devtools","grid", "gridExtra","sp")
+#paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny","shinythemes", "ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate", "devtools","grid", "gridExtra","sp")
 #ipack(paquetes.a.utilizar)
+
+
+library(tidyverse)
+library(shiny)
+library(rmarkdown)
+library(shinythemes)
+library(ggmap)
+library(ggmosaic)
 library(plotly)
+library(raster)
+library(rgdal)
+library(knitr)
+library(scales)
+library(lubridate)
+library(devtools)
+library(grid)
+library(gridExtra)
+
+
+
+options(shiny.sanitize.errors = F)
+
+
 ###################################################################################################################################################################################
 
 
