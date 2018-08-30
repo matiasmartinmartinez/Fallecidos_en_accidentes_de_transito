@@ -1,15 +1,16 @@
 ###################################################################################################################################################################################
 
-
 #Datos a utilizar
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 
 
-#Cargamos paquetes en caso de ser necesario
-
-#paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny","shinythemes", "ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate", "devtools","grid", "gridExtra","sp")
 #ipack(paquetes.a.utilizar)
 
+#devtools::install_github("hadley/tidyverse")
+#devtools::install_github("tidyverse/ggplot2")
+#devtools::install_github("haleyjeppson/ggmosaic")
+#devtools::install_github("ropensci/plotly")
+#devtools::install_github("rstudio/shiny")
 
 library(tidyverse)
 library(shiny)
@@ -26,11 +27,13 @@ library(lubridate)
 library(devtools)
 library(grid)
 library(gridExtra)
+library(sp)
 
 
 
 options(shiny.sanitize.errors = F)
 
+################################################################################################
 
 ###################################################################################################################################################################################
 
@@ -173,8 +176,8 @@ ui <- fluidPage(theme = shinythemes::shinytheme("paper"),
                         
                         checkboxGroupInput("añosfechayhora", "Elegir año:",
                                            choices = c("2017", "2016", "2015", "2014","2013"))
-                   
-                      
+                        
+                        
                         
                       ),
                       mainPanel(
@@ -182,7 +185,7 @@ ui <- fluidPage(theme = shinythemes::shinytheme("paper"),
                         plotOutput("tilefechayhora"),
                         shiny::hr(),
                         p("Indica la frecuencia absoluta de fallecidos según día de la semana y hora del accidente.")
-                      
+                        
                         
                       )
                     )
@@ -1478,11 +1481,11 @@ server <- function(input, output) {
             "Femenino"= data.frame(datos,f) %>% filter(sexo=="F"),
             "Masculino"=data.frame(datos,f) %>% filter(sexo=="M")  )
   })
-
+  
   
   output$tilefechayhora <- renderPlot({
-     
-
+    
+    
     if(is.null(añosfechayhora()))
       #no marca año
     {
@@ -1490,8 +1493,8 @@ server <- function(input, output) {
       sexofechayhoraInput() %>% filter(f.dias<=input$sdias) %>%  count(n.dia, hrs= format(f.h,"%H")) %>%
         ggplot(aes(hrs, ordered(
           n.dia,
-          levels = c( "lunes",  "martes",  "miércoles",
-                      "jueves",  "viernes","sábado", "domingo" )))) +
+          levels = c( "lunes",  "martes",  "miercoles",
+                      "jueves",  "viernes","sabado", "domingo" )))) +
         geom_tile(aes(fill = n)) +
         scale_fill_gradient2(
           low = "white",
@@ -1519,8 +1522,8 @@ server <- function(input, output) {
       sexofechayhoraInput() %>% filter(a%in%añosfechayhora() )%>% filter(f.dias<=input$sdias) %>% count(n.dia, hrs= format(f.h,"%H")) %>%
         ggplot(aes(hrs, ordered(
           n.dia,
-          levels = c( "lunes",  "martes",  "miércoles",
-                      "jueves",  "viernes","sábado", "domingo" )))) +
+          levels = c( "lunes",  "martes",  "miercoles",
+                      "jueves",  "viernes","sabado", "domingo" )))) +
         geom_tile(aes(fill = n)) +
         scale_fill_gradient2(
           low = "white",
