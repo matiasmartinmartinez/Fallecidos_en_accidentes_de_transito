@@ -1,16 +1,23 @@
-###################################################################################################################################################################################
+options(shiny.sanitize.errors = F)
 
-#Datos a utilizar
+
+#__________________________Database________________________________
+
 load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
+#___________________________________________________________________
 
 
-#ipack(paquetes.a.utilizar)
+#________________________Cargar paquetes____________________________
 
-#devtools::install_github("hadley/tidyverse")
-#devtools::install_github("tidyverse/ggplot2")
-#devtools::install_github("haleyjeppson/ggmosaic")
-#devtools::install_github("ropensci/plotly")
-#devtools::install_github("rstudio/shiny")
+# ipack("devtools")
+# devtools::install_github("tidyverse/ggplot2")
+# devtools::install_github("haleyjeppson/ggmosaic")
+
+# paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny","ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate","grid", "gridExtra","sp","rsconnect")
+# ipack(paquetes.a.utilizar)
+#___________________________________________________________________
+
+
 
 library(tidyverse)
 library(shiny)
@@ -30,11 +37,8 @@ library(gridExtra)
 library(sp)
 
 
-
-options(shiny.sanitize.errors = F)
-
 ################################################################################################
-
+#                             START SHINY CODE
 ###################################################################################################################################################################################
 
 
@@ -44,7 +48,7 @@ options(shiny.sanitize.errors = F)
 
 
 
-#UI
+#START UI
 
 ui <- fluidPage(theme = shinythemes::shinytheme("paper"),
                 
@@ -197,16 +201,14 @@ ui <- fluidPage(theme = shinythemes::shinytheme("paper"),
 
 
 
-
-
-
+#END UI
 
 
 
 ################################################################################################
 
 
-# SERVER
+#START SERVER
 
 server <- function(input, output) {
   
@@ -227,8 +229,43 @@ server <- function(input, output) {
       #si no marcas ningún año
       
     {
-      mapeo(   cbind((datos %>% count(dep) %>% arrange(dep)),censo)%>% 
-                 mutate(n=(n/censo)*10000)    ) +
+      uystates_UTM@data$id <- rownames(uystates_UTM@data)
+      uystates_UTM@data <- plyr::join(uystates_UTM@data, 
+                                      data.frame(NAME_1, data.frame(NAME_1,
+                                                                    cbind((datos %>% count(dep) %>%
+                                                                             arrange(dep)),censo)%>%
+                                                                      mutate(n=(n/censo)*10000) )), by="NAME_1")
+      uystates_df <- ggplot2::fortify(uystates_UTM)
+      uystates_df <- plyr::join(uystates_df,uystates_UTM@data, by="id")
+      uystates_df <-uystates_df %>% filter(!(NAME_1=="Rivera"& lat<6400000)) 
+      
+      
+      uystates_df %>%
+        ggplot() + geom_polygon(
+          data = uystates_df,
+          aes(
+            x = long,
+            y = lat,
+            group = group,
+            fill = n),
+          color = "black",
+          size = 0.25) +
+        theme(aspect.ratio = 1) + 
+        theme(
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.background = element_blank(),
+          plot.background =  element_blank(),
+          axis.line =    element_blank(),
+          axis.text.x =  element_blank(),
+          axis.text.y =  element_blank(),
+          axis.ticks =   element_blank(),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          plot.title =   element_text(
+            size=16.4,
+            colour="darkslategrey",
+            hjust=0.25)) +
         labs(fill = "Tasa",
              x = NULL,
              y = NULL) +
@@ -236,7 +273,8 @@ server <- function(input, output) {
           low = "#d8b365",
           mid = "white",
           high = "#5ab4ac",
-          midpoint = mean(pob.dep$tasa))
+          midpoint = mean(pob.dep$tasa))  
+      
     }
     
     else
@@ -245,8 +283,42 @@ server <- function(input, output) {
       
       n= (datos %>% filter( a %in% añosmapaInput() )%>% count(a,dep) %>% arrange(a) %>%
             mutate(censo=(rep(censo,(length(table(a)))))) %>% mutate(n= ((n/censo)*10000)))
+      uystates_UTM@data$id <- rownames(uystates_UTM@data)
+      uystates_UTM@data <- plyr::join(uystates_UTM@data, 
+                                      data.frame(NAME_1, 
+                                                 n), 
+                                      by="NAME_1")
+      uystates_df <- ggplot2::fortify(uystates_UTM)
+      uystates_df <- plyr::join(uystates_df,uystates_UTM@data, by="id")
+      uystates_df <-uystates_df %>% filter(!(NAME_1=="Rivera"& lat<6400000)) 
       
-      mapeo(n) +
+      
+      uystates_df %>%
+        ggplot() + geom_polygon(
+          data = uystates_df,
+          aes(
+            x = long,
+            y = lat,
+            group = group,
+            fill = n),
+          color = "black",
+          size = 0.25) +
+        theme(aspect.ratio = 1) + 
+        theme(
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.background = element_blank(),
+          plot.background =  element_blank(),
+          axis.line =    element_blank(),
+          axis.text.x =  element_blank(),
+          axis.text.y =  element_blank(),
+          axis.ticks =   element_blank(),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          plot.title =   element_text(
+            size=16.4,
+            colour="darkslategrey",
+            hjust=0.25)) +
         labs(
           fill = "Tasa",
           x = NULL,
@@ -1551,7 +1623,10 @@ server <- function(input, output) {
   
   
 }
-#SERVER
+
+
+
+#END SERVER
 
 ################################################################################################
 
