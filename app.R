@@ -36,9 +36,11 @@ library(grid)
 library(gridExtra)
 library(sp)
 
+#Soluciona error en gráfico de fecha y hora(tile)
+as.character(f$n.dia)
 
-################################################################################################
-#                             START SHINY CODE
+###################################################################################################################################################################################
+#                                  START SHINY CODE
 ###################################################################################################################################################################################
 
 
@@ -1565,8 +1567,8 @@ server <- function(input, output) {
       sexofechayhoraInput() %>% filter(f.dias<=input$sdias) %>%  count(n.dia, hrs= format(f.h,"%H")) %>%
         ggplot(aes(hrs, ordered(
           n.dia,
-          levels = c( "lunes",  "martes",  "miercoles",
-                      "jueves",  "viernes","sabado", "domingo" )))) +
+          levels = c( "lunes",  "martes",  "miércoles",
+                      "jueves",  "viernes","sábado", "domingo" )))) +
         geom_tile(aes(fill = n)) +
         scale_fill_gradient2(
           low = "white",
@@ -1594,8 +1596,8 @@ server <- function(input, output) {
       sexofechayhoraInput() %>% filter(a%in%añosfechayhora() )%>% filter(f.dias<=input$sdias) %>% count(n.dia, hrs= format(f.h,"%H")) %>%
         ggplot(aes(hrs, ordered(
           n.dia,
-          levels = c( "lunes",  "martes",  "miercoles",
-                      "jueves",  "viernes","sabado", "domingo" )))) +
+          levels = c( "lunes",  "martes",  "miércoles",
+                      "jueves",  "viernes","sábado", "domingo" )))) +
         geom_tile(aes(fill = n)) +
         scale_fill_gradient2(
           low = "white",
@@ -1628,8 +1630,20 @@ server <- function(input, output) {
 
 #END SERVER
 
-################################################################################################
 
-shinyApp(ui = ui, server = server)
+###################################################################################################################################################################################
+#                                  FINISH SHINY CODE
+###################################################################################################################################################################################
 
-################################################################################################
+
+
+
+
+#____________________________________
+
+
+shinyApp( ui = ui,
+          server = server
+          )
+
+#________________________________________
