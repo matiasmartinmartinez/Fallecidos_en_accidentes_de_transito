@@ -1021,7 +1021,7 @@ Estudiando los fallecidos por día y hora la hipótesis representa parcialmente 
 Con fines claros de una mejor asociación y relacionamiento con los datos, se aplica interactividad mediante shiny, la cual permite al usuario una experiencia más cercana con los mismos y un entendimiento de calidad.
 La idea prima es que la persona tenga opciones para decidir que observar y a la vez generar dicha visualización sin grandes dificultades mediante el uso de "Shiny".
 
-La aplicación shiny generada para el presente informe corresponde al siguiente [url](https://brunozang14.shinyapps.io/Trabajo-Final-NT_Fallecidos_transito/)
+La aplicación shiny generada para el presente informe corresponde al siguiente [url](https://martinezmatias.shinyapps.io/Fallecidos_en_accidentes_de_transito/).
 
 
 ### Bibliografía
