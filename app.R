@@ -13,7 +13,7 @@ load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 # devtools::install_github("tidyverse/ggplot2")
 # devtools::install_github("haleyjeppson/ggmosaic")
 
-# paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny","ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate","grid", "gridExtra","sp","rsconnect")
+# paquetes.a.utilizar<- c( "tidyverse", "rmarkdown", "shiny","shinythemes","ggmosaic", "plotly", "ggmap", "raster", "rgdal", "knitr", "scales", "lubridate","grid", "gridExtra","sp","rsconnect")
 # ipack(paquetes.a.utilizar)
 #___________________________________________________________________
 
