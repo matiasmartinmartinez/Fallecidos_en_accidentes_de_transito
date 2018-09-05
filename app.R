@@ -18,7 +18,7 @@ load("base_datos___fallecidos_transito_uruguay_2013-2017.RData")
 #___________________________________________________________________
 
 
-
+library(sp)
 library(tidyverse)
 library(shiny)
 library(rmarkdown)
@@ -34,11 +34,13 @@ library(lubridate)
 library(devtools)
 library(grid)
 library(gridExtra)
-library(sp)
+
 
 #Soluciona error en gráfico de fecha y hora(tile)
-as.character(f$n.dia)
-
+#Debe ser doble:
+n.dia<-iconv(n.dia, from = "latin1", "UTF-8")
+n.dia<-iconv(n.dia, from = "latin1", "UTF-8")
+f<- data.frame(fecha,n.dia)
 ###################################################################################################################################################################################
 #                                  START SHINY CODE
 ###################################################################################################################################################################################
